@@ -1,0 +1,32 @@
+{
+  "environment": "dev",
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "moviehomedbdev",
+    "user": "moviehome_user",
+    "password": "your_secure_password",
+    "ssl": false
+  },
+  "cognito": {
+    "userPoolId": "us-east-1_YUZFIapuX",
+    "clientId": "4qc865p63ikv147tdanjhcm6me",
+    "region": "us-east-1"
+  },
+  "api": {
+    "corsOrigins": ["*"],
+    "rateLimit": {
+      "burstLimit": 5000,
+      "rateLimit": 2000
+    }
+  },
+  "external": {
+    "tmdbApiKey": "your_tmdb_api_key",
+    "sendgridApiKey": "your_sendgrid_api_key"
+  },
+  "features": {
+    "enableCaching": true,
+    "enableAnalytics": false,
+    "enableEmailNotifications": true
+  }
+} 

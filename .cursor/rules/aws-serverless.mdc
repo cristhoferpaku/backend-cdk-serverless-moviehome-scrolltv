@@ -1,0 +1,189 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+eres un experto en serverless de aws con su cdk
+Quiero que crees una arquitectura completa para un backend Serverless utilizando AWS CDK y TypeScript. Todas las funciones Lambda también deben estar escritas en TypeScript.
+
+---
+
+### 🎯 Objetivo:
+Implementar un sistema modular y escalable que exponga endpoints REST a través de API Gateway, utilizando funciones Lambda desacopladas, PostgreSQL como base de datos, y arquitectura limpia siguiendo los principios: handler → service → repository → dto.
+
+---
+
+### 🧱 Estructura general esperada del proyecto:
+
+BACKEND-CDK-SERVERLESS-MAXU/
+├── bin/
+│   └── serverless-cdk.ts                # Punto de entrada principal del CDK
+│
+├── lib/
+│   ├── apigateway/
+│   │   ├── add-api-methods.ts           # Agrega rutas y métodos a la API REST
+│   │   └── apigateway-stack.ts          # Define el API Gateway y sus integraciones
+│
+│   ├── certificates/                    # Comandos/documentación para configurar certificados ACM
+│   ├── route53/                         # Comandos/documentación para configurar dominios y HostedZones
+│
+│   ├── lambda/
+│   │   ├── src/
+│   │   │   └── functions/
+│   │   │       └── getBillingDetail/
+│   │   │           ├── handler.ts
+│   │   │           ├── services/getBillingDetail.service.ts
+│   │   │           ├── repositories/getBillingDetail.repo.ts
+│   │   │           └── dtos/getBillingDetail.dto.ts
+│   │   │
+│   │   ├── layers/
+│   │   │   ├── pg/nodejs/dbConnector.ts
+│   │   │   ├── pg/nodejs/package.json
+│   │   │   └── utils/nodejs/utils.ts
+│   │   │
+│   │   ├── roles/
+│   │   │   ├── lambda-roles.ts
+│   │   │   ├── lambda-policies.ts
+│   │   │   └── lambda-common-permissions.ts
+│   │   │
+│   │   ├── helpers/
+│   │   │   ├── arn-functions.ts
+│   │   │   └── add-api-methods.ts
+│   │   ├── functions-template-lambda.ts
+│   │   ├── lambda-functions-stack.ts
+│   │   ├── lambda-layer-stack.ts
+│   │   └── lambda-role-stack.ts
+│
+├── layers/                               # (opcional si se separan fuera de lib)
+├── test/                                 # Pruebas unitarias
+├── cdk.json                              # Contexto CDK con datos por entorno (dev, prod, etc.)
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── .gitignore
+└── README.md
+
+---
+
+### ⚙️ Infraestructura (CDK)
+
+1. **serverless-cdk.ts**: entrypoint principal que instancia todos los stacks.
+2. **functions-template-lambda.ts**: define funciones con `NodejsFunction` usando `esbuild`, con:
+   - `minify: true`
+   - `target: node20`
+   - `externalModules`: ["pg", "aws-sdk", "moment-timezone"]
+3. **lambda-functions-stack.ts**: crea todas las funciones usando las plantillas
+4. **lambda-role-stack.ts**: define roles IAM por función
+5. **apigateway-stack.ts**: crea el API REST y vincula funciones Lambda por ARN leído desde SSM
+6. **arn-functions.ts**: contiene constantes con los nombres de parámetros en SSM (por ejemplo `/maxu/getBillingDetailFunction-arn`)
+
+---
+
+### 📦 Lambda Layers
+
+Crea dos layers reutilizables:
+
+- `pgLayer`: contiene `pg`, `aws-sdk`, y un módulo `dbConnector.ts` que obtiene las credenciales desde SSM y expone un pool de conexiones con métodos `query(...)` y `disconnect()`.
+- `utilsLayer`: contiene `buildResponse(...)` y `logError(...)`, centralizados para toda la aplicación.
+
+Las funciones Lambda importarán esos módulos desde `/opt/`.
+
+---
+
+### 🧠 Patrón interno de función Lambda
+
+Cada función debe tener esta estructura y responsabilidades:
+
+- `handler.ts`: recibe el evento y delega a la capa de servicios
+- `services/*.service.ts`: contiene la lógica de negocio
+- `repositories/*.repo.ts`: ejecuta las queries a PostgreSQL
+- `dtos/*.dto.ts`: contiene tipos y validaciones (si aplica)
+
+El handler debe importar desde los layers:
+```ts
+import db from '/opt/dbConnector';
+import { buildResponse, logError } from '/opt/utils';
+
+
+Para añadir una nueva función Lambda personalizada, se replicara la estructura siguiendo el patrón ya existente. ejemplo de una nueva función CustomFunction. Aquí están las actualizaciones: 
+
+// arn-functions.ts
+static readonly CUSTOM_FUNCTION_ARN =
+    "/maxu/custom-function-arn";
+
+
+// function-template-lambda.ts
+export const customTemplateLambda = (props: LambdaProps) => {
+  const customFunctionLambda = new NodejsFunction(
+    props.scope,
+    "CustomFunction",
+    {
+      functionName: "CustomFunction",
+      memorySize: 1024,
+      timeout: Duration.seconds(30),
+      runtime: Runtime.NODEJS_20_X,
+      code: Code.fromAsset("lib/lambda/src/functions/custom"),
+      handler: "handler.handler",
+      role: props.lambdaRole,
+      layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+      bundling: {
+        minify: true,
+        externalModules: ["axios"],
+      },
+    }
+  );
+
+  new ssm.StringParameter(props.scope, "CustomFunctionArnParameter", {
+    parameterName: ArnFunctions.CUSTOM_FUNCTION_ARN,
+    stringValue: customFunctionLambda.functionArn,
+  });
+
+  return customFunctionLambda;
+};
+
+
+// lambda-functions-stack.ts
+public readonly customFuncion: NodejsFunction;
+
+this.customFuncion = customTemplateLambda({
+  lambdaRole: props.lambdaRoles["CustomLambdaRole"],
+  layerStack: props.layerStack,
+  scope: this,
+});
+
+
+// lambda-roles.ts
+{
+  id: "CustomLambdaRole",
+  assumedByService: "lambda.amazonaws.com",
+  managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+  policyStatements: [CloudWatchLogPermissions],
+  additionalPolicies: ["SSMReadAccessPolicy"],
+},
+
+
+// add-api-methods.ts
+const customFunction = ArnFunctions.getLambdaFunctionFromArn(
+  scope,
+  ArnFunctions.CUSTOM_FUNCTION_ARN,
+  "ImportedCustomFunction"
+);
+
+addApiMethodsWithLambda({
+  restApi,
+  lambdaFunction: customFunction,
+  authorizer,
+  resourcePath: "tools/custom",
+  methods: [
+    {
+      method: "POST",
+      authorizationType: AuthorizationType.NONE,
+      useAuthorizer: false,
+      queryParameters: ["param1", "param2"],
+    },
+  ],
+});
+
+ 
+
+

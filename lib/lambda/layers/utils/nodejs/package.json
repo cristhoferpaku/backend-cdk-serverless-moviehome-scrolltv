@@ -1,0 +1,10 @@
+{
+  "name": "utils-layer",
+  "version": "1.0.0",
+  "description": "Lambda Layer para utilidades comunes",
+  "main": "utils.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.119"
+  }
+} 
