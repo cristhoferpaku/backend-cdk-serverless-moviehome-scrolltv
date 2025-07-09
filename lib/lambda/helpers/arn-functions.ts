@@ -9,6 +9,42 @@ import { Construct } from "constructs";
 export class ArnFunctions {
   // Constantes de los nombres de parámetros para MovieHome ScrollTV
   static readonly ADMIN_LOGIN_FUNCTION_ARN = "/moviehome-scrolltv/admin-login-function-arn";
+  static readonly REFRESH_TOKEN_FUNCTION_ARN = "/moviehome-scrolltv/refresh-token-function-arn";
+  static readonly LIST_USER_ADMINS_FUNCTION_ARN = "/moviehome-scrolltv/list-user-admins-function-arn";
+  static readonly CREATE_USER_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/create-user-admin-function-arn";
+  static readonly GET_USER_ADMIN_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-user-admin-by-id-function-arn";
+  static readonly UPDATE_USER_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/update-user-admin-function-arn";
+  static readonly DELETE_USER_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/delete-user-admin-function-arn";
+  static readonly CHANGE_USER_ADMIN_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-user-admin-status-function-arn";
+  static readonly GET_PLATFORMS_FUNCTION_ARN = "/moviehome-scrolltv/get-platforms-function-arn";
+  static readonly GET_ROLES_FUNCTION_ARN = "/moviehome-scrolltv/get-roles-function-arn";
+  static readonly CREATE_PACKAGE_SELLER_FUNCTION_ARN = "/moviehome-scrolltv/create-package-seller-function-arn";
+  static readonly CREATE_PACKAGE_TYPE_FUNCTION_ARN = "/moviehome-scrolltv/create-package-type-function-arn";
+  static readonly LIST_PACKAGE_TYPES_FUNCTION_ARN = "/moviehome-scrolltv/list-package-types-function-arn";
+  static readonly GET_PACKAGE_TYPE_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-package-type-by-id-function-arn";
+  static readonly DELETE_PACKAGE_TYPE_FUNCTION_ARN = "/moviehome-scrolltv/delete-package-type-function-arn";
+  static readonly UPDATE_PACKAGE_TYPE_FUNCTION_ARN = "/moviehome-scrolltv/update-package-type-function-arn";
+  static readonly LIST_PACKAGE_SELLER_FUNCTION_ARN = "/moviehome-scrolltv/list-package-seller-function-arn";
+  static readonly GET_PACKAGE_SELLER_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-package-seller-by-id-function-arn";
+  static readonly UPDATE_PACKAGE_SELLER_FUNCTION_ARN = "/moviehome-scrolltv/update-package-seller-function-arn";
+  static readonly DELETE_PACKAGE_SELLER_FUNCTION_ARN = "/moviehome-scrolltv/delete-package-seller-function-arn";
+  static readonly CHANGE_PACKAGE_SELLER_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-package-seller-status-function-arn";
+  static readonly CREATE_PACKAGE_USER_FUNCTION_ARN = "/moviehome-scrolltv/create-package-user-function-arn";
+  static readonly GET_PACKAGE_USER_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-package-user-by-id-function-arn";
+  static readonly LIST_PACKAGE_USERS_FUNCTION_ARN = "/moviehome-scrolltv/list-package-users-function-arn";
+  static readonly UPDATE_PACKAGE_USER_FUNCTION_ARN = "/moviehome-scrolltv/update-package-user-function-arn";
+  static readonly DELETE_PACKAGE_USER_FUNCTION_ARN = "/moviehome-scrolltv/delete-package-user-function-arn";
+  static readonly CHANGE_PACKAGE_USER_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-package-user-status-function-arn";
+  static readonly CHANGE_PACKAGE_TYPE_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-package-type-status-function-arn";
+  static readonly LIST_PACKAGE_TYPES_ACTIVE_FUNCTION_ARN = "/moviehome-scrolltv/list-package-types-active-function-arn";
+
+  static readonly CREATE_USER_ACCOUNT_FUNCTION_ARN = "/moviehome-scrolltv/create-user-account-function-arn";
+  static readonly GET_USER_ACCOUNT_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-user-account-by-id-function-arn";
+  static readonly LIST_USER_ACCOUNTS_FUNCTION_ARN = "/moviehome-scrolltv/list-user-accounts-function-arn";
+  static readonly UPDATE_USER_ACCOUNT_FUNCTION_ARN = "/moviehome-scrolltv/update-user-account-function-arn";
+  static readonly DELETE_USER_ACCOUNT_FUNCTION_ARN = "/moviehome-scrolltv/delete-user-account-function-arn";
+  static readonly CHANGE_USER_ACCOUNT_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-user-account-status-function-arn";
+  static readonly LIST_USER_ACCOUNT_BY_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/list-user-account-by-admin-function-arn";
 
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.

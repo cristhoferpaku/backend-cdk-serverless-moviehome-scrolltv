@@ -260,6 +260,84 @@ export function extractJWTToken(authorizationHeader?: string): string | null {
 }
 
 /**
+ * Interfaz para el payload del JWT
+ */
+export interface JWTPayload {
+  userId: number;
+  username: string;
+  roleId: number;
+  roleName: string;
+  iat?: number;
+  exp?: number;
+  aud?: string;
+  iss?: string;
+}
+
+/**
+ * Valida un token JWT y extrae su payload
+ */
+export function validateJWT(token: string): JWTPayload | null {
+  try {
+    const jwt = require('jsonwebtoken');
+    const jwtSecret = process.env.JWT_SECRET || 'moviehome-secret-key';
+    
+    const decoded = jwt.verify(token, jwtSecret, {
+      audience: 'moviehome-api',
+      issuer: 'moviehome-scrolltv'
+    }) as JWTPayload;
+    
+    return decoded;
+  } catch (error) {
+    // Token inválido, expirado o mal formado
+    return null;
+  }
+}
+
+/**
+ * Verifica si un usuario tiene un rol específico
+ */
+export function hasRequiredRole(userPayload: JWTPayload, requiredRoles: string[]): boolean {
+  return requiredRoles.includes(userPayload.roleName.toLowerCase());
+}
+
+/**
+ * Valida JWT desde el header Authorization y verifica roles
+ */
+export function validateAuthorizationHeader(
+  authHeader?: string, 
+  requiredRoles: string[] = []
+): { isValid: boolean; payload: JWTPayload | null; error?: string } {
+  
+  // Verificar que exista el header
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return { isValid: false, payload: null, error: 'Token de autorización requerido' };
+  }
+
+  // Extraer el token
+  const token = extractJWTToken(authHeader);
+  if (!token) {
+    return { isValid: false, payload: null, error: 'Token inválido' };
+  }
+
+  // Validar JWT
+  const payload = validateJWT(token);
+  if (!payload) {
+    return { isValid: false, payload: null, error: 'Token JWT inválido o expirado' };
+  }
+
+  // Verificar roles si se especificaron
+  if (requiredRoles.length > 0 && !hasRequiredRole(payload, requiredRoles)) {
+    return { 
+      isValid: false, 
+      payload, 
+      error: `Acceso denegado. Se requiere uno de estos roles: ${requiredRoles.join(', ')}` 
+    };
+  }
+
+  return { isValid: true, payload };
+}
+
+/**
  * Maneja timeout de operaciones asíncronas
  */
 export function withTimeout<T>(

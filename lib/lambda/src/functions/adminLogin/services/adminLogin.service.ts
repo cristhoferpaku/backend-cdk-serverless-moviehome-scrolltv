@@ -43,7 +43,7 @@ export class AdminLoginService {
     });
 
     // Actualizar última fecha de login
-    await this.adminLoginRepo.updateLastLogin(user.id);
+    // await this.adminLoginRepo.updateLastLogin(user.id);
 
     return {
       user: {
@@ -62,7 +62,7 @@ export class AdminLoginService {
    */
   private generateTokens(payload: JWTPayload) {
     const jwtSecret = process.env.JWT_SECRET || 'moviehome-secret-key';
-    const expiresIn = process.env.JWT_EXPIRES_IN || '15m';
+    const expiresIn = process.env.JWT_EXPIRES_IN || '1d';
     const refreshExpiresIn = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 
     const accessTokenOptions = {
@@ -87,7 +87,7 @@ export class AdminLoginService {
     return {
       accessToken,
       refreshToken,
-      expiresIn: 900, // 15 minutos
+      expiresIn: 86400, // 1 día
       refreshExpiresIn: 604800, // 7 días
       tokenType: 'Bearer'
     };

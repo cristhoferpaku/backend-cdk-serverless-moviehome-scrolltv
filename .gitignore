@@ -36,6 +36,8 @@ Thumbs.db
 .env.local
 .env.*.local
 
+
+
 # Logs
 logs
 *.log
@@ -67,3 +69,5 @@ jspm_packages/
 
 # Yarn Integrity file
 .yarn-integrity 
+
+create_lambda.md

@@ -1,0 +1,120 @@
+import { ListUserAdminsRepository } from '../repositories/listUserAdmins.repo';
+import { 
+  ListUserAdminsResponse, 
+  ListUserAdminsQueryParams,
+  ListUserAdminsParams,
+  UserAdminRecord 
+} from '../dtos/listUserAdmins.dto';
+import { logError, logInfo } from '../../../../layers/utils/nodejs/utils';
+
+const FUNCTION_NAME = 'ListUserAdminsService';
+
+/**
+ * Service para manejar la lógica de negocio de listar usuarios administradores
+ */
+export class ListUserAdminsService {
+  private repository: ListUserAdminsRepository;
+
+  constructor() {
+    this.repository = new ListUserAdminsRepository();
+  }
+
+  /**
+   * Procesa los parámetros de consulta y obtiene la lista de usuarios administradores
+   */
+  async getUserAdmins(queryParams: ListUserAdminsQueryParams): Promise<ListUserAdminsResponse> {
+    try {
+      logInfo(FUNCTION_NAME, 'Iniciando búsqueda de usuarios administradores', { queryParams });
+
+      // Procesar y validar parámetros
+      const params = this.processQueryParams(queryParams);
+
+      // Obtener usuarios desde el repository
+      const users: UserAdminRecord[] = await this.repository.getUserAdmins(params);
+
+      // Calcular información de paginación
+      const totalItems = users.length > 0 ? users[0].total_count : 0;
+      const totalPages = Math.ceil(totalItems / params.pageSize);
+
+      const response: ListUserAdminsResponse = {
+        items: users,
+        pagination: {
+          currentPage: params.page,
+          totalPages,
+          totalItems,
+          itemsPerPage: params.pageSize,
+          hasNextPage: params.page < totalPages,
+          hasPreviousPage: params.page > 1,
+        },
+       
+      };
+
+      logInfo(FUNCTION_NAME, 'Usuarios administradores obtenidos exitosamente', {
+        totalItems,
+        currentPage: params.page,
+        totalPages,
+        usersReturned: users.length,
+      });
+
+      return response;
+
+    } catch (error) {
+      logError(FUNCTION_NAME, error instanceof Error ? error : new Error('Error desconocido'), {
+        operation: 'getUserAdmins',
+        queryParams,
+      });
+      throw new Error('Error al obtener los usuarios administradores');
+    }
+  }
+
+  /**
+   * Procesa y valida los parámetros de consulta
+   */
+  private processQueryParams(queryParams: ListUserAdminsQueryParams): ListUserAdminsParams {
+    // Procesar búsqueda por username
+    const searchUsername = queryParams.search && queryParams.search.trim() !== '' 
+      ? queryParams.search.trim() 
+      : null;
+
+    // Procesar página (mínimo 1)
+    const page = Math.max(1, parseInt(queryParams.page || '1') || 1);
+
+    // Procesar tamaño de página (entre 1 y 100, por defecto 10)
+    const pageSize = Math.min(100, Math.max(1, parseInt(queryParams.limit || '10') || 10));
+
+    // Procesar IDs de roles (formato: "2,3,4")
+    let roleIds: number[] | null = null;
+    if (queryParams.roleId && queryParams.roleId.trim() !== '') {
+      try {
+        roleIds = queryParams.roleId
+          .split(',')
+          .map(id => parseInt(id.trim()))
+          .filter(id => !isNaN(id) && id > 0);
+        
+        // Si no hay IDs válidos, setear como null
+        if (roleIds.length === 0) {
+          roleIds = null;
+        }
+      } catch (error) {
+        logError(FUNCTION_NAME, new Error('Error procesando roleIds'), { 
+          roleIdParam: queryParams.roleId 
+        });
+        roleIds = null;
+      }
+    }
+
+    logInfo(FUNCTION_NAME, 'Parámetros procesados', {
+      searchUsername,
+      page,
+      pageSize,
+      roleIds,
+    });
+
+    return {
+      searchUsername,
+      page,
+      pageSize,
+      roleIds,
+    };
+  }
+} 
