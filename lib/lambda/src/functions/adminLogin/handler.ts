@@ -52,15 +52,10 @@ export const handler = async (
     const loginResult = await adminLoginService.login(loginData);
 
     if (!loginResult) {
-      logInfo(FUNCTION_NAME, 'Credenciales inválidas', { username: loginData.username });
       return createUnauthorizedResponse('Credenciales inválidas', event);
     }
 
-    logInfo(FUNCTION_NAME, 'Login exitoso', {
-      userId: loginResult.user.id,
-      username: loginResult.user.username,
-      roleName: loginResult.user.role_name
-    });
+
 
     return createOkResponse(loginResult, 'Login exitoso', event);
 

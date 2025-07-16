@@ -39,6 +39,20 @@ import {
   deleteUserAccountTemplateLambda,
   changeUserAccountStatusTemplateLambda,
   listUserAccountByAdminTemplateLambda,
+  assignSellerCreditTemplateLambda,
+  createResourceTemplateLambda,
+  listResourceTemplateLambda,
+  getResourceByIdTemplateLambda,
+  changeResourceStateTemplateLambda,
+  deleteResourceTemplateLambda,
+  updateResourceTemplateLambda,
+  getSellerCreditByIdTemplateLambda,
+  listCastMembersTemplateLambda,
+  getCastMemberByIdTemplateLambda,
+  createCastMemberTemplateLambda,
+  updateCastMemberTemplateLambda,
+  deleteCastMemberTemplateLambda,
+  listAllCountriesTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -85,6 +99,20 @@ export class LambdaFunctionStack extends Stack {
   public readonly changeUserAccountStatusFunction: NodejsFunction;
 
   public readonly listUserAccountByAdminFunction: NodejsFunction;
+  public readonly assignSellerCreditFunction: NodejsFunction;
+  public readonly createResourceFunction: NodejsFunction;
+  public readonly listResourceFunction: NodejsFunction;
+  public readonly getResourceByIdFunction: NodejsFunction;
+  public readonly changeResourceStateFunction: NodejsFunction;
+  public readonly deleteResourceFunction: NodejsFunction;
+  public readonly updateResourceFunction: NodejsFunction;
+  public readonly getSellerCreditByIdFunction: NodejsFunction;
+  public readonly listCastMembersFunction: NodejsFunction;
+  public readonly getCastMemberByIdFunction: NodejsFunction;
+  public readonly createCastMemberFunction: NodejsFunction;
+  public readonly updateCastMemberFunction: NodejsFunction;
+  public readonly deleteCastMemberFunction: NodejsFunction;
+  public readonly listAllCountriesFunction: NodejsFunction;
 
 
   constructor(scope: Construct, id: string, props: LambdaFunctionStackProps) {
@@ -343,5 +371,103 @@ export class LambdaFunctionStack extends Stack {
       scope: this,
     });
 
+    // Función assignSellerCredit
+    this.assignSellerCreditFunction = assignSellerCreditTemplateLambda({
+      lambdaRole: props.lambdaRoles['AssignSellerCreditLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función createResource
+    this.createResourceFunction = createResourceTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateResourceLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listResource
+    this.listResourceFunction = listResourceTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListResourceLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getResourceById
+    this.getResourceByIdFunction = getResourceByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetResourceByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función changeResourceState
+    this.changeResourceStateFunction = changeResourceStateTemplateLambda({
+      lambdaRole: props.lambdaRoles['ChangeResourceStateLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteResource
+    this.deleteResourceFunction = deleteResourceTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteResourceLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateResource
+    this.updateResourceFunction = updateResourceTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateResourceLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getSellerCreditById
+    this.getSellerCreditByIdFunction = getSellerCreditByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetSellerCreditByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listCastMembers
+    this.listCastMembersFunction = listCastMembersTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListCastMembersLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getCastMemberById
+    this.getCastMemberByIdFunction = getCastMemberByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetCastMemberByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función createCastMember
+    this.createCastMemberFunction = createCastMemberTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateCastMemberLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateCastMember
+    this.updateCastMemberFunction = updateCastMemberTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateCastMemberLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteCastMember
+    this.deleteCastMemberFunction = deleteCastMemberTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteCastMemberLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listAllCountries
+    this.listAllCountriesFunction = listAllCountriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListAllCountriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
   }
-} 
+}

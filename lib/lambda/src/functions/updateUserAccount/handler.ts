@@ -8,8 +8,6 @@ import {
   createForbiddenResponse,
   parseRequestBody,
   validateAuthorizationHeader,
-  logInfo,
-  logError
 } from '../../../layers/utils/nodejs/utils';
 import { UpdateUserAccountRequest } from './dtos/updateUserAccount.dto';
 
@@ -20,10 +18,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Inicio de actualización de cuenta de usuario', {
-    requestId: context.awsRequestId,
-    pathParameters: event.pathParameters,
-  });
+
 
   try {
     if (event.httpMethod !== 'PUT') {
@@ -58,11 +53,6 @@ export const handler = async (
     if (!result.success) {
       return createBadRequestResponse(result.message, event);
     }
-
-    logInfo(FUNCTION_NAME, 'Cuenta actualizada exitosamente', {
-      id,
-      updatedBy: auth.payload?.userId
-    });
 
     return createOkResponse(result.data, result.message, event);
 

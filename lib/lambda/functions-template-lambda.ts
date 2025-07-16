@@ -31,7 +31,7 @@ const baseLambdaConfig = {
   environment: {
     NODE_ENV: 'production',
     TZ: 'America/Lima',
-    STAGE: 'dev',
+    STAGE: 'prod',
   },
   tracing: lambda.Tracing.ACTIVE,
 };
@@ -834,6 +834,314 @@ export const listUserAccountByAdminTemplateLambda = (props: LambdaProps): Nodejs
   });
 
   return listUserAccountByAdminFunction;
+};
+
+/**
+ * 💳 Plantilla para Lambda assignSellerCredit
+ */
+export const assignSellerCreditTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const assignSellerCreditFunction = new NodejsFunction(props.scope, 'AssignSellerCreditFunction', {
+    functionName: 'AssignSellerCreditFunction',
+    entry: 'lib/lambda/src/functions/assignSellerCredit/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'AssignSellerCreditFunctionArnParameter', {
+    parameterName: ArnFunctions.ASSIGN_SELLER_CREDIT_FUNCTION_ARN,
+    stringValue: assignSellerCreditFunction.functionArn,
+  });
+
+  return assignSellerCreditFunction;
+};
+
+/**
+ * 📁 Plantilla para Lambda createResource
+ */
+export const createResourceTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createResourceFunction = new NodejsFunction(props.scope, 'CreateResourceFunction', {
+    functionName: 'CreateResourceFunction',
+    entry: 'lib/lambda/src/functions/createResource/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateResourceFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_RESOURCE_FUNCTION_ARN,
+    stringValue: createResourceFunction.functionArn,
+  });
+
+  return createResourceFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda listResource
+ */
+export const listResourceTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listResourceFunction = new NodejsFunction(props.scope, 'ListResourceFunction', {
+    functionName: 'ListResourceFunction',
+    entry: 'lib/lambda/src/functions/listResource/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListResourceFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_RESOURCE_FUNCTION_ARN,
+    stringValue: listResourceFunction.functionArn,
+  });
+
+  return listResourceFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda getResourceById
+ */
+export const getResourceByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getResourceByIdFunction = new NodejsFunction(props.scope, 'GetResourceByIdFunction', {
+    functionName: 'GetResourceByIdFunction',
+    entry: 'lib/lambda/src/functions/getResourceById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetResourceByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_RESOURCE_BY_ID_FUNCTION_ARN,
+    stringValue: getResourceByIdFunction.functionArn,
+  });
+
+  return getResourceByIdFunction;
+};
+
+/**
+ * 🔄 Plantilla para Lambda changeResourceState
+ */
+export const changeResourceStateTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeResourceStateFunction = new NodejsFunction(props.scope, 'ChangeResourceStateFunction', {
+    functionName: 'ChangeResourceStateFunction',
+    entry: 'lib/lambda/src/functions/changeResourceState/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeResourceStateFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_RESOURCE_STATE_FUNCTION_ARN,
+    stringValue: changeResourceStateFunction.functionArn,
+  });
+
+  return changeResourceStateFunction;
+};
+
+/**
+ * 🗑️ Plantilla para Lambda deleteResource
+ */
+export const deleteResourceTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteResourceFunction = new NodejsFunction(props.scope, 'DeleteResourceFunction', {
+    functionName: 'DeleteResourceFunction',
+    entry: 'lib/lambda/src/functions/deleteResource/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteResourceFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_RESOURCE_FUNCTION_ARN,
+    stringValue: deleteResourceFunction.functionArn,
+  });
+
+  return deleteResourceFunction;
+};
+
+/**
+ * ✏️ Plantilla para Lambda updateResource
+ */
+export const updateResourceTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateResourceFunction = new NodejsFunction(props.scope, 'UpdateResourceFunction', {
+    functionName: 'UpdateResourceFunction',
+    entry: 'lib/lambda/src/functions/updateResource/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateResourceFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_RESOURCE_FUNCTION_ARN,
+    stringValue: updateResourceFunction.functionArn,
+  });
+
+  return updateResourceFunction;
+};
+
+/**
+ * 💰 Plantilla para Lambda getSellerCreditById
+ */
+export const getSellerCreditByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getSellerCreditByIdFunction = new NodejsFunction(props.scope, 'GetSellerCreditByIdFunction', {
+    functionName: 'GetSellerCreditByIdFunction',
+    entry: 'lib/lambda/src/functions/getSellerCreditById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetSellerCreditByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_SELLER_CREDIT_BY_ID_FUNCTION_ARN,
+    stringValue: getSellerCreditByIdFunction.functionArn,
+  });
+
+  return getSellerCreditByIdFunction;
+};
+
+/**
+ * 🎭 Plantilla para Lambda listCastMembers
+ */
+export const listCastMembersTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listCastMembersFunction = new NodejsFunction(props.scope, 'ListCastMembersFunction', {
+    functionName: 'ListCastMembersFunction',
+    entry: 'lib/lambda/src/functions/listCastMembers/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListCastMembersFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_CAST_MEMBERS_FUNCTION_ARN,
+    stringValue: listCastMembersFunction.functionArn,
+  });
+
+  return listCastMembersFunction;
+};
+
+/**
+ * 👤 Plantilla para Lambda getCastMemberById
+ */
+export const getCastMemberByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getCastMemberByIdFunction = new NodejsFunction(props.scope, 'GetCastMemberByIdFunction', {
+    functionName: 'GetCastMemberByIdFunction',
+    entry: 'lib/lambda/src/functions/getCastMemberById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetCastMemberByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_CAST_MEMBER_BY_ID_FUNCTION_ARN,
+    stringValue: getCastMemberByIdFunction.functionArn,
+  });
+
+  return getCastMemberByIdFunction;
+};
+
+/**
+ * ➕ Plantilla para Lambda createCastMember
+ */
+export const createCastMemberTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createCastMemberFunction = new NodejsFunction(props.scope, 'CreateCastMemberFunction', {
+    functionName: 'CreateCastMemberFunction',
+    entry: 'lib/lambda/src/functions/createCastMember/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateCastMemberFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_CAST_MEMBER_FUNCTION_ARN,
+    stringValue: createCastMemberFunction.functionArn,
+  });
+
+  return createCastMemberFunction;
+};
+
+/**
+ * ✏️ Plantilla para Lambda updateCastMember
+ */
+export const updateCastMemberTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateCastMemberFunction = new NodejsFunction(props.scope, 'UpdateCastMemberFunction', {
+    functionName: 'UpdateCastMemberFunction',
+    entry: 'lib/lambda/src/functions/updateCastMember/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateCastMemberFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_CAST_MEMBER_FUNCTION_ARN,
+    stringValue: updateCastMemberFunction.functionArn,
+  });
+
+  return updateCastMemberFunction;
+};
+
+/**
+ * 🗑️ Plantilla para Lambda deleteCastMember
+ */
+export const deleteCastMemberTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteCastMemberFunction = new NodejsFunction(props.scope, 'DeleteCastMemberFunction', {
+    functionName: 'DeleteCastMemberFunction',
+    entry: 'lib/lambda/src/functions/deleteCastMember/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteCastMemberFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_CAST_MEMBER_FUNCTION_ARN,
+    stringValue: deleteCastMemberFunction.functionArn,
+  });
+
+  return deleteCastMemberFunction;
+};
+
+/**
+ * 🌍 Plantilla para Lambda listAllCountries
+ */
+export const listAllCountriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listAllCountriesFunction = new NodejsFunction(props.scope, 'ListAllCountriesFunction', {
+    functionName: 'ListAllCountriesFunction',
+    entry: 'lib/lambda/src/functions/listAllCountries/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListAllCountriesFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_ALL_COUNTRIES_FUNCTION_ARN,
+    stringValue: listAllCountriesFunction.functionArn,
+  });
+
+  return listAllCountriesFunction;
 };
 
 

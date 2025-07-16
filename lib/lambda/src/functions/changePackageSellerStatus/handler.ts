@@ -91,22 +91,8 @@ export const handler = async (
     const changeResult = await changePackageSellerStatusService.changePackageSellerStatus(numericId, statusData);
 
     if (!changeResult) {
-      logInfo(FUNCTION_NAME, 'Paquete vendedor no encontrado o error en el cambio de status', { 
-        packageSellerId: numericId,
-        requestedStatus: statusData.status,
-        userId: authResult.payload.userId
-      });
       return createNotFoundResponse('Paquete vendedor no encontrado', event);
     }
-
-    logInfo(FUNCTION_NAME, 'Status del paquete vendedor cambiado exitosamente', {
-      packageSellerId: changeResult.id,
-      packageName: changeResult.name,
-      newStatus: changeResult.status,
-      userId: authResult.payload.userId,
-      username: authResult.payload.username
-    });
-
     return createOkResponse(changeResult, 'Status del paquete vendedor cambiado exitosamente', event);
 
   } catch (error) {

@@ -11,12 +11,9 @@ import {
   createInternalServerErrorResponse,
   parseRequestBody,
   validateAuthorizationHeader,
-  logError,
-  logInfo 
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'UpdatePackageSellerHandler';
-
 /**
  * Handler principal de la función Lambda updatePackageSeller
  */
@@ -24,12 +21,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Iniciando procesamiento de actualización de paquete vendedor', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-    path: event.path,
-  });
-
+;
   try {
     // Validar que sea PUT
     if (event.httpMethod !== 'PUT') {
@@ -38,7 +30,7 @@ export const handler = async (
 
     // Validar JWT Token y permisos de administrador
     const authHeader = event.headers.Authorization || event.headers.authorization;
-    const authValidation = validateAuthorizationHeader(authHeader, ['administrador', 'gestor de contenido multimedia']);
+    const authValidation = validateAuthorizationHeader(authHeader, ['administrador']);
     
     if (!authValidation.isValid) {
       if (authValidation.error?.includes('Token')) {
@@ -47,7 +39,6 @@ export const handler = async (
         return createForbiddenResponse(authValidation.error || 'Acceso denegado', event);
       }
     }
-
     // Extraer el ID del path parameter
     const id = event.pathParameters?.id;
     if (!id) {
@@ -70,28 +61,10 @@ export const handler = async (
     const updatePackageSellerService = new UpdatePackageSellerService();
     const result = await updatePackageSellerService.updatePackageSeller(packageSellerId, updateData);
 
-    logInfo(FUNCTION_NAME, 'Paquete vendedor actualizado exitosamente', {
-      id: result.id,
-      name: result.name,
-      packageTypeName: result.packageTypeName,
-      platformName: result.platformName,
-      status: result.status
-    });
-
     return createOkResponse(result, result.message, event);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
-    
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-        pathParameters: event.pathParameters
-      },
-    });
-
     // Manejar errores específicos
     if (errorMessage.includes('no encontrado')) {
       return createNotFoundResponse(errorMessage, event);

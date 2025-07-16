@@ -62,27 +62,6 @@ export const handler = async (
     // Usar el servicio para actualizar el usuario
     const updateUserAdminService = new UpdateUserAdminService();
     
-    // Validar permisos de actualización
-    // TODO: Implementar validación de permisos cuando se agregue el método validateUpdatePermissions al servicio
-    // const targetUserIdNum = parseInt(userId, 10);
-    // if (!isNaN(targetUserIdNum)) {
-    //   const permissionCheck = updateUserAdminService.validateUpdatePermissions( 
-    //     authResult.payload!.userId,
-    //     targetUserIdNum,
-    //     authResult.payload!.roleName,
-    //     updateData
-    //   );
-
-    //   if (!permissionCheck.hasPermissions) {
-    //     logInfo(FUNCTION_NAME, 'Permisos insuficientes para actualización', {
-    //       requestingUserId: authResult.payload!.userId,
-    //       targetUserId: targetUserIdNum,
-    //       requestingUserRole: authResult.payload!.roleName,
-    //       error: permissionCheck.error
-    //     });
-    //     return createForbiddenResponse(permissionCheck.error!, event);
-    //   }
-    // }
 
     // Actualizar el usuario
     const result = await updateUserAdminService.updateUserAdmin(userId, updateData);

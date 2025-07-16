@@ -13,10 +13,10 @@ import {
   parseRequestBody,
   validateRequiredFields,
   validateAuthorizationHeader,
-  logError,
+
 } from '../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'CreatePackageUserHandler';
+
 const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
 
 /**
@@ -97,13 +97,7 @@ export const handler = async (
     return createCreatedResponse(result.data, result.message, event);
 
   } catch (error) {
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-      },
-    });
+
 
     if (error instanceof Error) {
       if (error.message.includes('JSON')) {

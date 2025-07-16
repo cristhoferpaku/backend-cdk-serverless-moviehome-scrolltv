@@ -36,17 +36,14 @@ export const handler = async (
     if (event.httpMethod !== 'PATCH') {
       return createBadRequestResponse('Método HTTP no permitido', event);
     }
-
     // Validar autorización JWT
     const authResult = validateAuthorizationHeader(
       event.headers?.Authorization || event.headers?.authorization,
       ['administrador', 'gestor de contenido multimedia', 'vendedor', 'revendedor'] // Permitir a todos los roles autenticados
     );
-
     if (!authResult.isValid) {
       return createUnauthorizedResponse(authResult.error || 'Token de autorización inválido', event);
     }
-
     // Obtener el ID desde path parameters
     const userId = event.pathParameters?.id;
     if (!userId) {
@@ -66,27 +63,6 @@ export const handler = async (
 
     // Usar el servicio para cambiar el status del usuario
     const changeUserAdminStatusService = new ChangeUserAdminStatusService();
-    
-    // TODO: Implementar validación de permisos cuando se agregue el método validateStatusChangePermissions al servicio
-    // const targetUserIdNum = parseInt(userId, 10);
-    // if (!isNaN(targetUserIdNum)) {
-    //   const permissionCheck = changeUserAdminStatusService.validateStatusChangePermissions(
-    //     authResult.payload!.userId,
-    //     targetUserIdNum,
-    //     authResult.payload!.roleName
-    //   );
-
-    //   if (!permissionCheck.hasPermissions) {
-    //     logInfo(FUNCTION_NAME, 'Permisos insuficientes para cambio de status', {
-    //       requestingUserId: authResult.payload!.userId,
-    //       targetUserId: targetUserIdNum,
-    //       requestingUserRole: authResult.payload!.roleName,
-    //       error: permissionCheck.error
-    //     });
-    //     return createForbiddenResponse(permissionCheck.error!, event);
-    //   }
-    // }
-
     // Cambiar el status del usuario
     const result = await changeUserAdminStatusService.changeUserAdminStatus(userId, statusData);
 
@@ -109,28 +85,11 @@ export const handler = async (
 
     const statusDescription = changeUserAdminStatusService.getStatusDescription(result.data!.status);
 
-    logInfo(FUNCTION_NAME, 'Status de usuario admin cambiado exitosamente', {
-      userId: result.data!.id,
-      username: result.data!.username,
-      previousStatus: 'unknown', // No tenemos el status anterior
-      newStatus: result.data!.status,
-      statusDescription,
-      changedBy: authResult.payload!.username,
-      changedByUserId: authResult.payload!.userId
-    });
 
     return createOkResponse(result.data, `Status cambiado exitosamente a ${statusDescription}`, event);
 
   } catch (error) {
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-        pathParameters: event.pathParameters,
-        body: event.body
-      },
-    });
+
 
     return createInternalServerErrorResponse(
       error instanceof Error ? error.message : 'Error interno del servidor',

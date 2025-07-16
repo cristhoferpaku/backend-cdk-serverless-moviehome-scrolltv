@@ -70,36 +70,6 @@ export class ChangeUserAdminStatusService {
     }
   }
 
-  /**
-   * Valida que el usuario tenga permisos para cambiar el status del recurso solicitado
-   * @param requestingUserId ID del usuario que hace la petición
-   * @param targetUserId ID del usuario cuyo status se quiere cambiar
-   * @param requestingUserRole Rol del usuario que hace la petición
-   * @returns true si tiene permisos, false en caso contrario
-   */
-  validateStatusChangePermissions(
-    requestingUserId: number, 
-    targetUserId: number, 
-    requestingUserRole: string
-  ): { hasPermissions: boolean; error?: string } {
-    
-    // Los administradores pueden cambiar el status de cualquier usuario
-    if (requestingUserRole.toLowerCase() === 'administrador') {
-      return { hasPermissions: true };
-    }
-
-    // Los usuarios no administradores no pueden cambiar el status de ningún usuario (ni siquiera el suyo)
-    return { 
-      hasPermissions: false, 
-      error: 'No tienes permisos para cambiar el status de usuarios. Solo los administradores pueden realizar esta acción.' 
-    };
-  }
-
-  /**
-   * Obtiene el texto descriptivo del status
-   * @param status Número del status
-   * @returns Descripción del status
-   */
   getStatusDescription(status: number): string {
     switch (status) {
       case 0:

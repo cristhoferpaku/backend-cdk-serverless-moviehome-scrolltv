@@ -776,4 +776,300 @@ addApiMethodsWithLambda({
       },
     ],
   });
-} 
+
+  // Assign Seller Credit routes
+  const assignSellerCreditFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.ASSIGN_SELLER_CREDIT_FUNCTION_ARN,
+    "ImportedAssignSellerCreditFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: assignSellerCreditFunction,
+    authorizer,
+    resourcePath: 'admin/assign-seller-credit',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Create Resource routes
+  const createResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_RESOURCE_FUNCTION_ARN,
+    "ImportedCreateResourceFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createResourceFunction,
+    authorizer,
+    resourcePath: 'admin/resource',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // List Resource routes
+  const listResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_RESOURCE_FUNCTION_ARN,
+    "ImportedListResourceFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listResourceFunction,
+    authorizer,
+    resourcePath: 'admin/resource',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'state', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Get Resource By ID routes
+  const getResourceByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_RESOURCE_BY_ID_FUNCTION_ARN,
+    "ImportedGetResourceByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getResourceByIdFunction,
+    authorizer,
+    resourcePath: 'admin/resource/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Change Resource State routes
+  const changeResourceStateFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CHANGE_RESOURCE_STATE_FUNCTION_ARN,
+    "ImportedChangeResourceStateFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: changeResourceStateFunction,
+    authorizer,
+    resourcePath: 'admin/resource/{id}/state',
+    methods: [
+      {
+        method: 'PATCH',
+        authorizationType: AuthorizationType.NONE,
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Resource routes
+  const updateResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_RESOURCE_FUNCTION_ARN,
+    "ImportedUpdateResourceFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateResourceFunction,
+    authorizer,
+    resourcePath: 'admin/resource/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE,
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Resource routes
+  const deleteResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_RESOURCE_FUNCTION_ARN,
+    "ImportedDeleteResourceFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteResourceFunction,
+    authorizer,
+    resourcePath: 'admin/resource/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE,
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Seller Credit routes
+  const getSellerCreditFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_SELLER_CREDIT_BY_ID_FUNCTION_ARN,
+    "ImportedGetSellerCreditFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getSellerCreditFunction,
+    authorizer,
+    resourcePath: 'admin/seller-credit',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // List Cast Members routes
+  const listCastMembersFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_CAST_MEMBERS_FUNCTION_ARN,
+    "ImportedListCastMembersFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listCastMembersFunction,
+    authorizer,
+    resourcePath: 'admin/cast-member',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Get Cast Member By ID routes
+  const getCastMemberByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_CAST_MEMBER_BY_ID_FUNCTION_ARN,
+    "ImportedGetCastMemberByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getCastMemberByIdFunction,
+    authorizer,
+    resourcePath: 'admin/cast-member/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Create Cast Member routes
+  const createCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_CAST_MEMBER_FUNCTION_ARN,
+    "ImportedCreateCastMemberFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createCastMemberFunction,
+    authorizer,
+    resourcePath: 'admin/cast-member',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Cast Member routes
+  const updateCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_CAST_MEMBER_FUNCTION_ARN,
+    "ImportedUpdateCastMemberFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateCastMemberFunction,
+    authorizer,
+    resourcePath: 'admin/cast-member/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Cast Member routes
+  const deleteCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_CAST_MEMBER_FUNCTION_ARN,
+    "ImportedDeleteCastMemberFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteCastMemberFunction,
+    authorizer,
+    resourcePath: 'admin/cast-member/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // List All Countries routes
+  const listAllCountriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_ALL_COUNTRIES_FUNCTION_ARN,
+    "ImportedListAllCountriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listAllCountriesFunction,
+    authorizer,
+    resourcePath: 'admin/countries',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // Sin autenticación requerida
+        useAuthorizer: false,
+      },
+    ],
+  });
+}

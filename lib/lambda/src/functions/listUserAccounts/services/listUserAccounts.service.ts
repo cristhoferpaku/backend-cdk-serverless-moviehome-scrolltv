@@ -5,7 +5,6 @@ import {
     UserAccountRecord
   } from '../dtos/listUserAccounts.dto';
   import { ListUserAccountsRepository } from '../repositories/listUserAccounts.repo';
-  import { logError, logInfo } from '../../../../layers/utils/nodejs/utils';
   
   const FUNCTION_NAME = 'ListUserAccountsService';
   

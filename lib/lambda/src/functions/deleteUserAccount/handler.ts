@@ -6,9 +6,7 @@ import {
   createInternalServerErrorResponse,
   createUnauthorizedResponse,
   createForbiddenResponse,
-  validateAuthorizationHeader,
-  logInfo,
-  logError
+  validateAuthorizationHeader
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'DeleteUserAccountHandler';
@@ -18,12 +16,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Inicio de eliminación de usuario', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-    path: event.path,
-    pathParameters: event.pathParameters
-  });
+
 
   try {
     if (event.httpMethod !== 'DELETE') {
@@ -53,11 +46,7 @@ export const handler = async (
     if (!result.success) {
       return createBadRequestResponse(result.message, event);
     }
-
-    logInfo(FUNCTION_NAME, 'Cuenta eliminada correctamente', {
-      id,
-      userId: authValidation.payload?.userId
-    });
+    
     return createOkResponse(null, result.message, event);
 
   } catch (error) {

@@ -9,8 +9,7 @@ import {
   parseRequestBody,
   validateAuthorizationHeader,
   validateRequiredFields,
-  logInfo,
-  logError
+
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'ChangeUserAccountStatusHandler';
@@ -20,12 +19,6 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Inicio de procesamiento', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-    path: event.path,
-    pathParameters: event.pathParameters
-  });
 
   try {
     if (event.httpMethod !== 'PATCH') {
@@ -70,12 +63,6 @@ export const handler = async (
     if (!result.success) {
       return createBadRequestResponse(result.message, event);
     }
-
-    logInfo(FUNCTION_NAME, 'Estado del usuario actualizado correctamente', {
-      id: result.data?.id,
-      newStatus: result.data?.status,
-      performedBy: authValidation.payload?.userId
-    });
 
     return createOkResponse(result.data, result.message, event);
 

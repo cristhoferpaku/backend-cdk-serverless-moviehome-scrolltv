@@ -77,11 +77,6 @@ export const handler = async (
     const result = await deleteUserAdminService.deleteUserAdmin(userId);
 
     if (!result.success) {
-      logInfo(FUNCTION_NAME, 'Error al eliminar usuario admin', { 
-        userId, 
-        error: result.error 
-      });
-
       // Determinar el tipo de error apropiado
       if (result.error?.includes('no encontrado')) {
         return createNotFoundResponse(result.error, event);
@@ -90,23 +85,11 @@ export const handler = async (
       }
     }
 
-    logInfo(FUNCTION_NAME, 'Usuario admin eliminado exitosamente', {
-      userId,
-      deletedBy: authResult.payload!.username,
-      deletedByUserId: authResult.payload!.userId
-    });
+
 
     return createOkResponse(result.data, 'Usuario admin eliminado exitosamente', event);
 
   } catch (error) {
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-        pathParameters: event.pathParameters
-      },
-    });
 
     return createInternalServerErrorResponse(
       error instanceof Error ? error.message : 'Error interno del servidor',

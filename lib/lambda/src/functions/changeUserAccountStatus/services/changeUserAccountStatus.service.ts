@@ -3,9 +3,7 @@ import {
   ChangeUserAccountStatusRequest,
   ChangeUserAccountStatusResponse
 } from '../dtos/changeUserAccountStatus.dto';
-import { logError, logInfo } from '../../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'ChangeUserAccountStatusService';
 
 export class ChangeUserAccountStatusService {
   private repository = new ChangeUserAccountStatusRepository();
@@ -13,11 +11,6 @@ export class ChangeUserAccountStatusService {
   async changeStatus(data: ChangeUserAccountStatusRequest): Promise<ChangeUserAccountStatusResponse> {
     try {
       this.validate(data);
-
-      logInfo(FUNCTION_NAME, 'Cambiando estado del usuario', {
-        userId: data.id,
-        newStatus: data.status
-      });
 
       const dbResult = await this.repository.changeStatus(data.id, data.status);
 
@@ -38,7 +31,6 @@ export class ChangeUserAccountStatusService {
         message: dbResult.message
       };
     } catch (error) {
-     
       return {
         success: false,
         message: error instanceof Error ? error.message : 'Error interno del servidor'

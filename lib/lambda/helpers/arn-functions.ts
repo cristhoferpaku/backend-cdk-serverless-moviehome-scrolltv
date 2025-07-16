@@ -45,6 +45,20 @@ export class ArnFunctions {
   static readonly DELETE_USER_ACCOUNT_FUNCTION_ARN = "/moviehome-scrolltv/delete-user-account-function-arn";
   static readonly CHANGE_USER_ACCOUNT_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-user-account-status-function-arn";
   static readonly LIST_USER_ACCOUNT_BY_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/list-user-account-by-admin-function-arn";
+  static readonly ASSIGN_SELLER_CREDIT_FUNCTION_ARN = "/moviehome-scrolltv/assign-seller-credit-function-arn";
+  static readonly CREATE_RESOURCE_FUNCTION_ARN = "/moviehome-scrolltv/create-resource-function-arn";
+  static readonly LIST_RESOURCE_FUNCTION_ARN = "/moviehome-scrolltv/list-resource-function-arn";
+  static readonly GET_RESOURCE_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-resource-by-id-function-arn";
+  static readonly CHANGE_RESOURCE_STATE_FUNCTION_ARN = "/moviehome-scrolltv/change-resource-state-function-arn";
+  static readonly DELETE_RESOURCE_FUNCTION_ARN = "/moviehome-scrolltv/delete-resource-function-arn";
+  static readonly UPDATE_RESOURCE_FUNCTION_ARN = "/moviehome-scrolltv/update-resource-function-arn";
+  static readonly GET_SELLER_CREDIT_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-seller-credit-by-id-function-arn";
+  static readonly LIST_CAST_MEMBERS_FUNCTION_ARN = "/moviehome-scrolltv/list-cast-members-function-arn";
+  static readonly GET_CAST_MEMBER_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-cast-member-by-id-function-arn";
+  static readonly CREATE_CAST_MEMBER_FUNCTION_ARN = "/moviehome-scrolltv/create-cast-member-function-arn";
+  static readonly UPDATE_CAST_MEMBER_FUNCTION_ARN = "/moviehome-scrolltv/update-cast-member-function-arn";
+  static readonly DELETE_CAST_MEMBER_FUNCTION_ARN = "/moviehome-scrolltv/delete-cast-member-function-arn";
+  static readonly LIST_ALL_COUNTRIES_FUNCTION_ARN = "/moviehome-scrolltv/list-all-countries-function-arn";
 
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.
@@ -104,4 +118,4 @@ export class ArnFunctions {
 
 
   
-} 
+}

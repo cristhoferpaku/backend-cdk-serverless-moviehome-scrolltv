@@ -8,8 +8,6 @@ import {
   createInternalServerErrorResponse,
   createNotFoundResponse,
   parseRequestBody,
-  logError,
-  logInfo,
   validateAuthorizationHeader 
 } from '../../../layers/utils/nodejs/utils';
 
@@ -22,11 +20,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Iniciando procesamiento de cambio de status de paquete de usuario', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-    path: event.path,
-  });
+  
 
   try {
     // Validar que sea PATCH
@@ -41,7 +35,6 @@ export const handler = async (
     );
 
     if (!authValidation.isValid) {
-      logInfo(FUNCTION_NAME, 'Acceso no autorizado', { error: authValidation.error });
       return createUnauthorizedResponse(authValidation.error || 'No autorizado', event);
     }
 
@@ -68,13 +61,6 @@ export const handler = async (
     const changePackageUserStatusService = new ChangePackageUserStatusService();
     const result = await changePackageUserStatusService.changePackageUserStatus(id, statusData);
 
-    logInfo(FUNCTION_NAME, 'Status del paquete de usuario cambiado exitosamente', {
-      packageUserId: result.id,
-      newStatus: result.status,
-      statusText: result.status === 1 ? 'activo' : 'inactivo',
-      userId: authValidation.payload?.userId
-    });
-
     return createOkResponse(result, result.message, event);
 
   } catch (error) {
@@ -82,25 +68,16 @@ export const handler = async (
     
     // Manejar errores específicos
     if (errorMessage.includes('no encontrado')) {
-      logInfo(FUNCTION_NAME, 'Paquete de usuario no encontrado', { error: errorMessage });
       return createNotFoundResponse(errorMessage, event);
     }
 
     if (errorMessage.includes('inválido') || 
         errorMessage.includes('debe ser') || 
         errorMessage.includes('es requerido')) {
-      logInfo(FUNCTION_NAME, 'Error de validación', { error: errorMessage });
       return createBadRequestResponse(errorMessage, event);
     }
 
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-        pathParameters: event.pathParameters,
-      },
-    });
+
 
     return createInternalServerErrorResponse(errorMessage, event);
   }

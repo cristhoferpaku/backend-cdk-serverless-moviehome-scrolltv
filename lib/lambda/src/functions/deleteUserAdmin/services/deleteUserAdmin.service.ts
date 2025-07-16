@@ -49,28 +49,4 @@ export class DeleteUserAdminService {
     }
   }
 
-  /**
-   * Valida que el usuario tenga permisos para eliminar el recurso solicitado
-   * @param requestingUserId ID del usuario que hace la petición
-   * @param targetUserId ID del usuario que se quiere eliminar
-   * @param requestingUserRole Rol del usuario que hace la petición
-   * @returns true si tiene permisos, false en caso contrario
-   */
-  validateDeletePermissions(
-    requestingUserId: number, 
-    targetUserId: number, 
-    requestingUserRole: string
-  ): { hasPermissions: boolean; error?: string } {
-    
-    // Los administradores pueden eliminar cualquier usuario
-    if (requestingUserRole.toLowerCase() === 'administrador') {
-      return { hasPermissions: true };
-    }
-
-    // Los usuarios no pueden eliminar a otros usuarios (ni siquiera a sí mismos por seguridad)
-    return { 
-      hasPermissions: false, 
-      error: 'No tienes permisos para eliminar usuarios. Solo los administradores pueden realizar esta acción.' 
-    };
-  }
 } 
