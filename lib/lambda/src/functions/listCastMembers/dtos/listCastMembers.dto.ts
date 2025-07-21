@@ -1,5 +1,3 @@
-
-
 export interface ListCastMemberQueryParams {
   search?: string;
   page?: string;
@@ -12,7 +10,7 @@ export interface ListCastMemberRequest {
   limit: number;
 }
 
-export interface CastMemberItem { 
+export interface CastMemberItem {
   id: number;
   name: string;
   photo: string;
@@ -24,12 +22,11 @@ export interface CastMemberItem {
 export interface ListCastMemberResponse {
   items: CastMemberItem[];
   pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalItems: number;
-      itemsPerPage: number;
-      hasNextPage: boolean;
-      hasPreviousPage: boolean;
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
   };
 }
-

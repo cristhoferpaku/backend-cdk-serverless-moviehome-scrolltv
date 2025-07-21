@@ -6,8 +6,6 @@ import {
   createBadRequestResponse,
   createUnauthorizedResponse,
   createInternalServerErrorResponse,
-  logError,
-  logInfo,
   validateAuthorizationHeader 
 } from '../../../layers/utils/nodejs/utils';
 
@@ -20,11 +18,7 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Iniciando procesamiento de listado de paquetes de usuario', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-    path: event.path,
-  });
+
 
   try {
     // Validar que sea GET
@@ -39,7 +33,6 @@ export const handler = async (
     );
 
     if (!authValidation.isValid) {
-      logInfo(FUNCTION_NAME, 'Acceso no autorizado', { error: authValidation.error });
       return createUnauthorizedResponse(authValidation.error || 'No autorizado', event);
     }
 
@@ -64,24 +57,9 @@ export const handler = async (
     const listPackageUsersService = new ListPackageUsersService();
     const result = await listPackageUsersService.listPackageUsers(request);
 
-    logInfo(FUNCTION_NAME, 'Listado de paquetes de usuario obtenido exitosamente', {
-      totalItems: result.pagination.total,
-      page: result.pagination.page,
-      limit: result.pagination.limit,
-      userId: authValidation.payload?.userId
-    });
-
     return createOkResponse(result, 'Paquetes de usuario obtenidos exitosamente', event);
 
   } catch (error) {
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-        queryStringParameters: event.queryStringParameters,
-      },
-    });
 
     return createInternalServerErrorResponse(
       error instanceof Error ? error.message : 'Error interno del servidor',

@@ -5,7 +5,6 @@ import {
   ListUserAdminsParams,
   UserAdminRecord 
 } from '../dtos/listUserAdmins.dto';
-import { logError, logInfo } from '../../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'ListUserAdminsService';
 
@@ -24,8 +23,6 @@ export class ListUserAdminsService {
    */
   async getUserAdmins(queryParams: ListUserAdminsQueryParams): Promise<ListUserAdminsResponse> {
     try {
-      logInfo(FUNCTION_NAME, 'Iniciando búsqueda de usuarios administradores', { queryParams });
-
       // Procesar y validar parámetros
       const params = this.processQueryParams(queryParams);
 
@@ -39,30 +36,21 @@ export class ListUserAdminsService {
       const response: ListUserAdminsResponse = {
         items: users,
         pagination: {
-          currentPage: params.page,
+          page: params.page,
+          pageSize: params.pageSize,
+          totalCount: totalItems,
           totalPages,
-          totalItems,
-          itemsPerPage: params.pageSize,
-          hasNextPage: params.page < totalPages,
-          hasPreviousPage: params.page > 1,
+          hasNext: params.page < totalPages,
+          hasPrevious: params.page > 1,
         },
        
       };
 
-      logInfo(FUNCTION_NAME, 'Usuarios administradores obtenidos exitosamente', {
-        totalItems,
-        currentPage: params.page,
-        totalPages,
-        usersReturned: users.length,
-      });
 
       return response;
 
     } catch (error) {
-      logError(FUNCTION_NAME, error instanceof Error ? error : new Error('Error desconocido'), {
-        operation: 'getUserAdmins',
-        queryParams,
-      });
+
       throw new Error('Error al obtener los usuarios administradores');
     }
   }
@@ -96,19 +84,9 @@ export class ListUserAdminsService {
           roleIds = null;
         }
       } catch (error) {
-        logError(FUNCTION_NAME, new Error('Error procesando roleIds'), { 
-          roleIdParam: queryParams.roleId 
-        });
         roleIds = null;
       }
     }
-
-    logInfo(FUNCTION_NAME, 'Parámetros procesados', {
-      searchUsername,
-      page,
-      pageSize,
-      roleIds,
-    });
 
     return {
       searchUsername,

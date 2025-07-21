@@ -29,12 +29,12 @@ export interface ResourceItem {
 export interface ListResourceResponse {
   items: ResourceItem[];
   pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalItems: number;
-      itemsPerPage: number;
-      hasNextPage: boolean;
-      hasPreviousPage: boolean;
+      page: number;
+      pageSize: number;
+     totalCount: number;
+     totalPages: number;
+     hasNext: boolean;
+     hasPrevious: boolean;
   };
 }
 

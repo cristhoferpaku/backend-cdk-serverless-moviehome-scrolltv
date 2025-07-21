@@ -31,12 +31,12 @@ export interface ListUserAccountsQueryParams {
   export interface ListUserAccountsResponse {
     items: UserAccountRecord[];
     pagination: {
-      currentPage: number;
-      totalPages: number;
-      totalItems: number;
-      itemsPerPage: number;
-      hasNextPage: boolean;
-      hasPreviousPage: boolean;
+      page: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
     };
   }
   

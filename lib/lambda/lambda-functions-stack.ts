@@ -53,6 +53,30 @@ import {
   updateCastMemberTemplateLambda,
   deleteCastMemberTemplateLambda,
   listAllCountriesTemplateLambda,
+  getAllSectionsTemplateLambda,
+  // Collections Templates
+  listCollectionsTemplateLambda,
+  getCollectionByIdTemplateLambda,
+  createCollectionTemplateLambda,
+  updateCollectionTemplateLambda,
+  deleteCollectionTemplateLambda,
+  changeCollectionStatusTemplateLambda,
+  getAllCollectionsTemplateLambda,
+  // Multimedia Categories Templates
+  listMultimediaCategoriesTemplateLambda,
+  getMultimediaCategoryByIdTemplateLambda,
+  createMultimediaCategoryTemplateLambda,
+  updateMultimediaCategoryTemplateLambda,
+  deleteMultimediaCategoryTemplateLambda,
+  changeMultimediaCategoryStatusTemplateLambda,
+  getAllMultimediaCategoriesTemplateLambda,
+  // Movies Templates
+  createMovieTemplateLambda,
+  getMovieByIdTemplateLambda,
+  listMoviesTemplateLambda,
+  deleteMovieTemplateLambda,
+  changeMovieStatusTemplateLambda,
+  updateMovieTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -113,6 +137,33 @@ export class LambdaFunctionStack extends Stack {
   public readonly updateCastMemberFunction: NodejsFunction;
   public readonly deleteCastMemberFunction: NodejsFunction;
   public readonly listAllCountriesFunction: NodejsFunction;
+  public readonly getAllSectionsFunction: NodejsFunction;
+  
+  // Collections Functions
+  public readonly listCollectionsFunction: NodejsFunction;
+  public readonly getCollectionByIdFunction: NodejsFunction;
+  public readonly createCollectionFunction: NodejsFunction;
+  public readonly updateCollectionFunction: NodejsFunction;
+  public readonly deleteCollectionFunction: NodejsFunction;
+  public readonly changeCollectionStatusFunction: NodejsFunction;
+  public readonly getAllCollectionsFunction: NodejsFunction;
+  
+  // Multimedia Categories Functions
+  public readonly listMultimediaCategoriesFunction: NodejsFunction;
+  public readonly getMultimediaCategoryByIdFunction: NodejsFunction;
+  public readonly createMultimediaCategoryFunction: NodejsFunction;
+  public readonly updateMultimediaCategoryFunction: NodejsFunction;
+  public readonly deleteMultimediaCategoryFunction: NodejsFunction;
+  public readonly changeMultimediaCategoryStatusFunction: NodejsFunction;
+  public readonly getAllMultimediaCategoriesFunction: NodejsFunction;
+  
+  // Movies Functions
+  public readonly createMovieFunction: NodejsFunction;
+  public readonly getMovieByIdFunction: NodejsFunction;
+  public readonly listMoviesFunction: NodejsFunction;
+  public readonly deleteMovieFunction: NodejsFunction;
+  public readonly changeMovieStatusFunction: NodejsFunction;
+  public readonly updateMovieFunction: NodejsFunction;
 
 
   constructor(scope: Construct, id: string, props: LambdaFunctionStackProps) {
@@ -465,6 +516,157 @@ export class LambdaFunctionStack extends Stack {
     // Función listAllCountries
     this.listAllCountriesFunction = listAllCountriesTemplateLambda({
       lambdaRole: props.lambdaRoles['ListAllCountriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getAllSections
+    this.getAllSectionsFunction = getAllSectionsTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetAllSectionsLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Collections Functions
+    
+    // Función listCollections
+    this.listCollectionsFunction = listCollectionsTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListCollectionsLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getCollectionById
+    this.getCollectionByIdFunction = getCollectionByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetCollectionByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función createCollection
+    this.createCollectionFunction = createCollectionTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateCollectionLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateCollection
+    this.updateCollectionFunction = updateCollectionTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateCollectionLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteCollection
+    this.deleteCollectionFunction = deleteCollectionTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteCollectionLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función changeCollectionStatus
+    this.changeCollectionStatusFunction = changeCollectionStatusTemplateLambda({
+      lambdaRole: props.lambdaRoles['ChangeCollectionStatusLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getAllCollections
+    this.getAllCollectionsFunction = getAllCollectionsTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetAllCollectionsLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listMultimediaCategories
+    this.listMultimediaCategoriesFunction = listMultimediaCategoriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListMultimediaCategoriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getMultimediaCategoryById
+    this.getMultimediaCategoryByIdFunction = getMultimediaCategoryByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetMultimediaCategoryByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función createMultimediaCategory
+    this.createMultimediaCategoryFunction = createMultimediaCategoryTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateMultimediaCategoryLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateMultimediaCategory
+    this.updateMultimediaCategoryFunction = updateMultimediaCategoryTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateMultimediaCategoryLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteMultimediaCategory
+    this.deleteMultimediaCategoryFunction = deleteMultimediaCategoryTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteMultimediaCategoryLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función changeMultimediaCategoryStatus
+    this.changeMultimediaCategoryStatusFunction = changeMultimediaCategoryStatusTemplateLambda({
+      lambdaRole: props.lambdaRoles['ChangeMultimediaCategoryStatusLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getAllMultimediaCategories
+    this.getAllMultimediaCategoriesFunction = getAllMultimediaCategoriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetAllMultimediaCategoriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Movies Functions
+    
+    // Función createMovie
+    this.createMovieFunction = createMovieTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateMovieLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getMovieById
+    this.getMovieByIdFunction = getMovieByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetMovieByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listMovies
+    this.listMoviesFunction = listMoviesTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListMoviesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteMovie
+    this.deleteMovieFunction = deleteMovieTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteMovieLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función changeMovieStatus
+    this.changeMovieStatusFunction = changeMovieStatusTemplateLambda({
+      lambdaRole: props.lambdaRoles['ChangeMovieStatusLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateMovie
+    this.updateMovieFunction = updateMovieTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateMovieLambdaRole'],
       layerStack: props.layerStack,
       scope: this,
     });

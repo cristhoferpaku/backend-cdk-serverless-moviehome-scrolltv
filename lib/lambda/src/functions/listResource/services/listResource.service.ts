@@ -19,12 +19,12 @@ export class ListResourceService {
         return {
           items: resource,
           pagination: {
-            currentPage: params.page,
+            page: params.page,
+            pageSize: params.limit,
+            totalCount: totalItems,
             totalPages,
-            totalItems,
-            itemsPerPage: params.limit,
-            hasNextPage: params.page < totalPages,
-            hasPreviousPage: params.page > 1,
+            hasNext: params.page < totalPages,
+            hasPrevious: params.page > 1,
           }
         }
       

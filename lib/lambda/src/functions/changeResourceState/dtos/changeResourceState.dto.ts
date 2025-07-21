@@ -4,7 +4,7 @@ export interface ChangeResourceStateRequestDto {
 }
 
 export interface ChangeResourceStateBody {
-  state: number; // 0: inactivo, 1: activo, 2: suspendido
+  state: number; // 0: inactivo, 1: activo
 }
 
 

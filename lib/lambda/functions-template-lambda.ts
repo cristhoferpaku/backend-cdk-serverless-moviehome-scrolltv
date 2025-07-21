@@ -1144,6 +1144,468 @@ export const listAllCountriesTemplateLambda = (props: LambdaProps): NodejsFuncti
   return listAllCountriesFunction;
 };
 
+/**
+ * 📋 Plantilla para Lambda getAllSections
+ */
+export const getAllSectionsTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getAllSectionsFunction = new NodejsFunction(props.scope, 'GetAllSectionsFunction', {
+    functionName: 'GetAllSectionsFunction',
+    entry: 'lib/lambda/src/functions/getAllSections/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetAllSectionsFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_ALL_SECTIONS_FUNCTION_ARN,
+    stringValue: getAllSectionsFunction.functionArn,
+  });
+
+  return getAllSectionsFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda listCollections
+ */
+export const listCollectionsTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listCollectionsFunction = new NodejsFunction(props.scope, 'ListCollectionsFunction', {
+    functionName: 'ListCollectionsFunction',
+    entry: 'lib/lambda/src/functions/listCollections/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListCollectionsFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_COLLECTIONS_FUNCTION_ARN,
+    stringValue: listCollectionsFunction.functionArn,
+  });
+
+  return listCollectionsFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda getCollectionById
+ */
+export const getCollectionByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getCollectionByIdFunction = new NodejsFunction(props.scope, 'GetCollectionByIdFunction', {
+    functionName: 'GetCollectionByIdFunction',
+    entry: 'lib/lambda/src/functions/getCollectionById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetCollectionByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_COLLECTION_BY_ID_FUNCTION_ARN,
+    stringValue: getCollectionByIdFunction.functionArn,
+  });
+
+  return getCollectionByIdFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda createCollection
+ */
+export const createCollectionTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createCollectionFunction = new NodejsFunction(props.scope, 'CreateCollectionFunction', {
+    functionName: 'CreateCollectionFunction',
+    entry: 'lib/lambda/src/functions/createCollection/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateCollectionFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_COLLECTION_FUNCTION_ARN,
+    stringValue: createCollectionFunction.functionArn,
+  });
+
+  return createCollectionFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda updateCollection
+ */
+export const updateCollectionTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateCollectionFunction = new NodejsFunction(props.scope, 'UpdateCollectionFunction', {
+    functionName: 'UpdateCollectionFunction',
+    entry: 'lib/lambda/src/functions/updateCollection/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateCollectionFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_COLLECTION_FUNCTION_ARN,
+    stringValue: updateCollectionFunction.functionArn,
+  });
+
+  return updateCollectionFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda deleteCollection
+ */
+export const deleteCollectionTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteCollectionFunction = new NodejsFunction(props.scope, 'DeleteCollectionFunction', {
+    functionName: 'DeleteCollectionFunction',
+    entry: 'lib/lambda/src/functions/deleteCollection/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteCollectionFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_COLLECTION_FUNCTION_ARN,
+    stringValue: deleteCollectionFunction.functionArn,
+  });
+
+  return deleteCollectionFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda changeCollectionStatus
+ */
+export const changeCollectionStatusTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeCollectionStatusFunction = new NodejsFunction(props.scope, 'ChangeCollectionStatusFunction', {
+    functionName: 'ChangeCollectionStatusFunction',
+    entry: 'lib/lambda/src/functions/changeCollectionStatus/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeCollectionStatusFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_COLLECTION_STATUS_FUNCTION_ARN,
+    stringValue: changeCollectionStatusFunction.functionArn,
+  });
+
+  return changeCollectionStatusFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda getAllCollections
+ */
+export const getAllCollectionsTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getAllCollectionsFunction = new NodejsFunction(props.scope, 'GetAllCollectionsFunction', {
+    functionName: 'GetAllCollectionsFunction',
+    entry: 'lib/lambda/src/functions/getAllCollections/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetAllCollectionsFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_ALL_COLLECTIONS_FUNCTION_ARN,
+    stringValue: getAllCollectionsFunction.functionArn,
+  });
+
+  return getAllCollectionsFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda listMultimediaCategories
+ */
+export const listMultimediaCategoriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listMultimediaCategoriesFunction = new NodejsFunction(props.scope, 'ListMultimediaCategoriesFunction', {
+    functionName: 'ListMultimediaCategoriesFunction',
+    entry: 'lib/lambda/src/functions/listMultimediaCategories/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListMultimediaCategoriesFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
+    stringValue: listMultimediaCategoriesFunction.functionArn,
+  });
+
+  return listMultimediaCategoriesFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda getMultimediaCategoryById
+ */
+export const getMultimediaCategoryByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getMultimediaCategoryByIdFunction = new NodejsFunction(props.scope, 'GetMultimediaCategoryByIdFunction', {
+    functionName: 'GetMultimediaCategoryByIdFunction',
+    entry: 'lib/lambda/src/functions/getMultimediaCategoryById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetMultimediaCategoryByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_MULTIMEDIA_CATEGORY_BY_ID_FUNCTION_ARN,
+    stringValue: getMultimediaCategoryByIdFunction.functionArn,
+  });
+
+  return getMultimediaCategoryByIdFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda createMultimediaCategory
+ */
+export const createMultimediaCategoryTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createMultimediaCategoryFunction = new NodejsFunction(props.scope, 'CreateMultimediaCategoryFunction', {
+    functionName: 'CreateMultimediaCategoryFunction',
+    entry: 'lib/lambda/src/functions/createMultimediaCategory/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateMultimediaCategoryFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    stringValue: createMultimediaCategoryFunction.functionArn,
+  });
+
+  return createMultimediaCategoryFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda updateMultimediaCategory
+ */
+export const updateMultimediaCategoryTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateMultimediaCategoryFunction = new NodejsFunction(props.scope, 'UpdateMultimediaCategoryFunction', {
+    functionName: 'UpdateMultimediaCategoryFunction',
+    entry: 'lib/lambda/src/functions/updateMultimediaCategory/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateMultimediaCategoryFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    stringValue: updateMultimediaCategoryFunction.functionArn,
+  });
+
+  return updateMultimediaCategoryFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda deleteMultimediaCategory
+ */
+export const deleteMultimediaCategoryTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteMultimediaCategoryFunction = new NodejsFunction(props.scope, 'DeleteMultimediaCategoryFunction', {
+    functionName: 'DeleteMultimediaCategoryFunction',
+    entry: 'lib/lambda/src/functions/deleteMultimediaCategory/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteMultimediaCategoryFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    stringValue: deleteMultimediaCategoryFunction.functionArn,
+  });
+
+  return deleteMultimediaCategoryFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda changeMultimediaCategoryStatus
+ */
+export const changeMultimediaCategoryStatusTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeMultimediaCategoryStatusFunction = new NodejsFunction(props.scope, 'ChangeMultimediaCategoryStatusFunction', {
+    functionName: 'ChangeMultimediaCategoryStatusFunction',
+    entry: 'lib/lambda/src/functions/changeMultimediaCategoryStatus/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeMultimediaCategoryStatusFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_MULTIMEDIA_CATEGORY_STATUS_FUNCTION_ARN,
+    stringValue: changeMultimediaCategoryStatusFunction.functionArn,
+  });
+
+  return changeMultimediaCategoryStatusFunction;
+};
+
+/**
+ * 📋 Plantilla para Lambda getAllMultimediaCategories
+ */
+export const getAllMultimediaCategoriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getAllMultimediaCategoriesFunction = new NodejsFunction(props.scope, 'GetAllMultimediaCategoriesFunction', {
+    functionName: 'GetAllMultimediaCategoriesFunction',
+    entry: 'lib/lambda/src/functions/getAllMultimediaCategories/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetAllMultimediaCategoriesFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_ALL_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
+    stringValue: getAllMultimediaCategoriesFunction.functionArn,
+  });
+
+  return getAllMultimediaCategoriesFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda createMovie
+ */
+export const createMovieTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createMovieFunction = new NodejsFunction(props.scope, 'CreateMovieFunction', {
+    functionName: 'CreateMovieFunction',
+    entry: 'lib/lambda/src/functions/createMovie/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateMovieFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_MOVIE_FUNCTION_ARN,
+    stringValue: createMovieFunction.functionArn,
+  });
+
+  return createMovieFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda getMovieById
+ */
+export const getMovieByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getMovieByIdFunction = new NodejsFunction(props.scope, 'GetMovieByIdFunction', {
+    functionName: 'GetMovieByIdFunction',
+    entry: 'lib/lambda/src/functions/getMovieById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetMovieByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_MOVIE_BY_ID_FUNCTION_ARN,
+    stringValue: getMovieByIdFunction.functionArn,
+  });
+
+  return getMovieByIdFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda listMovies
+ */
+export const listMoviesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listMoviesFunction = new NodejsFunction(props.scope, 'ListMoviesFunction', {
+    functionName: 'ListMoviesFunction',
+    entry: 'lib/lambda/src/functions/listMovies/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListMoviesFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_MOVIES_FUNCTION_ARN,
+    stringValue: listMoviesFunction.functionArn,
+  });
+
+  return listMoviesFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda deleteMovie
+ */
+export const deleteMovieTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteMovieFunction = new NodejsFunction(props.scope, 'DeleteMovieFunction', {
+    functionName: 'DeleteMovieFunction',
+    entry: 'lib/lambda/src/functions/deleteMovie/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteMovieFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_MOVIE_FUNCTION_ARN,
+    stringValue: deleteMovieFunction.functionArn,
+  });
+
+  return deleteMovieFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda changeMovieStatus
+ */
+export const changeMovieStatusTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeMovieStatusFunction = new NodejsFunction(props.scope, 'ChangeMovieStatusFunction', {
+    functionName: 'ChangeMovieStatusFunction',
+    entry: 'lib/lambda/src/functions/changeMovieStatus/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeMovieStatusFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_MOVIE_STATUS_FUNCTION_ARN,
+    stringValue: changeMovieStatusFunction.functionArn,
+  });
+
+  return changeMovieStatusFunction;
+};
+
+/**
+ * 🎬 Plantilla para Lambda updateMovie
+ */
+export const updateMovieTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateMovieFunction = new NodejsFunction(props.scope, 'UpdateMovieFunction', {
+    functionName: 'UpdateMovieFunction',
+    entry: 'lib/lambda/src/functions/updateMovie/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateMovieFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_MOVIE_FUNCTION_ARN,
+    stringValue: updateMovieFunction.functionArn,
+  });
+
+  return updateMovieFunction;
+};
+
 
 
 

@@ -59,6 +59,33 @@ export class ArnFunctions {
   static readonly UPDATE_CAST_MEMBER_FUNCTION_ARN = "/moviehome-scrolltv/update-cast-member-function-arn";
   static readonly DELETE_CAST_MEMBER_FUNCTION_ARN = "/moviehome-scrolltv/delete-cast-member-function-arn";
   static readonly LIST_ALL_COUNTRIES_FUNCTION_ARN = "/moviehome-scrolltv/list-all-countries-function-arn";
+  static readonly GET_ALL_SECTIONS_FUNCTION_ARN = "/moviehome-scrolltv/get-all-sections-function-arn";
+
+  // Collections Functions ARNs
+  static readonly LIST_COLLECTIONS_FUNCTION_ARN = "/moviehome-scrolltv/list-collections-function-arn";
+  static readonly GET_COLLECTION_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-collection-by-id-function-arn";
+  static readonly CREATE_COLLECTION_FUNCTION_ARN = "/moviehome-scrolltv/create-collection-function-arn";
+  static readonly UPDATE_COLLECTION_FUNCTION_ARN = "/moviehome-scrolltv/update-collection-function-arn";
+  static readonly DELETE_COLLECTION_FUNCTION_ARN = "/moviehome-scrolltv/delete-collection-function-arn";
+  static readonly CHANGE_COLLECTION_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-collection-status-function-arn";
+  static readonly GET_ALL_COLLECTIONS_FUNCTION_ARN = "/moviehome-scrolltv/get-all-collections-function-arn";
+  
+  // Multimedia Categories Functions ARNs
+  static readonly LIST_MULTIMEDIA_CATEGORIES_FUNCTION_ARN = "/moviehome-scrolltv/list-multimedia-categories-function-arn";
+  static readonly GET_MULTIMEDIA_CATEGORY_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-multimedia-category-by-id-function-arn";
+  static readonly CREATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN = "/moviehome-scrolltv/create-multimedia-category-function-arn";
+  static readonly UPDATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN = "/moviehome-scrolltv/update-multimedia-category-function-arn";
+  static readonly DELETE_MULTIMEDIA_CATEGORY_FUNCTION_ARN = "/moviehome-scrolltv/delete-multimedia-category-function-arn";
+  static readonly CHANGE_MULTIMEDIA_CATEGORY_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-multimedia-category-status-function-arn";
+  static readonly GET_ALL_MULTIMEDIA_CATEGORIES_FUNCTION_ARN = "/moviehome-scrolltv/get-all-multimedia-categories-function-arn";
+
+  // Movies Functions ARNs
+  static readonly CREATE_MOVIE_FUNCTION_ARN = "/moviehome-scrolltv/create-movie-function-arn";
+  static readonly GET_MOVIE_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-movie-by-id-function-arn";
+  static readonly LIST_MOVIES_FUNCTION_ARN = "/moviehome-scrolltv/list-movies-function-arn";
+  static readonly DELETE_MOVIE_FUNCTION_ARN = "/moviehome-scrolltv/delete-movie-function-arn";
+  static readonly CHANGE_MOVIE_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-movie-status-function-arn";
+  static readonly UPDATE_MOVIE_FUNCTION_ARN = "/moviehome-scrolltv/update-movie-function-arn";
 
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.

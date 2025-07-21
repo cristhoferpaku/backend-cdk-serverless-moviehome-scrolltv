@@ -19,12 +19,12 @@ export class ListCastMemberService {
         return {
           items: CastMember,
           pagination: {
-            currentPage: params.page,
+            page: params.page,
             totalPages,
-            totalItems,
-            itemsPerPage: params.limit,
-            hasNextPage: params.page < totalPages,
-            hasPreviousPage: params.page > 1,
+            totalCount: totalItems,
+            pageSize: params.limit,
+            hasNext: params.page < totalPages,
+            hasPrevious: params.page > 1,
           }
         }
       

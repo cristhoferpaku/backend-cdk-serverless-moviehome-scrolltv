@@ -45,12 +45,12 @@ export interface UserAdminRecord {
 export interface ListUserAdminsResponse {
   items: UserAdminRecord[];
   pagination: {
-    currentPage: number;
+    page: number;
+    pageSize: number;
+    totalCount: number;
     totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
+    hasNext: boolean;
+    hasPrevious: boolean;
   };
  
 }

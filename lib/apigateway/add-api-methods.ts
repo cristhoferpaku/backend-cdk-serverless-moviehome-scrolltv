@@ -1072,4 +1072,454 @@ addApiMethodsWithLambda({
       },
     ],
   });
+
+  // Get All Sections routes
+  const getAllSectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_ALL_SECTIONS_FUNCTION_ARN,
+    "ImportedGetAllSectionsFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getAllSectionsFunction,
+    authorizer,
+    resourcePath: 'admin/sections',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // Sin autenticación requerida
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Collections Routes
+
+  // List Collections routes
+  const listCollectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_COLLECTIONS_FUNCTION_ARN,
+    "ImportedListCollectionsFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listCollectionsFunction,
+    authorizer,
+    resourcePath: 'admin/collections',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'status','page', 'limit'],
+      },
+    ],
+  });
+
+  // Get Collection By ID routes
+  const getCollectionByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_COLLECTION_BY_ID_FUNCTION_ARN,
+    "ImportedGetCollectionByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getCollectionByIdFunction,
+    authorizer,
+    resourcePath: 'admin/collections/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Create Collection routes
+  const createCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_COLLECTION_FUNCTION_ARN,
+    "ImportedCreateCollectionFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createCollectionFunction,
+    authorizer,
+    resourcePath: 'admin/collections',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Collection routes
+  const updateCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_COLLECTION_FUNCTION_ARN,
+    "ImportedUpdateCollectionFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateCollectionFunction,
+    authorizer,
+    resourcePath: 'admin/collections/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Collection routes
+  const deleteCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_COLLECTION_FUNCTION_ARN,
+    "ImportedDeleteCollectionFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteCollectionFunction,
+    authorizer,
+    resourcePath: 'admin/collections/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Change Collection Status routes
+  const changeCollectionStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CHANGE_COLLECTION_STATUS_FUNCTION_ARN,
+    "ImportedChangeCollectionStatusFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: changeCollectionStatusFunction,
+    authorizer,
+    resourcePath: 'admin/collections/{id}/status',
+    methods: [
+      {
+        method: 'PATCH',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get All Collections routes
+  const getAllCollectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_ALL_COLLECTIONS_FUNCTION_ARN,
+    "ImportedGetAllCollectionsFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getAllCollectionsFunction,
+    authorizer,
+    resourcePath: 'admin/collections/all',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Multimedia Categories Routes
+
+  // List Multimedia Categories routes
+  const listMultimediaCategoriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
+    "ImportedListMultimediaCategoriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listMultimediaCategoriesFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'status', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Get Multimedia Category By ID routes
+  const getMultimediaCategoryByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_MULTIMEDIA_CATEGORY_BY_ID_FUNCTION_ARN,
+    "ImportedGetMultimediaCategoryByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getMultimediaCategoryByIdFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Create Multimedia Category routes
+  const createMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    "ImportedCreateMultimediaCategoryFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createMultimediaCategoryFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Multimedia Category routes
+  const updateMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    "ImportedUpdateMultimediaCategoryFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateMultimediaCategoryFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Multimedia Category routes
+  const deleteMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
+    "ImportedDeleteMultimediaCategoryFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteMultimediaCategoryFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Change Multimedia Category Status routes
+  const changeMultimediaCategoryStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CHANGE_MULTIMEDIA_CATEGORY_STATUS_FUNCTION_ARN,
+    "ImportedChangeMultimediaCategoryStatusFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: changeMultimediaCategoryStatusFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories/{id}/status',
+    methods: [
+      {
+        method: 'PATCH',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get All Multimedia Categories routes
+  const getAllMultimediaCategoriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_ALL_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
+    "ImportedGetAllMultimediaCategoriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getAllMultimediaCategoriesFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia-categories/all',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Movies Routes
+
+  // List Movies routes
+  const listMoviesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_MOVIES_FUNCTION_ARN,
+    "ImportedListMoviesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listMoviesFunction,
+    authorizer,
+    resourcePath: 'admin/movies',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'status', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Create Movie routes
+  const createMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_MOVIE_FUNCTION_ARN,
+    "ImportedCreateMovieFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createMovieFunction,
+    authorizer,
+    resourcePath: 'admin/movies',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Movie By ID routes
+  const getMovieByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_MOVIE_BY_ID_FUNCTION_ARN,
+    "ImportedGetMovieByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getMovieByIdFunction,
+    authorizer,
+    resourcePath: 'admin/movies/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Movie routes
+  const deleteMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_MOVIE_FUNCTION_ARN,
+    "ImportedDeleteMovieFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteMovieFunction,
+    authorizer,
+    resourcePath: 'admin/movies/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Change Movie Status routes
+  const changeMovieStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CHANGE_MOVIE_STATUS_FUNCTION_ARN,
+    "ImportedChangeMovieStatusFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: changeMovieStatusFunction,
+    authorizer,
+    resourcePath: 'admin/movies/{id}/status',
+    methods: [
+      {
+        method: 'PATCH',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Movie routes
+  const updateMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_MOVIE_FUNCTION_ARN,
+    "ImportedUpdateMovieFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateMovieFunction,
+    authorizer,
+    resourcePath: 'admin/movies/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
 }

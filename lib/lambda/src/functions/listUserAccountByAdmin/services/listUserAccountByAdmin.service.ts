@@ -23,12 +23,12 @@ import {
         return {
           items: users,
           pagination: {
-            currentPage: params.page,
+            page: params.page,
+            pageSize: params.pageSize,
+            totalCount: totalItems,
             totalPages,
-            totalItems,
-            itemsPerPage: params.pageSize,
-            hasNextPage: params.page < totalPages,
-            hasPreviousPage: params.page > 1,
+            hasNext: params.page < totalPages,
+            hasPrevious: params.page > 1,
           }
         };
       } catch (error) {

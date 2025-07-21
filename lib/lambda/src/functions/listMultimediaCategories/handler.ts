@@ -1,0 +1,52 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
+import { ListMultimediaCategoriesService } from './services/listMultimediaCategories.service';
+import { ListMultimediaCategoriesQueryParams } from './dtos/listMultimediaCategories.dto';
+import {
+  createOkResponse,
+  createInternalServerErrorResponse,
+  createUnauthorizedResponse,
+  validateAuthorizationHeader
+} from '../../../layers/utils/nodejs/utils';
+
+const FUNCTION_NAME = 'ListMultimediaCategoriesHandler';
+const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia', 'vendedor', 'revendedor'];
+
+export const handler = async (
+  event: APIGatewayProxyEvent,
+  context: Context
+): Promise<APIGatewayProxyResult> => {
+
+  try {
+    if (event.httpMethod !== 'GET') {
+      return createInternalServerErrorResponse('Método HTTP no permitido', event);
+    }
+
+    const auth = validateAuthorizationHeader(
+      event.headers?.Authorization || event.headers?.authorization,
+      REQUIRED_ROLES
+    );
+
+    if (!auth.isValid) {
+      return createUnauthorizedResponse(auth.error || 'Token inválido', event);
+    }
+
+    const queryParams: ListMultimediaCategoriesQueryParams = {
+      search: event.queryStringParameters?.search,
+      status: event.queryStringParameters?.status,
+      page: event.queryStringParameters?.page,
+      limit: event.queryStringParameters?.limit,
+    };
+
+    const service = new ListMultimediaCategoriesService();
+    const result = await service.getMultimediaCategories(queryParams);
+
+    return createOkResponse(result, 'Categorias obtenidas correctamente', event);
+  } catch (error) {
+
+
+    return createInternalServerErrorResponse(
+      error instanceof Error ? error.message : 'Error interno del servidor',
+      event
+    );
+  }
+};
