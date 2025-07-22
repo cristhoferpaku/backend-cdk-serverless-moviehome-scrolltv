@@ -87,6 +87,21 @@ export class ArnFunctions {
   static readonly CHANGE_MOVIE_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-movie-status-function-arn";
   static readonly UPDATE_MOVIE_FUNCTION_ARN = "/moviehome-scrolltv/update-movie-function-arn";
 
+  // Series Functions ARNs
+  static readonly CREATE_SERIES_FUNCTION_ARN = "/moviehome-scrolltv/create-series-function-arn";
+  static readonly GET_SERIES_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-series-by-id-function-arn";
+  static readonly LIST_SERIES_FUNCTION_ARN = "/moviehome-scrolltv/list-series-function-arn";
+  static readonly DELETE_SERIES_FUNCTION_ARN = "/moviehome-scrolltv/delete-series-function-arn";
+  static readonly CHANGE_SERIES_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-series-status-function-arn";
+  static readonly UPDATE_SERIES_FUNCTION_ARN = "/moviehome-scrolltv/update-series-function-arn";
+
+  // Seasons Functions ARNs
+  static readonly CREATE_SEASON_FUNCTION_ARN = "/moviehome-scrolltv/create-season-function-arn";
+  static readonly GET_SEASON_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-season-by-id-function-arn";
+  static readonly LIST_SEASONS_FUNCTION_ARN = "/moviehome-scrolltv/list-seasons-function-arn";
+  static readonly DELETE_SEASON_FUNCTION_ARN = "/moviehome-scrolltv/delete-season-function-arn";
+  static readonly UPDATE_SEASON_FUNCTION_ARN = "/moviehome-scrolltv/update-season-function-arn";
+
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.
    * @param scope - El constructo desde el cual se realiza la llamada.

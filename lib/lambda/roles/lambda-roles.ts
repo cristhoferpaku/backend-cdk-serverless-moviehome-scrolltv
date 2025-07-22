@@ -514,5 +514,86 @@ export const LambdaRoleConfig: RoleConfig[] = [
               policyStatements: [CloudWatchLogPermissions],
               additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
             },
+            
+            // Series Lambda Roles
+            {
+              id: "CreateSeriesLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "GetSeriesByIdLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "ListSeriesLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "DeleteSeriesLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "ChangeSeriesStatusLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "UpdateSeriesLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            
+            // Seasons Lambda Roles
+            {
+              id: "CreateSeasonLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "GetSeasonByIdLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "ListSeasonsLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "DeleteSeasonLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "UpdateSeasonLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
     
 ];

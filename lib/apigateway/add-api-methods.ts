@@ -1522,4 +1522,242 @@ addApiMethodsWithLambda({
       },
     ],
   });
+
+  // Series Routes
+
+  // List Series routes
+  const listSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_SERIES_FUNCTION_ARN,
+    "ImportedListSeriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listSeriesFunction,
+    authorizer,
+    resourcePath: 'admin/series',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'status', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Create Series routes
+  const createSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_SERIES_FUNCTION_ARN,
+    "ImportedCreateSeriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createSeriesFunction,
+    authorizer,
+    resourcePath: 'admin/series',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Series By ID routes
+  const getSeriesByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_SERIES_BY_ID_FUNCTION_ARN,
+    "ImportedGetSeriesByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getSeriesByIdFunction,
+    authorizer,
+    resourcePath: 'admin/series/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Series routes
+  const deleteSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_SERIES_FUNCTION_ARN,
+    "ImportedDeleteSeriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteSeriesFunction,
+    authorizer,
+    resourcePath: 'admin/series/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Change Series Status routes
+  const changeSeriesStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CHANGE_SERIES_STATUS_FUNCTION_ARN,
+    "ImportedChangeSeriesStatusFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: changeSeriesStatusFunction,
+    authorizer,
+    resourcePath: 'admin/series/{id}/status',
+    methods: [
+      {
+        method: 'PATCH',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Series routes
+  const updateSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_SERIES_FUNCTION_ARN,
+    "ImportedUpdateSeriesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateSeriesFunction,
+    authorizer,
+    resourcePath: 'admin/series/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Seasons Routes
+
+  // List Seasons routes
+  const listSeasonsFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_SEASONS_FUNCTION_ARN,
+    "ImportedListSeasonsFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listSeasonsFunction,
+    authorizer,
+    resourcePath: 'admin/seasons',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['serie_id'],
+      },
+    ],
+  });
+
+  // Create Season routes
+  const createSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_SEASON_FUNCTION_ARN,
+    "ImportedCreateSeasonFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createSeasonFunction,
+    authorizer,
+    resourcePath: 'admin/seasons',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Season By ID routes
+  const getSeasonByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_SEASON_BY_ID_FUNCTION_ARN,
+    "ImportedGetSeasonByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getSeasonByIdFunction,
+    authorizer,
+    resourcePath: 'admin/seasons/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Season routes
+  const deleteSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_SEASON_FUNCTION_ARN,
+    "ImportedDeleteSeasonFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteSeasonFunction,
+    authorizer,
+    resourcePath: 'admin/seasons/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+
+  // Update Season routes
+  const updateSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_SEASON_FUNCTION_ARN,
+    "ImportedUpdateSeasonFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateSeasonFunction,
+    authorizer,
+    resourcePath: 'admin/seasons/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
 }

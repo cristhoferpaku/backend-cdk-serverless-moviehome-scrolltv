@@ -1606,6 +1606,249 @@ export const updateMovieTemplateLambda = (props: LambdaProps): NodejsFunction =>
   return updateMovieFunction;
 };
 
+/**
+ * 📺 Plantilla para Lambda createSeries
+ */
+export const createSeriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createSeriesFunction = new NodejsFunction(props.scope, 'CreateSeriesFunction', {
+    functionName: 'CreateSeriesFunction',
+    entry: 'lib/lambda/src/functions/createSeries/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateSeriesFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_SERIES_FUNCTION_ARN,
+    stringValue: createSeriesFunction.functionArn,
+  });
+
+  return createSeriesFunction;
+};
+
+/**
+ * 📺 Plantilla para Lambda getSeriesById
+ */
+export const getSeriesByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getSeriesByIdFunction = new NodejsFunction(props.scope, 'GetSeriesByIdFunction', {
+    functionName: 'GetSeriesByIdFunction',
+    entry: 'lib/lambda/src/functions/getSeriesById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetSeriesByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_SERIES_BY_ID_FUNCTION_ARN,
+    stringValue: getSeriesByIdFunction.functionArn,
+  });
+
+  return getSeriesByIdFunction;
+};
+
+/**
+ * 📺 Plantilla para Lambda listSeries
+ */
+export const listSeriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listSeriesFunction = new NodejsFunction(props.scope, 'ListSeriesFunction', {
+    functionName: 'ListSeriesFunction',
+    entry: 'lib/lambda/src/functions/listSeries/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListSeriesFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_SERIES_FUNCTION_ARN,
+    stringValue: listSeriesFunction.functionArn,
+  });
+
+  return listSeriesFunction;
+};
+
+/**
+ * 📺 Plantilla para Lambda deleteSeries
+ */
+export const deleteSeriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteSeriesFunction = new NodejsFunction(props.scope, 'DeleteSeriesFunction', {
+    functionName: 'DeleteSeriesFunction',
+    entry: 'lib/lambda/src/functions/deleteSeries/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteSeriesFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_SERIES_FUNCTION_ARN,
+    stringValue: deleteSeriesFunction.functionArn,
+  });
+
+  return deleteSeriesFunction;
+};
+
+/**
+ * 📺 Plantilla para Lambda changeSeriesStatus
+ */
+export const changeSeriesStatusTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeSeriesStatusFunction = new NodejsFunction(props.scope, 'ChangeSeriesStatusFunction', {
+    functionName: 'ChangeSeriesStatusFunction',
+    entry: 'lib/lambda/src/functions/changeSeriesStatus/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeSeriesStatusFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_SERIES_STATUS_FUNCTION_ARN,
+    stringValue: changeSeriesStatusFunction.functionArn,
+  });
+
+  return changeSeriesStatusFunction;
+};
+
+/**
+ * 📺 Plantilla para Lambda updateSeries
+ */
+export const updateSeriesTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateSeriesFunction = new NodejsFunction(props.scope, 'UpdateSeriesFunction', {
+    functionName: 'UpdateSeriesFunction',
+    entry: 'lib/lambda/src/functions/updateSeries/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateSeriesFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_SERIES_FUNCTION_ARN,
+    stringValue: updateSeriesFunction.functionArn,
+  });
+
+  return updateSeriesFunction;
+};
+
+/**
+ * 🗓️ Plantilla para Lambda createSeason
+ */
+export const createSeasonTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createSeasonFunction = new NodejsFunction(props.scope, 'CreateSeasonFunction', {
+    functionName: 'CreateSeasonFunction',
+    entry: 'lib/lambda/src/functions/createSeason/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateSeasonFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_SEASON_FUNCTION_ARN,
+    stringValue: createSeasonFunction.functionArn,
+  });
+
+  return createSeasonFunction;
+};
+
+/**
+ * 🗓️ Plantilla para Lambda getSeasonById
+ */
+export const getSeasonByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getSeasonByIdFunction = new NodejsFunction(props.scope, 'GetSeasonByIdFunction', {
+    functionName: 'GetSeasonByIdFunction',
+    entry: 'lib/lambda/src/functions/getSeasonById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetSeasonByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_SEASON_BY_ID_FUNCTION_ARN,
+    stringValue: getSeasonByIdFunction.functionArn,
+  });
+
+  return getSeasonByIdFunction;
+};
+
+/**
+ * 🗓️ Plantilla para Lambda listSeasons
+ */
+export const listSeasonsTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listSeasonsFunction = new NodejsFunction(props.scope, 'ListSeasonsFunction', {
+    functionName: 'ListSeasonsFunction',
+    entry: 'lib/lambda/src/functions/listSeasons/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListSeasonsFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_SEASONS_FUNCTION_ARN,
+    stringValue: listSeasonsFunction.functionArn,
+  });
+
+  return listSeasonsFunction;
+};
+
+/**
+ * 🗓️ Plantilla para Lambda deleteSeason
+ */
+export const deleteSeasonTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteSeasonFunction = new NodejsFunction(props.scope, 'DeleteSeasonFunction', {
+    functionName: 'DeleteSeasonFunction',
+    entry: 'lib/lambda/src/functions/deleteSeason/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteSeasonFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_SEASON_FUNCTION_ARN,
+    stringValue: deleteSeasonFunction.functionArn,
+  });
+
+  return deleteSeasonFunction;
+};
+
+
+/**
+ * 🗓️ Plantilla para Lambda updateSeason
+ */
+export const updateSeasonTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateSeasonFunction = new NodejsFunction(props.scope, 'UpdateSeasonFunction', {
+    functionName: 'UpdateSeasonFunction',
+    entry: 'lib/lambda/src/functions/updateSeason/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateSeasonFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_SEASON_FUNCTION_ARN,
+    stringValue: updateSeasonFunction.functionArn,
+  });
+
+  return updateSeasonFunction;
+};
+
 
 
 

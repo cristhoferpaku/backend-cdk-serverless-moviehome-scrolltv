@@ -77,6 +77,19 @@ import {
   deleteMovieTemplateLambda,
   changeMovieStatusTemplateLambda,
   updateMovieTemplateLambda,
+  // Series Templates
+  createSeriesTemplateLambda,
+  getSeriesByIdTemplateLambda,
+  listSeriesTemplateLambda,
+  deleteSeriesTemplateLambda,
+  changeSeriesStatusTemplateLambda,
+  updateSeriesTemplateLambda,
+  // Seasons Templates
+  createSeasonTemplateLambda,
+  getSeasonByIdTemplateLambda,
+  listSeasonsTemplateLambda,
+  deleteSeasonTemplateLambda,
+  updateSeasonTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -164,6 +177,21 @@ export class LambdaFunctionStack extends Stack {
   public readonly deleteMovieFunction: NodejsFunction;
   public readonly changeMovieStatusFunction: NodejsFunction;
   public readonly updateMovieFunction: NodejsFunction;
+  
+  // Series Functions
+  public readonly createSeriesFunction: NodejsFunction;
+  public readonly getSeriesByIdFunction: NodejsFunction;
+  public readonly listSeriesFunction: NodejsFunction;
+  public readonly deleteSeriesFunction: NodejsFunction;
+  public readonly changeSeriesStatusFunction: NodejsFunction;
+  public readonly updateSeriesFunction: NodejsFunction;
+  
+  // Seasons Functions
+  public readonly createSeasonFunction: NodejsFunction;
+  public readonly getSeasonByIdFunction: NodejsFunction;
+  public readonly listSeasonsFunction: NodejsFunction;
+  public readonly deleteSeasonFunction: NodejsFunction;
+  public readonly updateSeasonFunction: NodejsFunction;
 
 
   constructor(scope: Construct, id: string, props: LambdaFunctionStackProps) {
@@ -667,6 +695,87 @@ export class LambdaFunctionStack extends Stack {
     // Función updateMovie
     this.updateMovieFunction = updateMovieTemplateLambda({
       lambdaRole: props.lambdaRoles['UpdateMovieLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Series Functions
+    
+    // Función createSeries
+    this.createSeriesFunction = createSeriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateSeriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getSeriesById
+    this.getSeriesByIdFunction = getSeriesByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetSeriesByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listSeries
+    this.listSeriesFunction = listSeriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListSeriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteSeries
+    this.deleteSeriesFunction = deleteSeriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteSeriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función changeSeriesStatus
+    this.changeSeriesStatusFunction = changeSeriesStatusTemplateLambda({
+      lambdaRole: props.lambdaRoles['ChangeSeriesStatusLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateSeries
+    this.updateSeriesFunction = updateSeriesTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateSeriesLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Seasons Functions
+    
+    // Función createSeason
+    this.createSeasonFunction = createSeasonTemplateLambda({
+      lambdaRole: props.lambdaRoles['CreateSeasonLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getSeasonById
+    this.getSeasonByIdFunction = getSeasonByIdTemplateLambda({
+      lambdaRole: props.lambdaRoles['GetSeasonByIdLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listSeasons
+    this.listSeasonsFunction = listSeasonsTemplateLambda({
+      lambdaRole: props.lambdaRoles['ListSeasonsLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteSeason
+    this.deleteSeasonFunction = deleteSeasonTemplateLambda({
+      lambdaRole: props.lambdaRoles['DeleteSeasonLambdaRole'],
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateSeason
+    this.updateSeasonFunction = updateSeasonTemplateLambda({
+      lambdaRole: props.lambdaRoles['UpdateSeasonLambdaRole'],
       layerStack: props.layerStack,
       scope: this,
     });

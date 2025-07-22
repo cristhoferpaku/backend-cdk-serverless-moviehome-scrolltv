@@ -17,7 +17,7 @@
     ]
   },
   "context": {
-    "env": "dev",
+    "env": "prod",
     "dev": {
       "dbName": "moviehomedbdev",
       "cognitoId": "us-east-1_YUZFIapuX",
