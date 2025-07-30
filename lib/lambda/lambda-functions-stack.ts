@@ -2,6 +2,7 @@ import { CfnOutput, Stack, StackProps, Tags } from "aws-cdk-lib";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from 'constructs';
+import { getSharedRole } from './lambda-role-mapper';
 import {
   adminLoginTemplateLambda,
   refreshTokenTemplateLambda,  
@@ -73,23 +74,31 @@ import {
   // Movies Templates
   createMovieTemplateLambda,
   getMovieByIdTemplateLambda,
-  listMoviesTemplateLambda,
   deleteMovieTemplateLambda,
   changeMovieStatusTemplateLambda,
   updateMovieTemplateLambda,
   // Series Templates
   createSeriesTemplateLambda,
   getSeriesByIdTemplateLambda,
-  listSeriesTemplateLambda,
   deleteSeriesTemplateLambda,
   changeSeriesStatusTemplateLambda,
   updateSeriesTemplateLambda,
+  // Multimedia Templates (unified)
+  listMultimediaTemplateLambda,
   // Seasons Templates
   createSeasonTemplateLambda,
   getSeasonByIdTemplateLambda,
   listSeasonsTemplateLambda,
   deleteSeasonTemplateLambda,
   updateSeasonTemplateLambda,
+  // Episodes Templates
+  createEpisodeTemplateLambda,
+  getEpisodeByIdTemplateLambda,
+  listEpisodesTemplateLambda,
+  deleteEpisodeTemplateLambda,
+  updateEpisodeTemplateLambda,
+  // Video Signature Template
+  getVideoSignatureTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -173,7 +182,6 @@ export class LambdaFunctionStack extends Stack {
   // Movies Functions
   public readonly createMovieFunction: NodejsFunction;
   public readonly getMovieByIdFunction: NodejsFunction;
-  public readonly listMoviesFunction: NodejsFunction;
   public readonly deleteMovieFunction: NodejsFunction;
   public readonly changeMovieStatusFunction: NodejsFunction;
   public readonly updateMovieFunction: NodejsFunction;
@@ -181,10 +189,12 @@ export class LambdaFunctionStack extends Stack {
   // Series Functions
   public readonly createSeriesFunction: NodejsFunction;
   public readonly getSeriesByIdFunction: NodejsFunction;
-  public readonly listSeriesFunction: NodejsFunction;
   public readonly deleteSeriesFunction: NodejsFunction;
   public readonly changeSeriesStatusFunction: NodejsFunction;
   public readonly updateSeriesFunction: NodejsFunction;
+  
+  // Multimedia Functions (unified)
+  public readonly listMultimediaFunction: NodejsFunction;
   
   // Seasons Functions
   public readonly createSeasonFunction: NodejsFunction;
@@ -192,593 +202,644 @@ export class LambdaFunctionStack extends Stack {
   public readonly listSeasonsFunction: NodejsFunction;
   public readonly deleteSeasonFunction: NodejsFunction;
   public readonly updateSeasonFunction: NodejsFunction;
+  
+  // Episodes Functions
+  public readonly createEpisodeFunction: NodejsFunction;
+  public readonly getEpisodeByIdFunction: NodejsFunction;
+  public readonly listEpisodesFunction: NodejsFunction;
+  public readonly deleteEpisodeFunction: NodejsFunction;
+  public readonly updateEpisodeFunction: NodejsFunction;
+
+  // Video Signature Function
+  public readonly getVideoSignatureFunction: NodejsFunction;
 
 
   constructor(scope: Construct, id: string, props: LambdaFunctionStackProps) {
     super(scope, id, props);
 
-    // Función adminLogin
+    // Función adminLogin - Usando rol compartido AuthLambdaRole
     this.adminLoginFunction = adminLoginTemplateLambda({
-      lambdaRole: props.lambdaRoles['AdminLoginLambdaRole'],
+      lambdaRole: getSharedRole('AdminLoginLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función refreshToken
+    // Función refreshToken - Usando rol compartido AuthLambdaRole
     this.refreshTokenFunction = refreshTokenTemplateLambda({
-      lambdaRole: props.lambdaRoles['RefreshTokenLambdaRole'],
+      lambdaRole: getSharedRole('RefreshTokenLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
-          // Función listUserAdmins
+          // Función listUserAdmins - Usando rol compartido AdminLambdaRole
     this.listUserAdminsFunction = listUserAdminsTemplateLambda({
-          lambdaRole: props.lambdaRoles['ListUserAdminsLambdaRole'],
+          lambdaRole: getSharedRole('ListUserAdminsLambdaRole', props.lambdaRoles),
           layerStack: props.layerStack,
           scope: this,
     });
 
-    // Función createUserAdmin
+    // Función createUserAdmin - Usando rol compartido AdminLambdaRole
     this.createUserAdminFunction = createUserAdminTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateUserAdminLambdaRole'],
+      lambdaRole: getSharedRole('CreateUserAdminLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getUserAdminById
+    // Función getUserAdminById - Usando rol compartido AdminLambdaRole
     this.getUserAdminByIdFunction = getUserAdminByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetUserAdminByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetUserAdminByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateUserAdmin
+    // Función updateUserAdmin - Usando rol compartido AdminLambdaRole
     this.updateUserAdminFunction = updateUserAdminTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateUserAdminLambdaRole'],
+      lambdaRole: getSharedRole('UpdateUserAdminLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteUserAdmin
+    // Función deleteUserAdmin - Usando rol compartido AdminLambdaRole
     this.deleteUserAdminFunction = deleteUserAdminTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteUserAdminLambdaRole'],
+      lambdaRole: getSharedRole('DeleteUserAdminLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeUserAdminStatus
+    // Función changeUserAdminStatus - Usando rol compartido AdminLambdaRole
     this.changeUserAdminStatusFunction = changeUserAdminStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeUserAdminStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeUserAdminStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-      // Función getPlatforms
+      // Función getPlatforms - Usando rol compartido AdminLambdaRole
     this.getPlatformsFunction = getPlatformsTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetPlatformsLambdaRole'],
+      lambdaRole: getSharedRole('GetPlatformsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getRoles
+    // Función getRoles - Usando rol compartido AdminLambdaRole
     this.getRolesFunction = getRolesTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetRolesLambdaRole'],
+      lambdaRole: getSharedRole('GetRolesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createPackageSeller
+    // Función createPackageSeller - Usando rol compartido AdminLambdaRole
     this.createPackageSellerFunction = createPackageSellerTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreatePackageSellerLambdaRole'],
+      lambdaRole: getSharedRole('CreatePackageSellerLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createPackageType
+    // Función createPackageType - Usando rol compartido AdminLambdaRole
     this.createPackageTypeFunction = createPackageTypeTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreatePackageTypeLambdaRole'],
+      lambdaRole: getSharedRole('CreatePackageTypeLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listPackageTypes
+    // Función listPackageTypes - Usando rol compartido AdminLambdaRole
     this.listPackageTypesFunction = listPackageTypesTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListPackageTypesLambdaRole'],
+      lambdaRole: getSharedRole('ListPackageTypesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getPackageTypeById
+    // Función getPackageTypeById - Usando rol compartido AdminLambdaRole
     this.getPackageTypeByIdFunction = getPackageTypeByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetPackageTypeByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetPackageTypeByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deletePackageType
+    // Función deletePackageType - Usando rol compartido AdminLambdaRole
     this.deletePackageTypeFunction = deletePackageTypeTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeletePackageTypeLambdaRole'],
+      lambdaRole: getSharedRole('DeletePackageTypeLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updatePackageType
+    // Función updatePackageType - Usando rol compartido AdminLambdaRole
     this.updatePackageTypeFunction = updatePackageTypeTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdatePackageTypeLambdaRole'],
+      lambdaRole: getSharedRole('UpdatePackageTypeLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changePackageTypeStatus
+    // Función changePackageTypeStatus - Usando rol compartido AdminLambdaRole
     this.changePackageTypeStatusFunction = changePackageTypeStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangePackageTypeStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangePackageTypeStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listPackageSeller
+    // Función listPackageSeller - Usando rol compartido AdminLambdaRole
     this.listPackageSellerFunction = listPackageSellerTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListPackageSellerLambdaRole'],
+      lambdaRole: getSharedRole('ListPackageSellerLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getPackageSellerById
+    // Función getPackageSellerById - Usando rol compartido AdminLambdaRole
     this.getPackageSellerByIdFunction = getPackageSellerByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetPackageSellerByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetPackageSellerByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updatePackageSeller
+    // Función updatePackageSeller - Usando rol compartido AdminLambdaRole
     this.updatePackageSellerFunction = updatePackageSellerTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdatePackageSellerLambdaRole'],
+      lambdaRole: getSharedRole('UpdatePackageSellerLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deletePackageSeller
+    // Función deletePackageSeller - Usando rol compartido AdminLambdaRole
     this.deletePackageSellerFunction = deletePackageSellerTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeletePackageSellerLambdaRole'],
+      lambdaRole: getSharedRole('DeletePackageSellerLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changePackageSellerStatus
+    // Función changePackageSellerStatus - Usando rol compartido AdminLambdaRole
     this.changePackageSellerStatusFunction = changePackageSellerStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangePackageSellerStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangePackageSellerStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createPackageUser
+    // Función createPackageUser - Usando rol compartido AdminLambdaRole
     this.createPackageUserFunction = createPackageUserTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreatePackageUserLambdaRole'],
+      lambdaRole: getSharedRole('CreatePackageUserLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getPackageUserById
+    // Función getPackageUserById - Usando rol compartido AdminLambdaRole
     this.getPackageUserByIdFunction = getPackageUserByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetPackageUserByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetPackageUserByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listPackageUsers
+    // Función listPackageUsers - Usando rol compartido AdminLambdaRole
     this.listPackageUsersFunction = listPackageUsersTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListPackageUsersLambdaRole'],
+      lambdaRole: getSharedRole('ListPackageUsersLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updatePackageUser
+    // Función updatePackageUser - Usando rol compartido AdminLambdaRole
     this.updatePackageUserFunction = updatePackageUserTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdatePackageUserLambdaRole'],
+      lambdaRole: getSharedRole('UpdatePackageUserLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deletePackageUser
+    // Función deletePackageUser - Usando rol compartido AdminLambdaRole
     this.deletePackageUserFunction = deletePackageUserTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeletePackageUserLambdaRole'],
+      lambdaRole: getSharedRole('DeletePackageUserLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changePackageUserStatus
+    // Función changePackageUserStatus - Usando rol compartido AdminLambdaRole
     this.changePackageUserStatusFunction = changePackageUserStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangePackageUserStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangePackageUserStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listPackageTypesActive
+    // Función listPackageTypesActive - Usando rol compartido AdminLambdaRole
     this.listPackageTypesActiveFunction = listPackageTypesActiveTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListPackageTypesActiveLambdaRole'],
+      lambdaRole: getSharedRole('ListPackageTypesActiveLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createUserAccount
-
-    // Función createUserAccount
+    // Función createUserAccount - Usando rol compartido AdminLambdaRole
     this.createUserAccountFunction = createUserAccountTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateUserAccountLambdaRole'],
+      lambdaRole: getSharedRole('CreateUserAccountLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getUserAccountById
+    // Función getUserAccountById - Usando rol compartido AdminLambdaRole
     this.getUserAccountByIdFunction = getUserAccountByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetUserAccountByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetUserAccountByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
     
-    // Función listUserAccounts
+    // Función listUserAccounts - Usando rol compartido AdminLambdaRole
     this.listUserAccountsFunction = listUserAccountsTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListUserAccountsLambdaRole'],
+      lambdaRole: getSharedRole('ListUserAccountsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
     
-    // Función updateUserAccount
+    // Función updateUserAccount - Usando rol compartido AdminLambdaRole
    this.updateUserAccountFunction = updateUserAccountTemplateLambda({
-     lambdaRole: props.lambdaRoles['UpdateUserAccountLambdaRole'],
+     lambdaRole: getSharedRole('UpdateUserAccountLambdaRole', props.lambdaRoles),
      layerStack: props.layerStack,
      scope: this,
    });
     
-    // Función deleteUserAccount
+    // Función deleteUserAccount - Usando rol compartido AdminLambdaRole
     this.deleteUserAccountFunction = deleteUserAccountTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteUserAccountLambdaRole'],
+      lambdaRole: getSharedRole('DeleteUserAccountLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
     
-    // Función changeUserAccountStatus
+    // Función changeUserAccountStatus - Usando rol compartido AdminLambdaRole
     this.changeUserAccountStatusFunction = changeUserAccountStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeUserAccountStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeUserAccountStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listUserAccountByAdmin
+    // Función listUserAccountByAdmin - Usando rol compartido AdminLambdaRole
     this.listUserAccountByAdminFunction = listUserAccountByAdminTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListUserAccountByAdminLambdaRole'],
+      lambdaRole: getSharedRole('ListUserAccountByAdminLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función assignSellerCredit
+    // Función assignSellerCredit - Usando rol compartido AdminLambdaRole
     this.assignSellerCreditFunction = assignSellerCreditTemplateLambda({
-      lambdaRole: props.lambdaRoles['AssignSellerCreditLambdaRole'],
+      lambdaRole: getSharedRole('AssignSellerCreditLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createResource
+    // Función createResource - Usando rol compartido AdminLambdaRole
     this.createResourceFunction = createResourceTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateResourceLambdaRole'],
+      lambdaRole: getSharedRole('CreateResourceLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listResource
+    // Función listResource - Usando rol compartido AdminLambdaRole
     this.listResourceFunction = listResourceTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListResourceLambdaRole'],
+      lambdaRole: getSharedRole('ListResourceLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getResourceById
+    // Función getResourceById - Usando rol compartido AdminLambdaRole
     this.getResourceByIdFunction = getResourceByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetResourceByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetResourceByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeResourceState
+    // Función changeResourceState - Usando rol compartido AdminLambdaRole
     this.changeResourceStateFunction = changeResourceStateTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeResourceStateLambdaRole'],
+      lambdaRole: getSharedRole('ChangeResourceStateLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteResource
+    // Función deleteResource - Usando rol compartido AdminLambdaRole
     this.deleteResourceFunction = deleteResourceTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteResourceLambdaRole'],
+      lambdaRole: getSharedRole('DeleteResourceLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateResource
+    // Función updateResource - Usando rol compartido AdminLambdaRole
     this.updateResourceFunction = updateResourceTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateResourceLambdaRole'],
+      lambdaRole: getSharedRole('UpdateResourceLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getSellerCreditById
+    // Función getSellerCreditById - Usando rol compartido AdminLambdaRole
     this.getSellerCreditByIdFunction = getSellerCreditByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetSellerCreditByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetSellerCreditByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listCastMembers
+    // Función listCastMembers - Usando rol compartido ManagementLambdaRole
     this.listCastMembersFunction = listCastMembersTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListCastMembersLambdaRole'],
+      lambdaRole: getSharedRole('ListCastMembersLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getCastMemberById
+    // Función getCastMemberById - Usando rol compartido ManagementLambdaRole
     this.getCastMemberByIdFunction = getCastMemberByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetCastMemberByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetCastMemberByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createCastMember
+    // Función createCastMember - Usando rol compartido ManagementLambdaRole
     this.createCastMemberFunction = createCastMemberTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateCastMemberLambdaRole'],
+      lambdaRole: getSharedRole('CreateCastMemberLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateCastMember
+    // Función updateCastMember - Usando rol compartido ManagementLambdaRole
     this.updateCastMemberFunction = updateCastMemberTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateCastMemberLambdaRole'],
+      lambdaRole: getSharedRole('UpdateCastMemberLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteCastMember
+    // Función deleteCastMember - Usando rol compartido ManagementLambdaRole
     this.deleteCastMemberFunction = deleteCastMemberTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteCastMemberLambdaRole'],
+      lambdaRole: getSharedRole('DeleteCastMemberLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listAllCountries
+    // Función listAllCountries - Usando rol compartido ManagementLambdaRole
     this.listAllCountriesFunction = listAllCountriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListAllCountriesLambdaRole'],
+      lambdaRole: getSharedRole('ListAllCountriesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getAllSections
+    // Función getAllSections - Usando rol compartido ManagementLambdaRole
     this.getAllSectionsFunction = getAllSectionsTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetAllSectionsLambdaRole'],
+      lambdaRole: getSharedRole('GetAllSectionsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
     // Collections Functions
     
-    // Función listCollections
+    // Función listCollections - Usando rol compartido ContentLambdaRole
     this.listCollectionsFunction = listCollectionsTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListCollectionsLambdaRole'],
+      lambdaRole: getSharedRole('ListCollectionsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getCollectionById
+    // Función getCollectionById - Usando rol compartido ContentLambdaRole
     this.getCollectionByIdFunction = getCollectionByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetCollectionByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetCollectionByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createCollection
+    // Función createCollection - Usando rol compartido ContentLambdaRole
     this.createCollectionFunction = createCollectionTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateCollectionLambdaRole'],
+      lambdaRole: getSharedRole('CreateCollectionLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateCollection
+    // Función updateCollection - Usando rol compartido ContentLambdaRole
     this.updateCollectionFunction = updateCollectionTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateCollectionLambdaRole'],
+      lambdaRole: getSharedRole('UpdateCollectionLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteCollection
+    // Función deleteCollection - Usando rol compartido ContentLambdaRole
     this.deleteCollectionFunction = deleteCollectionTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteCollectionLambdaRole'],
+      lambdaRole: getSharedRole('DeleteCollectionLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeCollectionStatus
+    // Función changeCollectionStatus - Usando rol compartido ContentLambdaRole
     this.changeCollectionStatusFunction = changeCollectionStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeCollectionStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeCollectionStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getAllCollections
+    // Función getAllCollections - Usando rol compartido ContentLambdaRole
     this.getAllCollectionsFunction = getAllCollectionsTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetAllCollectionsLambdaRole'],
+      lambdaRole: getSharedRole('GetAllCollectionsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listMultimediaCategories
+    // Función listMultimediaCategories - Usando rol compartido ContentLambdaRole
     this.listMultimediaCategoriesFunction = listMultimediaCategoriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListMultimediaCategoriesLambdaRole'],
+      lambdaRole: getSharedRole('ListMultimediaCategoriesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getMultimediaCategoryById
+    // Función getMultimediaCategoryById - Usando rol compartido ContentLambdaRole
     this.getMultimediaCategoryByIdFunction = getMultimediaCategoryByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetMultimediaCategoryByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetMultimediaCategoryByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función createMultimediaCategory
+    // Función createMultimediaCategory - Usando rol compartido ContentLambdaRole
     this.createMultimediaCategoryFunction = createMultimediaCategoryTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateMultimediaCategoryLambdaRole'],
+      lambdaRole: getSharedRole('CreateMultimediaCategoryLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateMultimediaCategory
+    // Función updateMultimediaCategory - Usando rol compartido ContentLambdaRole
     this.updateMultimediaCategoryFunction = updateMultimediaCategoryTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateMultimediaCategoryLambdaRole'],
+      lambdaRole: getSharedRole('UpdateMultimediaCategoryLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteMultimediaCategory
+    // Función deleteMultimediaCategory - Usando rol compartido ContentLambdaRole
     this.deleteMultimediaCategoryFunction = deleteMultimediaCategoryTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteMultimediaCategoryLambdaRole'],
+      lambdaRole: getSharedRole('DeleteMultimediaCategoryLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeMultimediaCategoryStatus
+    // Función changeMultimediaCategoryStatus - Usando rol compartido ContentLambdaRole
     this.changeMultimediaCategoryStatusFunction = changeMultimediaCategoryStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeMultimediaCategoryStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeMultimediaCategoryStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getAllMultimediaCategories
+    // Función getAllMultimediaCategories - Usando rol compartido ContentLambdaRole
     this.getAllMultimediaCategoriesFunction = getAllMultimediaCategoriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetAllMultimediaCategoriesLambdaRole'],
+      lambdaRole: getSharedRole('GetAllMultimediaCategoriesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
     // Movies Functions
     
-    // Función createMovie
+    // Función createMovie - Usando rol compartido ContentLambdaRole
     this.createMovieFunction = createMovieTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateMovieLambdaRole'],
+      lambdaRole: getSharedRole('CreateMovieLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getMovieById
+    // Función getMovieById - Usando rol compartido ContentLambdaRole
     this.getMovieByIdFunction = getMovieByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetMovieByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetMovieByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listMovies
-    this.listMoviesFunction = listMoviesTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListMoviesLambdaRole'],
-      layerStack: props.layerStack,
-      scope: this,
-    });
-
-    // Función deleteMovie
+    // Función deleteMovie - Usando rol compartido ContentLambdaRole
     this.deleteMovieFunction = deleteMovieTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteMovieLambdaRole'],
+      lambdaRole: getSharedRole('DeleteMovieLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeMovieStatus
+    // Función changeMovieStatus - Usando rol compartido ContentLambdaRole
     this.changeMovieStatusFunction = changeMovieStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeMovieStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeMovieStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateMovie
+    // Función updateMovie - Usando rol compartido ContentLambdaRole
     this.updateMovieFunction = updateMovieTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateMovieLambdaRole'],
+      lambdaRole: getSharedRole('UpdateMovieLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
     // Series Functions
     
-    // Función createSeries
+    // Función createSeries - Usando rol compartido ContentLambdaRole
     this.createSeriesFunction = createSeriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateSeriesLambdaRole'],
+      lambdaRole: getSharedRole('CreateSeriesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getSeriesById
+    // Función getSeriesById - Usando rol compartido ContentLambdaRole
     this.getSeriesByIdFunction = getSeriesByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetSeriesByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetSeriesByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listSeries
-    this.listSeriesFunction = listSeriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListSeriesLambdaRole'],
-      layerStack: props.layerStack,
-      scope: this,
-    });
-
-    // Función deleteSeries
+    // Función deleteSeries - Usando rol compartido ContentLambdaRole
     this.deleteSeriesFunction = deleteSeriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteSeriesLambdaRole'],
+      lambdaRole: getSharedRole('DeleteSeriesLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función changeSeriesStatus
+    // Función changeSeriesStatus - Usando rol compartido ContentLambdaRole
     this.changeSeriesStatusFunction = changeSeriesStatusTemplateLambda({
-      lambdaRole: props.lambdaRoles['ChangeSeriesStatusLambdaRole'],
+      lambdaRole: getSharedRole('ChangeSeriesStatusLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateSeries
+    // Función updateSeries - Usando rol compartido ContentLambdaRole
     this.updateSeriesFunction = updateSeriesTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateSeriesLambdaRole'],
+      lambdaRole: getSharedRole('UpdateSeriesLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Multimedia Functions (unified)
+    
+    // Función listMultimedia - Usando rol compartido ContentLambdaRole
+    this.listMultimediaFunction = listMultimediaTemplateLambda({
+      lambdaRole: getSharedRole('ListMultimediaLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
     // Seasons Functions
     
-    // Función createSeason
+    // Función createSeason - Usando rol compartido ContentLambdaRole
     this.createSeasonFunction = createSeasonTemplateLambda({
-      lambdaRole: props.lambdaRoles['CreateSeasonLambdaRole'],
+      lambdaRole: getSharedRole('CreateSeasonLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función getSeasonById
+    // Función getSeasonById - Usando rol compartido ContentLambdaRole
     this.getSeasonByIdFunction = getSeasonByIdTemplateLambda({
-      lambdaRole: props.lambdaRoles['GetSeasonByIdLambdaRole'],
+      lambdaRole: getSharedRole('GetSeasonByIdLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función listSeasons
+    // Función listSeasons - Usando rol compartido ContentLambdaRole
     this.listSeasonsFunction = listSeasonsTemplateLambda({
-      lambdaRole: props.lambdaRoles['ListSeasonsLambdaRole'],
+      lambdaRole: getSharedRole('ListSeasonsLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función deleteSeason
+    // Función deleteSeason - Usando rol compartido ContentLambdaRole
     this.deleteSeasonFunction = deleteSeasonTemplateLambda({
-      lambdaRole: props.lambdaRoles['DeleteSeasonLambdaRole'],
+      lambdaRole: getSharedRole('DeleteSeasonLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
 
-    // Función updateSeason
+    // Función updateSeason - Usando rol compartido ContentLambdaRole
     this.updateSeasonFunction = updateSeasonTemplateLambda({
-      lambdaRole: props.lambdaRoles['UpdateSeasonLambdaRole'],
+      lambdaRole: getSharedRole('UpdateSeasonLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });
+
+    // Episodes Functions
+    
+    // Función createEpisode - Usando rol compartido ContentLambdaRole
+    this.createEpisodeFunction = createEpisodeTemplateLambda({
+      lambdaRole: getSharedRole('CreateEpisodeLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función getEpisodeById - Usando rol compartido ContentLambdaRole
+    this.getEpisodeByIdFunction = getEpisodeByIdTemplateLambda({
+      lambdaRole: getSharedRole('GetEpisodeByIdLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listEpisodes - Usando rol compartido ContentLambdaRole
+    this.listEpisodesFunction = listEpisodesTemplateLambda({
+      lambdaRole: getSharedRole('ListEpisodesLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteEpisode - Usando rol compartido ContentLambdaRole
+    this.deleteEpisodeFunction = deleteEpisodeTemplateLambda({
+      lambdaRole: getSharedRole('DeleteEpisodeLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función updateEpisode - Usando rol compartido ContentLambdaRole
+    this.updateEpisodeFunction = updateEpisodeTemplateLambda({
+      lambdaRole: getSharedRole('UpdateEpisodeLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Video Signature Function
+    
+    // Función getVideoSignature - Usando rol compartido ContentLambdaRole
+    this.getVideoSignatureFunction = getVideoSignatureTemplateLambda({
+      lambdaRole: getSharedRole('GetVideoSignatureLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+
 
   }
 }

@@ -56,10 +56,12 @@ export function addApiMethodsWithLambda(props: AddApiMethodsProps) {
         // Agregar el método al recurso
         currentResource.addMethod(method, lambdaIntegration, methodOptions);
 
-        // Agregar permisos explícitos para el método de invocación
-        lambdaFunction.addPermission(`${resourcePath.replace(/\//g, '-')}-${method}-InvokePermission`, {
-            principal: new ServicePrincipal('apigateway.amazonaws.com'),
-            sourceArn: `${restApi.arnForExecuteApi()}/*/${method}/${resourcePath}`,
-        });
+        // COMENTADO: Permisos individuales eliminados para usar roles compartidos
+        // Los roles compartidos ya incluyen los permisos necesarios para API Gateway
+        // Esto reduce significativamente el número de recursos de CloudFormation
+        // lambdaFunction.addPermission(`${resourcePath.replace(/\//g, '-')}-${method}-InvokePermission`, {
+        //     principal: new ServicePrincipal('apigateway.amazonaws.com'),
+        //     sourceArn: `${restApi.arnForExecuteApi()}/*/${method}/${resourcePath}`,
+        // });
     });
-} 
+}

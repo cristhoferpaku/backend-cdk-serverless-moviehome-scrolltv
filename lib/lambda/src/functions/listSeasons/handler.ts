@@ -37,7 +37,7 @@ export const handler = async (
     const service = new ListSeasonService();
     const result = await service.getSeason(queryParams);
 
-    return createOkResponse(result, 'temporadas obtenidas correctamente', event);
+    return createOkResponse(result.items, 'temporadas obtenidas correctamente', event);
   } catch (error) {
 
 

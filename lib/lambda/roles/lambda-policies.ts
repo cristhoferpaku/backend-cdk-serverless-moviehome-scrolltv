@@ -21,7 +21,7 @@ export const createPolicies = (region: string, account: string): { [key: string]
         ],
         effect: Effect.ALLOW,
         resources: [
-            `arn:aws:secretsmanager:${region}:${account}:secret:/serverless-app/db/secret-*`
+            `arn:aws:secretsmanager:${region}:${account}:secret:/serverless-app/*`
         ],
     }),
 

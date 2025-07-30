@@ -8,7 +8,7 @@ export class UpdateMovieRepository {
   async updateMovie(id: number, data: UpdateMovieRequest): Promise<UpdateMovieDbResult> {
 
     const query = `
-      SELECT * FROM sp_update_movie($1, $2, $3 ,$4 $5  $6 , $7, $8, $9, $10, $11, $12, $13, $14)
+      SELECT * FROM sp_update_movie($1, $2, $3 ,$4 ,$5 , $6 , $7, $8, $9, $10, $11, $12, $13, $14)
     `;
 
     const values = [
@@ -23,9 +23,9 @@ export class UpdateMovieRepository {
       data.duration_mins || null,
       data.video_url || null,
       data.status || null,
-      data.cast_ids || null,
-      data.publish_platform_1 || null,
-      data.publish_platform_2 || null
+      data.cast_ids ?? null,
+      data.publish_platform_1 ?? null,
+      data.publish_platform_2 ?? null
     ];
 
     const result = await dbConnector.query(query, values);

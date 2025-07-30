@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { CreateMovieService } from './services/createMovie.service';
-import { CreateMovieRequest } from './dtos/createMovie.dto';
+import { CreateEpisodeService } from './services/createEpisode.service';
+import { CreateEpisodeRequest } from './dtos/createEpisode.dto';
 import {
   createBadRequestResponse,
   createCreatedResponse,
@@ -13,7 +13,7 @@ import {
 
 } from '../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'CreateMovieHandler';
+const FUNCTION_NAME = 'CreateEpisodeHandler';
 const REQUIRED_ROLES = ['administrador','gestor de contenido multimedia'];
 
 export const handler = async (
@@ -37,37 +37,14 @@ export const handler = async (
         createForbiddenResponse(authValidation.error, event);
     }
 
-    const body = parseRequestBody<CreateMovieRequest>(event.body);
+    const body = parseRequestBody<CreateEpisodeRequest>(event.body);
     if (!body) {
       return createBadRequestResponse('Cuerpo de la petición requerido', event);
     }
-/*
-
- title: string;
-    description: string;
-    category_id: number;
-    section_id: number;
-    country_id: number;
-    collection_id: number;
-    duration_secs: number;
-    cover_image: string | null;
-    video_url: string | null;
-    cast_ids: number[] | null;
-    publish_platform_1: boolean ;
-    publish_platform_2: boolean;*/
     const requiredFields = [
+      'season_id',
       'title',
-      'description',
-      'category_ids',
-      'section_id',
-      'country_id',
-      'collection_id',
-      'duration_mins',
-      'cover_image',
-      'video_url',
-      'cast_ids',
-      'publish_platform_1',
-      'publish_platform_2'
+      'duration_mins'
     ];
     const validationErrors = validateRequiredFields(body, requiredFields);
 
@@ -75,8 +52,8 @@ export const handler = async (
       return createBadRequestResponse(`Faltan campos requeridos: ${validationErrors.join(', ')}`, event);
     }
 
-    const service = new CreateMovieService();
-    const result = await service.createMovie(body);
+    const service = new CreateEpisodeService();
+    const result = await service.createEpisode(body);
 
     if (!result.success) {
       return createBadRequestResponse(result.message, event);

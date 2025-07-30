@@ -1246,6 +1246,28 @@ addApiMethodsWithLambda({
 
   // Multimedia Categories Routes
 
+  // List Multimedia (Movies and Series) routes
+  const listMultimediaFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_MULTIMEDIA_FUNCTION_ARN,
+    "ImportedListMultimediaFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listMultimediaFunction,
+    authorizer,
+    resourcePath: 'admin/multimedia',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: [ 'search', 'status', 'page', 'limit'],
+      },
+    ],
+  });
+
   // List Multimedia Categories routes
   const listMultimediaCategoriesFunction = ArnFunctions.getLambdaFunctionFromArn(
     scope,
@@ -1396,28 +1418,6 @@ addApiMethodsWithLambda({
 
   // Movies Routes
 
-  // List Movies routes
-  const listMoviesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_MOVIES_FUNCTION_ARN,
-    "ImportedListMoviesFunction"
-  );
-
-  addApiMethodsWithLambda({
-    restApi,
-    lambdaFunction: listMoviesFunction,
-    authorizer,
-    resourcePath: 'admin/movies',
-    methods: [
-      {
-        method: 'GET',
-        authorizationType: AuthorizationType.NONE, // JWT validado en handler
-        useAuthorizer: false,
-        queryParameters: ['search', 'status', 'page', 'limit'],
-      },
-    ],
-  });
-
   // Create Movie routes
   const createMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
     scope,
@@ -1524,28 +1524,6 @@ addApiMethodsWithLambda({
   });
 
   // Series Routes
-
-  // List Series routes
-  const listSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_SERIES_FUNCTION_ARN,
-    "ImportedListSeriesFunction"
-  );
-
-  addApiMethodsWithLambda({
-    restApi,
-    lambdaFunction: listSeriesFunction,
-    authorizer,
-    resourcePath: 'admin/series',
-    methods: [
-      {
-        method: 'GET',
-        authorizationType: AuthorizationType.NONE, // JWT validado en handler
-        useAuthorizer: false,
-        queryParameters: ['search', 'status', 'page', 'limit'],
-      },
-    ],
-  });
 
   // Create Series routes
   const createSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
@@ -1755,6 +1733,135 @@ addApiMethodsWithLambda({
     methods: [
       {
         method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Episodes Routes
+
+  // List Episodes routes
+  const listEpisodesFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_EPISODES_FUNCTION_ARN,
+    "ImportedListEpisodesFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listEpisodesFunction,
+    authorizer,
+    resourcePath: 'admin/episodes',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['season_id'],
+      },
+    ],
+  });
+
+  // Create Episode routes
+  const createEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_EPISODE_FUNCTION_ARN,
+    "ImportedCreateEpisodeFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createEpisodeFunction,
+    authorizer,
+    resourcePath: 'admin/episodes',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Episode By ID routes
+  const getEpisodeByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_EPISODE_BY_ID_FUNCTION_ARN,
+    "ImportedGetEpisodeByIdFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getEpisodeByIdFunction,
+    authorizer,
+    resourcePath: 'admin/episodes/{id}',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Episode routes
+  const updateEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.UPDATE_EPISODE_FUNCTION_ARN,
+    "ImportedUpdateEpisodeFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: updateEpisodeFunction,
+    authorizer,
+    resourcePath: 'admin/episodes/{id}',
+    methods: [
+      {
+        method: 'PUT',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Episode routes
+  const deleteEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_EPISODE_FUNCTION_ARN,
+    "ImportedDeleteEpisodeFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteEpisodeFunction,
+    authorizer,
+    resourcePath: 'admin/episodes/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Get Video Signature routes
+  const getVideoSignatureFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.GET_VIDEO_SIGNATURE_FUNCTION_ARN,
+    "ImportedGetVideoSignatureFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: getVideoSignatureFunction,
+    authorizer,
+    resourcePath: 'admin/get-video-signature',
+    methods: [
+      {
+        method: 'POST',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
       },

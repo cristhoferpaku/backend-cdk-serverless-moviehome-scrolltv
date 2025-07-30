@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { ListSerieService } from './services/listSeries.service';
-import { ListSerieQueryParams } from './dtos/listSeries.dto';
+import { ListSeasonService } from './services/listEpisodes.service';
+import { ListSeasonQueryParams } from './dtos/listEpisodes.dto';
 import {
   createOkResponse,
   createInternalServerErrorResponse,
@@ -8,7 +8,7 @@ import {
   validateAuthorizationHeader
 } from '../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'ListSerieHandler';
+const FUNCTION_NAME = 'ListSeasonHandler';
 const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
 
 export const handler = async (
@@ -30,17 +30,14 @@ export const handler = async (
       return createUnauthorizedResponse(auth.error || 'Token inválido', event);
     }
 
-    const queryParams: ListSerieQueryParams = {
-      search: event.queryStringParameters?.search,
-      status: event.queryStringParameters?.status,
-      page: event.queryStringParameters?.page,
-      limit: event.queryStringParameters?.limit,
+    const queryParams: ListSeasonQueryParams = {
+      season_id: event.queryStringParameters?.season_id ? Number(event.queryStringParameters.season_id) : undefined,
     };
 
-    const service = new ListSerieService();
-    const result = await service.getSerie(queryParams);
+    const service = new ListSeasonService();
+    const result = await service.getSeason(queryParams);
 
-    return createOkResponse(result, 'serie obtenidas correctamente', event);
+    return createOkResponse(result.items, 'episodios obtenidas correctamente', event);
   } catch (error) {
 
 

@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { ListMovieService } from './services/listMovies.service';
-import { ListMovieQueryParams } from './dtos/listMovies.dto';
+import { ListMultimediaService } from './services/listMultimedia.service';
+import { ListMultimediaQueryParams } from './dtos/listMultimedia.dto';
 import {
   createOkResponse,
   createInternalServerErrorResponse,
@@ -8,7 +8,7 @@ import {
   validateAuthorizationHeader
 } from '../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'ListMovieHandler';
+const FUNCTION_NAME = 'ListMultimediaHandler';
 const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
 
 export const handler = async (
@@ -30,17 +30,17 @@ export const handler = async (
       return createUnauthorizedResponse(auth.error || 'Token inválido', event);
     }
 
-    const queryParams: ListMovieQueryParams = {
+    const queryParams: ListMultimediaQueryParams = {
       search: event.queryStringParameters?.search,
       status: event.queryStringParameters?.status,
       page: event.queryStringParameters?.page,
       limit: event.queryStringParameters?.limit,
     };
 
-    const service = new ListMovieService();
-    const result = await service.getMovie(queryParams);
+    const service = new ListMultimediaService();
+    const result = await service.getMultimedia(queryParams);
 
-    return createOkResponse(result, 'Películas obtenidas correctamente', event);
+    return createOkResponse(result, 'multimedia obtenida correctamente', event);
   } catch (error) {
 
 

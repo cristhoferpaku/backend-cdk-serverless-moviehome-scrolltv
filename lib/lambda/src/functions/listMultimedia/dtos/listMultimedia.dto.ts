@@ -1,31 +1,32 @@
-export interface ListSerieQueryParams {
+export interface ListMultimediaQueryParams {
   search?: string;
   status?: string; // Ej: "1,2"
   page?: string;
   limit?: string;
 }
 
-export interface ListSerieParams {
+export interface ListMultimediaParams {
   search: string | null;
   status: number[] | null;
   page: number;
   limit: number;
 }
 
-export interface SerieRecord {
+export interface MultimediaRecord {
   id: number;
   title: string;
   section_name: string;
-  categories_list: string;
+  categories_name: string;
   country_name: string;
   collection_name: string;
+  type:string;
   status: number;
   created_at: string;
   total_count: number;
 }
 
-export interface ListSerieResponse {
-  items: SerieRecord[];
+export interface ListMultimediaResponse {
+  items: MultimediaRecord[];
   pagination: {
     page: number;
     pageSize: number;

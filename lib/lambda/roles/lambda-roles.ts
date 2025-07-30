@@ -1,5 +1,6 @@
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CloudWatchLogPermissions, CognitoAdminGetUserPolicy, CognitoListUsersPolicy } from "./lambda-common-permissions";
+import { OptimizedLambdaRoleConfig } from "./lambda-roles-optimized";
 
 
 
@@ -10,9 +11,17 @@ interface RoleConfig {
   managedPolicies?: string[];
   policyStatements?: PolicyStatement[];
   additionalPolicies?: string[];
+  description?: string;
 }
 
-export const LambdaRoleConfig: RoleConfig[] = [
+// OPTIMIZACIÓN: Usando roles compartidos en lugar de roles individuales
+// Esto reduce de 80+ roles a solo 5 roles compartidos
+export const LambdaRoleConfig: RoleConfig[] = OptimizedLambdaRoleConfig;
+
+// CONFIGURACIÓN ANTERIOR (COMENTADA PARA REFERENCIA)
+// Esta configuración creaba un rol individual para cada Lambda
+// Causando el problema de exceder el límite de 500 recursos
+export const LegacyLambdaRoleConfig: RoleConfig[] = [
   {
     id: "AdminLoginLambdaRole",
     assumedByService: "lambda.amazonaws.com",
@@ -487,13 +496,6 @@ export const LambdaRoleConfig: RoleConfig[] = [
              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
            },
            {
-              id: "ListMoviesLambdaRole",
-              assumedByService: "lambda.amazonaws.com",
-              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
-              policyStatements: [CloudWatchLogPermissions],
-              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-            },
-            {
               id: "DeleteMovieLambdaRole",
               assumedByService: "lambda.amazonaws.com",
               managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
@@ -531,13 +533,6 @@ export const LambdaRoleConfig: RoleConfig[] = [
               additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
             },
             {
-              id: "ListSeriesLambdaRole",
-              assumedByService: "lambda.amazonaws.com",
-              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
-              policyStatements: [CloudWatchLogPermissions],
-              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-            },
-            {
               id: "DeleteSeriesLambdaRole",
               assumedByService: "lambda.amazonaws.com",
               managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
@@ -553,6 +548,15 @@ export const LambdaRoleConfig: RoleConfig[] = [
             },
             {
               id: "UpdateSeriesLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            
+            // Multimedia Lambda Roles (unified)
+            {
+              id: "ListMultimediaLambdaRole",
               assumedByService: "lambda.amazonaws.com",
               managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
               policyStatements: [CloudWatchLogPermissions],
@@ -590,6 +594,13 @@ export const LambdaRoleConfig: RoleConfig[] = [
             },
             {
               id: "UpdateSeasonLambdaRole",
+              assumedByService: "lambda.amazonaws.com",
+              managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
+              policyStatements: [CloudWatchLogPermissions],
+              additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
+            },
+            {
+              id: "ChangeSeasonStatusLambdaRole",
               assumedByService: "lambda.amazonaws.com",
               managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
               policyStatements: [CloudWatchLogPermissions],

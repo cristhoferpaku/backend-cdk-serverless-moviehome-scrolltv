@@ -21,16 +21,23 @@ export class UpdateSerieRepository {
       data.country_id || null,
       data.collection_id || null,
       data.status || null,
-      data.publish_platform_1 || null,
-      data.publish_platform_2 || null
+      data.publish_platform_1 ?? null,
+      data.publish_platform_2 ?? null
     ];
 
     const result = await dbConnector.query(query, values);
+
+    
 
     if (result.rows.length === 0) {
       throw new Error('No se recibió respuesta del procedimiento almacenado');
     }
 
-    return result.rows[0] as UpdateSerieDbResult;
+    const response = {
+      ...result.rows[0],
+       publish_platform_1: data.publish_platform_1 ?? null,
+       publish_platform_2: data.publish_platform_2 ?? null
+    } as UpdateSerieDbResult;
+    return response;
   }
 }

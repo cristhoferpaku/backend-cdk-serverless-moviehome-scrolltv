@@ -3,7 +3,7 @@ export interface UpdateSeasonRequest {
     p_season_id?: number;
     description?: string | null;
     cover_image?: string | null;
-    p_cast_ids?: number[];
+    cast_ids?: number[];
   }
   
   export interface UpdateSeasonDbResult {

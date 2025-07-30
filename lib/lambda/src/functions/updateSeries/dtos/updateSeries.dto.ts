@@ -15,7 +15,9 @@ export interface UpdateSerieRequest {
   export interface UpdateSerieDbResult {
     success: boolean;
     message: string;
-    id: number;
+    serie_id: number;
+    publish_platform_1: boolean;
+    publish_platform_2: boolean;
   }
   
   export interface UpdateSerieResponse {

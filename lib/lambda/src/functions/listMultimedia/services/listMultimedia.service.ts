@@ -1,26 +1,26 @@
 import {
-    ListMovieParams,
-    ListMovieQueryParams,
-    ListMovieResponse,
-    MovieRecord
-  } from '../dtos/listMovies.dto';
-  import { ListMovieRepository } from '../repositories/listMovies.repo';
+    ListMultimediaParams,
+    ListMultimediaQueryParams,
+    ListMultimediaResponse,
+    MultimediaRecord
+  } from '../dtos/listMultimedia.dto';
+  import { ListMultimediaRepository } from '../repositories/listMultimedia.repo';
   
-  const FUNCTION_NAME = 'ListMovieService';
+  const FUNCTION_NAME = 'ListMultimediaService';
   
-  export class ListMovieService {
-    private repository = new ListMovieRepository();
+  export class ListMultimediaService {
+    private repository = new ListMultimediaRepository();
   
-    async getMovie(queryParams: ListMovieQueryParams): Promise<ListMovieResponse> {
+    async getMultimedia(queryParams: ListMultimediaQueryParams): Promise<ListMultimediaResponse> {
       try {
         const params = this.processQueryParams(queryParams);
   
-        const Movie: MovieRecord[] = await this.repository.getMovie(params);
-        const totalItems = Movie.length > 0 ? Movie[0].total_count : 0;
+        const Multimedia: MultimediaRecord[] = await this.repository.getMultimedia(params);
+        const totalItems = Multimedia.length > 0 ? Multimedia[0].total_count : 0;
         const totalPages = Math.ceil(totalItems / params.limit);
   
         return {
-          items: Movie,
+          items: Multimedia,
           pagination: {
             page: params.page,
             totalPages,
@@ -31,11 +31,11 @@ import {
           }
         };
       } catch (error) {
-        throw new Error('Error al obtener las colecciones');
+        throw new Error('Error al obtener la multimedia');
       }
     }
   
-    private processQueryParams(query: ListMovieQueryParams): ListMovieParams {
+    private processQueryParams(query: ListMultimediaQueryParams): ListMultimediaParams {
       const search = query.search?.trim() || null;
   
       let status: number[] | null = null;
