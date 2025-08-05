@@ -10,7 +10,7 @@ import {
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'DeleteCastMemberHandler';
-const REQUIRED_ROLES = ['administrador','vendedor','revendedor'];
+const REQUIRED_ROLES = ['administrador' , 'gestor de contenido multimedia','vendedor','revendedor'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,

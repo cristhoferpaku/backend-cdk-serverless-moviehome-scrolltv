@@ -13,7 +13,7 @@ import {
 import { UpdateCastMemberRequest } from './dtos/updateCastMember.dto';
 
 const FUNCTION_NAME = 'UpdateCastMemberHandler';
-const REQUIRED_ROLES = ['administrador','vendedor','revendedor'];
+const REQUIRED_ROLES = ['administrador' , 'gestor de contenido multimedia','vendedor','revendedor'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,
