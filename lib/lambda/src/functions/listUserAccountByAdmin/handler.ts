@@ -10,7 +10,7 @@ import {
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'ListUserAccountsHandler';
-const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
+const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia' , 'vendedor', 'revendedor'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -30,6 +30,7 @@ export const handler = async (
       user_admin_id: auth.payload?.userId || 0,
       search: event.queryStringParameters?.search,
       status: event.queryStringParameters?.status,
+      year: event.queryStringParameters?.year,
       page: event.queryStringParameters?.page,
       limit: event.queryStringParameters?.limit,
     };

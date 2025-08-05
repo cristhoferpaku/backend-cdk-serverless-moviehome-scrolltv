@@ -1,6 +1,7 @@
 export interface ListMultimediaQueryParams {
   search?: string;
   status?: string; // Ej: "1,2"
+  type?: string;
   page?: string;
   limit?: string;
 }
@@ -8,6 +9,7 @@ export interface ListMultimediaQueryParams {
 export interface ListMultimediaParams {
   search: string | null;
   status: number[] | null;
+  type: string | null;
   page: number;
   limit: number;
 }
@@ -22,6 +24,7 @@ export interface MultimediaRecord {
   type:string;
   status: number;
   created_at: string;
+  cover_image: string;
   total_count: number;
 }
 

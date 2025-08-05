@@ -9,7 +9,7 @@ import {
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'ListMultimediaHandler';
-const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
+const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia' , 'vendedor', 'revendedor'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -33,6 +33,7 @@ export const handler = async (
     const queryParams: ListMultimediaQueryParams = {
       search: event.queryStringParameters?.search,
       status: event.queryStringParameters?.status,
+      type: event.queryStringParameters?.type,
       page: event.queryStringParameters?.page,
       limit: event.queryStringParameters?.limit,
     };

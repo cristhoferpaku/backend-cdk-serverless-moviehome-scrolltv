@@ -11,7 +11,7 @@ import {
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'ListUserAccountsHandler';
-const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia'];
+const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia', 'vendedor', 'revendedor'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,

@@ -23,6 +23,7 @@ export interface UserAccountRecord {
   expiration_date: string;
   can_change_package: boolean;
   created_at: string;
+  admin_creator: string;
   total_count: number;
 }
 

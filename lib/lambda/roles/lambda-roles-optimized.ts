@@ -118,6 +118,9 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   "DeleteResourceLambdaRole": "AdminLambdaRole",
   "UpdateResourceLambdaRole": "AdminLambdaRole",
   "GetSellerCreditByIdLambdaRole": "AdminLambdaRole",
+  "CreateRevendedorLambdaRole": "AdminLambdaRole",
+  "ListRevendedorLambdaRole": "AdminLambdaRole",
+  "TransferirCreditosLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Movies
     "CreateMovieLambdaRole": "ContentLambdaRole",
@@ -169,6 +172,11 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   "DeleteCollectionLambdaRole": "ContentLambdaRole",
   "ChangeCollectionStatusLambdaRole": "ContentLambdaRole",
   "GetAllCollectionsLambdaRole": "ContentLambdaRole",
+
+  // Content Functions - Top10
+  "ListTop10LambdaRole": "ContentLambdaRole",
+  "CreateTop10LambdaRole": "ContentLambdaRole",
+  "DeleteTop10LambdaRole": "ContentLambdaRole",
 
   // Management Functions - Cast, Countries, Sections
   "ListCastMembersLambdaRole": "ManagementLambdaRole",

@@ -6,10 +6,11 @@ const FUNCTION_NAME = 'ListMultimediaRepository';
 export class ListMultimediaRepository {
   async getMultimedia(params: ListMultimediaParams): Promise<MultimediaRecord[]> {
     try {
-      const query = 'SELECT * FROM sp_list_multimedia($1, $2, $3, $4)';
+      const query = 'SELECT * FROM sp_list_multimedia($1, $2, $3, $4, $5)';
       const result = await dbConnector.query(query, [
         params.search,
         params.status,
+        params.type,
         params.page,
         params.limit,
       ]);
@@ -24,10 +25,11 @@ export class ListMultimediaRepository {
         type: row.type,
         status: row.status,
         created_at: row.created_at,
+        cover_image: row.cover_image,
         total_count: row.total_count,
       }));
     } catch (error) {
-      throw new Error('Error al obtener la multimedia');
+      throw new Error(`Error getting multimedia: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 }

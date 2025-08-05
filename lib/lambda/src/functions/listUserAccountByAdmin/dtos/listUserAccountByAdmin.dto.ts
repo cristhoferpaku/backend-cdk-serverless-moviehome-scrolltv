@@ -2,6 +2,7 @@ export interface ListUserAccountsQueryParams {
     user_admin_id: number;
     search?: string;
     status?: string; // Ej: "1,2"
+    year?: string;
     page?: string;
     limit?: string;
   }
@@ -10,6 +11,7 @@ export interface ListUserAccountsQueryParams {
     user_admin_id: number;
     search: string | null;
     status: number[] | null;
+    year: number | null;
     page: number;
     pageSize: number;
   }

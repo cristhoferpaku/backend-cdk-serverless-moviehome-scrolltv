@@ -9,11 +9,12 @@ export class ListUserAccountsRepository {
     try {
       logInfo(FUNCTION_NAME, 'Ejecutando sp_list_user_account', params);
 
-      const query = 'SELECT * FROM sp_list_user_account_by_admin ($1, $2, $3, $4, $5)';
+      const query = 'SELECT * FROM sp_list_user_account_by_admin ($1, $2, $3, $4, $5, $6)';
       const result = await dbConnector.query(query, [
         params.user_admin_id,
         params.search,
         params.status,
+        params.year,
         params.page,
         params.pageSize,
       ]);

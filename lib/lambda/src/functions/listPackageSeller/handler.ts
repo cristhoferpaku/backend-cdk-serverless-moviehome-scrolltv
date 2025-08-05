@@ -35,7 +35,8 @@ export const handler = async (
 
     // Validar JWT Token y permisos de administrador
     const authHeader = event.headers.Authorization || event.headers.authorization;
-    const authValidation = validateAuthorizationHeader(authHeader, ['administrador', 'gestor de contenido multimedia']);
+    const authValidation = validateAuthorizationHeader(authHeader, ['administrador', 'gestor de contenido multimedia', 'vendedor', 'revendedor']);
+    
     
     if (!authValidation.isValid) {
       if (authValidation.error?.includes('Token')) {

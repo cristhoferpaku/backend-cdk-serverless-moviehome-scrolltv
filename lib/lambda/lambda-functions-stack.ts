@@ -99,6 +99,14 @@ import {
   updateEpisodeTemplateLambda,
   // Video Signature Template
   getVideoSignatureTemplateLambda,
+  // Top10 Templates
+  listTop10TemplateLambda,
+  createTop10TemplateLambda,
+  deleteTop10TemplateLambda,
+  // Revendedor Templates
+  createRevendedorTemplateLambda,
+  listRevendedoresTemplateLambda,
+  transferirCreditosTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -212,6 +220,17 @@ export class LambdaFunctionStack extends Stack {
 
   // Video Signature Function
   public readonly getVideoSignatureFunction: NodejsFunction;
+
+  // Top10 Functions
+  public readonly listTop10Function: NodejsFunction;
+  public readonly createTop10Function: NodejsFunction;
+  public readonly deleteTop10Function: NodejsFunction;
+
+  // Revendedor Functions
+  public readonly createRevendedorFunction: NodejsFunction;
+  public readonly listRevendedoresFunction: NodejsFunction;
+  public readonly transferirCreditosFunction: NodejsFunction;
+
 
 
   constructor(scope: Construct, id: string, props: LambdaFunctionStackProps) {
@@ -839,7 +858,51 @@ export class LambdaFunctionStack extends Stack {
       scope: this,
     });
 
+    // Top10 Functions
+    
+    // Función listTop10 - Usando rol compartido ContentLambdaRole
+    this.listTop10Function = listTop10TemplateLambda({
+      lambdaRole: getSharedRole('ListTop10LambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
 
+    // Función createTop10 - Usando rol compartido ContentLambdaRole
+    this.createTop10Function = createTop10TemplateLambda({
+      lambdaRole: getSharedRole('CreateTop10LambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función deleteTop10 - Usando rol compartido ContentLambdaRole
+    this.deleteTop10Function = deleteTop10TemplateLambda({
+      lambdaRole: getSharedRole('DeleteTop10LambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Revendedor Functions
+    
+    // Función createRevendedor - Usando rol compartido AdminLambdaRole.
+    this.createRevendedorFunction = createRevendedorTemplateLambda({
+      lambdaRole: getSharedRole('CreateRevendedorLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función listRevendedores - Usando rol compartido AdminLambdaRole
+    this.listRevendedoresFunction = listRevendedoresTemplateLambda({
+      lambdaRole: getSharedRole('ListRevendedoresLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    // Función transferirCreditos - Usando rol compartido AdminLambdaRole
+    this.transferirCreditosFunction = transferirCreditosTemplateLambda({
+      lambdaRole: getSharedRole('TransferirCreditosLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
 
   }
 }

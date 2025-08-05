@@ -23,6 +23,10 @@ export interface GetUserAdminByIdResponse {
   platform_name: string | null;
   created_at: string;
   updated_at: string;
+  credit: number;
+  active_account: number;
+  inactive_account: number;
+  suspended_account: number;
   success: boolean;
   message: string;
 }
@@ -41,4 +45,8 @@ export interface UserAdminDetails {
   platform_name: string | null;
   created_at: string;
   updated_at: string;
+  credit: number;
+  active_account: number;
+  inactive_account: number;
+  suspended_account: number;
 } 

@@ -51,11 +51,12 @@ import {
           status = null;
         }
       }
+      const year = query.year ? parseInt(query.year) : null;
   
       const page = Math.max(1, parseInt(query.page || '1') || 1);
       const pageSize = Math.min(100, Math.max(1, parseInt(query.limit || '10') || 10));
   
-      return { user_admin_id: query.user_admin_id, search, status, page, pageSize };
+      return { user_admin_id: query.user_admin_id, search, status, year, page, pageSize };
     }
   }
   

@@ -27,6 +27,9 @@ export const handler = async (
   logInfo(FUNCTION_NAME, 'Iniciando procesamiento de creación de usuario admin', {
     requestId: context.awsRequestId,
     httpMethod: event.httpMethod,
+
+
+    
     path: event.path,
   });
 

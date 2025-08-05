@@ -96,8 +96,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
     // Get API key from Secrets Manager
     const apiKey = await bunnyStreamSecrets.getApiKey();
-    // Calculate expiration time (1 hour from now)
-    const expirationTime = Math.floor(Date.now() / 1000) + 3600;
+    // Calculate expiration time (6 hours from now)
+    const expirationTime = Math.floor(Date.now() / 1000) + 3600 * 6;
     // Generate signature data
     const data = libraryId + apiKey + expirationTime + videoId;
     // Create SHA256 signature

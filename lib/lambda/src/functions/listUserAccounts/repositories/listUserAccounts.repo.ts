@@ -28,6 +28,7 @@ export class ListUserAccountsRepository {
         expiration_date: row.expiration_date,
         can_change_package: row.can_change_package,
         created_at: row.created_at,
+        admin_creator: row.admin_creator,
         total_count: row.total_count,
       }));
     } catch (error) {

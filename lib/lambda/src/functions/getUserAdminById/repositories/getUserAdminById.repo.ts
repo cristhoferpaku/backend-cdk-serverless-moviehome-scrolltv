@@ -45,6 +45,10 @@ export class GetUserAdminByIdRepository {
         platform_name: row.platform_name,
         created_at: row.created_at?.toISOString() || '',
         updated_at: row.updated_at?.toISOString() || '',
+        credit: row.credit,
+        active_account: row.active_accounts,
+        inactive_account: row.inactive_accounts,
+        suspended_account: row.suspended_accounts,
         success: row.success,
         message: row.message
       };

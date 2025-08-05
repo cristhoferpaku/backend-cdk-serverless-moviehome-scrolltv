@@ -29,7 +29,7 @@ export const handler = async (
     // Validar autorización JWT
     const authValidation = validateAuthorizationHeader(
       event.headers.Authorization || event.headers.authorization,
-      ['administrador', 'gestor de contenido multimedia'] // Roles permitidos
+      ['administrador', 'gestor de contenido multimedia', 'vendedor', 'revendedor'] // Roles permitidos
     );
 
     if (!authValidation.isValid) {

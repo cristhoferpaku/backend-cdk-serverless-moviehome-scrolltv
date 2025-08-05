@@ -71,6 +71,9 @@ export const LAMBDA_ROLE_MAPPING = {
   'DeleteResourceLambdaRole': 'AdminLambdaRole',
   'UpdateResourceLambdaRole': 'AdminLambdaRole',
   'GetSellerCreditByIdLambdaRole': 'AdminLambdaRole',
+  'CreateRevendedorLambdaRole': 'AdminLambdaRole',
+  'ListRevendedorLambdaRole': 'AdminLambdaRole',
+  'TransferirCreditosLambdaRole': 'AdminLambdaRole',
 
   // Content Functions -> ContentLambdaRole
   'CreateMovieLambdaRole': 'ContentLambdaRole',
@@ -114,6 +117,11 @@ export const LAMBDA_ROLE_MAPPING = {
   'DeleteCollectionLambdaRole': 'ContentLambdaRole',
   'ChangeCollectionStatusLambdaRole': 'ContentLambdaRole',
   'GetAllCollectionsLambdaRole': 'ContentLambdaRole',
+
+  // Top10 Functions -> ContentLambdaRole
+  'ListTop10LambdaRole': 'ContentLambdaRole',
+  'CreateTop10LambdaRole': 'ContentLambdaRole',
+  'DeleteTop10LambdaRole': 'ContentLambdaRole',
 
   // Management Functions -> ManagementLambdaRole
   'ListCastMembersLambdaRole': 'ManagementLambdaRole',

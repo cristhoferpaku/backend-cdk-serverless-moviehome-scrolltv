@@ -31,6 +31,7 @@ import {
           }
         };
       } catch (error) {
+        console.error('Error getting multimedia:', error);
         throw new Error('Error al obtener la multimedia');
       }
     }
@@ -51,10 +52,19 @@ import {
         }
       }
   
+      let type: string | null = null;
+      if (query.type) {
+        try {
+          type = query.type;
+        } catch {
+          type = null;
+        }
+      }
+  
       const page = Math.max(1, parseInt(query.page || '1') || 1);
       const limit = Math.min(100, Math.max(1, parseInt(query.limit || '10') || 10));
   
-      return { search, status, page, limit };
+      return { search, status, type , page, limit };
     }
   }
   

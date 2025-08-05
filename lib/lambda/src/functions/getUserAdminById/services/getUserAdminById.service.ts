@@ -44,7 +44,11 @@ export class GetUserAdminByIdService {
         platform_id: result.platform_id,
         platform_name: result.platform_name,
         created_at: result.created_at,
-        updated_at: result.updated_at
+        updated_at: result.updated_at,
+        credit: result.credit,
+        active_account: result.active_account,
+        inactive_account: result.inactive_account,
+        suspended_account: result.suspended_account,
       };
 
       return userAdminDetails;

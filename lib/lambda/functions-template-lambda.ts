@@ -1960,6 +1960,132 @@ export const getVideoSignatureTemplateLambda = (props: LambdaProps): NodejsFunct
   return getVideoSignatureFunction;
 };
 
+/**
+ * 🏆 Plantilla para Lambda listTop10
+ */
+export const listTop10TemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listTop10Function = new NodejsFunction(props.scope, 'ListTop10Function', {
+    functionName: 'ListTop10Function',
+    entry: 'lib/lambda/src/functions/listTop10/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListTop10FunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_TOP10_FUNCTION_ARN,
+    stringValue: listTop10Function.functionArn,
+  });
+
+  return listTop10Function;
+};
+
+/**
+ * 🏆 Plantilla para Lambda createTop10
+ */
+export const createTop10TemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createTop10Function = new NodejsFunction(props.scope, 'CreateTop10Function', {
+    functionName: 'CreateTop10Function',
+    entry: 'lib/lambda/src/functions/createTop10/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateTop10FunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_TOP10_FUNCTION_ARN,
+    stringValue: createTop10Function.functionArn,
+  });
+
+  return createTop10Function;
+};
+
+/**
+ * 🏆 Plantilla para Lambda deleteTop10
+ */
+export const deleteTop10TemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteTop10Function = new NodejsFunction(props.scope, 'DeleteTop10Function', {
+    functionName: 'DeleteTop10Function',
+    entry: 'lib/lambda/src/functions/deleteTop10/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteTop10FunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_TOP10_FUNCTION_ARN,
+    stringValue: deleteTop10Function.functionArn,
+  });
+
+  return deleteTop10Function;
+};
+
+/**
+ * 🏪 Plantilla para Lambda createRevendedor
+ */
+export const createRevendedorTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createRevendedorFunction = new NodejsFunction(props.scope, 'CreateRevendedorFunction', {
+    functionName: 'CreateRevendedorFunction',
+    entry: 'lib/lambda/src/functions/createRevendedor/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateRevendedorFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_REVENDEDOR_FUNCTION_ARN,
+    stringValue: createRevendedorFunction.functionArn,
+  });
+
+  return createRevendedorFunction;
+};
+
+export const listRevendedoresTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listRevendedoresFunction = new NodejsFunction(props.scope, 'ListRevendedoresFunction', {
+    functionName: 'ListRevendedoresFunction',
+    entry: 'lib/lambda/src/functions/listRevendedores/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListRevendedoresFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_REVENDEDORES_FUNCTION_ARN,
+    stringValue: listRevendedoresFunction.functionArn,
+  });
+
+  return listRevendedoresFunction;
+};
+
+export const transferirCreditosTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const transferirCreditosFunction = new NodejsFunction(props.scope, 'TransferirCreditosFunction', {
+    functionName: 'TransferirCreditosFunction',
+    entry: 'lib/lambda/src/functions/transferirCreditos/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'TransferirCreditosFunctionArnParameter', {
+    parameterName: ArnFunctions.TRANSFERIR_CREDITOS_FUNCTION_ARN,
+    stringValue: transferirCreditosFunction.functionArn,
+  });
+
+  return transferirCreditosFunction;
+};
+
 
 
 

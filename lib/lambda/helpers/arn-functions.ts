@@ -113,6 +113,16 @@ export class ArnFunctions {
   // Video Signature Function ARN
   static readonly GET_VIDEO_SIGNATURE_FUNCTION_ARN = "/moviehome-scrolltv/get-video-signature-function-arn";
 
+  // Top10 Functions ARNs
+  static readonly LIST_TOP10_FUNCTION_ARN = "/moviehome-scrolltv/list-top10-function-arn";
+  static readonly CREATE_TOP10_FUNCTION_ARN = "/moviehome-scrolltv/create-top10-function-arn";
+  static readonly DELETE_TOP10_FUNCTION_ARN = "/moviehome-scrolltv/delete-top10-function-arn";
+
+  // Revendedor Functions
+  static readonly CREATE_REVENDEDOR_FUNCTION_ARN = "/moviehome-scrolltv/create-revendedor-function-arn";
+  static readonly LIST_REVENDEDORES_FUNCTION_ARN = "/moviehome-scrolltv/list-revendedores-function-arn";
+  static readonly TRANSFERIR_CREDITOS_FUNCTION_ARN = "/moviehome-scrolltv/transferir-creditos-function-arn";
+
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.
    * @param scope - El constructo desde el cual se realiza la llamada.

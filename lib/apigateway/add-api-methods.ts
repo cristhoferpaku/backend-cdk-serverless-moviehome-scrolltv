@@ -772,7 +772,7 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
-        queryParameters: ['search', 'status', 'page', 'limit'],
+        queryParameters: ['search', 'status', 'year', 'page', 'limit'],
       },
     ],
   });
@@ -1263,7 +1263,7 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
-        queryParameters: [ 'search', 'status', 'page', 'limit'],
+        queryParameters: [ 'search', 'status','type','page', 'limit'],
       },
     ],
   });
@@ -1867,4 +1867,135 @@ addApiMethodsWithLambda({
       },
     ],
   });
+
+  // Top10 Routes
+
+  // List Top10 routes
+  const listTop10Function = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_TOP10_FUNCTION_ARN,
+    "ImportedListTop10Function"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listTop10Function,
+    authorizer,
+    resourcePath: 'admin/top10',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Create Top10 routes
+  const createTop10Function = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_TOP10_FUNCTION_ARN,
+    "ImportedCreateTop10Function"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createTop10Function,
+    authorizer,
+    resourcePath: 'admin/top10',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Delete Top10 routes
+  const deleteTop10Function = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.DELETE_TOP10_FUNCTION_ARN,
+    "ImportedDeleteTop10Function"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: deleteTop10Function,
+    authorizer,
+    resourcePath: 'admin/top10/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Revendedor Routes
+
+  // Create Revendedor routes
+  const createRevendedorFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.CREATE_REVENDEDOR_FUNCTION_ARN,
+    "ImportedCreateRevendedorFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: createRevendedorFunction,
+    authorizer,
+    resourcePath: 'admin/revendedores',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // List Revendedores routes
+  const listRevendedoresFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.LIST_REVENDEDORES_FUNCTION_ARN,
+    "ImportedListRevendedoresFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: listRevendedoresFunction,
+    authorizer,
+    resourcePath: 'admin/revendedores',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Transferir Creditos routes
+  const transferirCreditosFunction = ArnFunctions.getLambdaFunctionFromArn(
+    scope,
+    ArnFunctions.TRANSFERIR_CREDITOS_FUNCTION_ARN,
+    "ImportedTransferirCreditosFunction"
+  );
+
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: transferirCreditosFunction,
+    authorizer,
+    resourcePath: 'admin/revendedores/transferir-creditos',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
 }
