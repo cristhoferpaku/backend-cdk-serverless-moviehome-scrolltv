@@ -14,7 +14,8 @@ export class ListPackageUsersService {
   /**
    * Lista paquetes de usuario con paginación y búsqueda
    */
-  async listPackageUsers(request: ListPackageUsersRequest): Promise<ListPackageUsersResponse> {
+  async listPackageUsers(request: ListPackageUsersRequest , userId: number): Promise<ListPackageUsersResponse> {
+
     try {
       // Validar y establecer valores por defecto
       const page = Math.max(1, request.page || 1);
@@ -22,7 +23,7 @@ export class ListPackageUsersService {
       const search = request.search?.trim();
 
       // Obtener los datos del repositorio
-      const { items, total } = await this.repository.getPackageUsers(search, page, pageSize);
+      const { items, total } = await this.repository.getPackageUsers(search, page, pageSize , userId);
 
       // Calcular información de paginación
       const totalPages = Math.ceil(total / pageSize);

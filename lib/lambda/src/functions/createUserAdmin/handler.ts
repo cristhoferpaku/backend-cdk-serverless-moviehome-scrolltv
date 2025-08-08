@@ -10,9 +10,7 @@ import {
   createForbiddenResponse,
   parseRequestBody,
   validateRequiredFields,
-  validateAuthorizationHeader,
-  logError,
-  logInfo 
+  validateAuthorizationHeader
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'CreateUserAdminHandler';
@@ -24,15 +22,6 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ): Promise<APIGatewayProxyResult> => {
-  logInfo(FUNCTION_NAME, 'Iniciando procesamiento de creación de usuario admin', {
-    requestId: context.awsRequestId,
-    httpMethod: event.httpMethod,
-
-
-    
-    path: event.path,
-  });
-
   try {
     // Validar que sea POST
     if (event.httpMethod !== 'POST') {
@@ -53,11 +42,7 @@ export const handler = async (
     }
 
     const userPayload = authValidation.payload!;
-    logInfo(FUNCTION_NAME, 'Usuario autenticado', {
-      userId: userPayload.userId,
-      username: userPayload.username,
-      role: userPayload.roleName
-    });
+
 
     // Parsear el body
     const userData = parseRequestBody<CreateUserAdminRequest>(event.body);
@@ -91,24 +76,11 @@ export const handler = async (
     const result = await createUserAdminService.createUserAdmin(userData);
 
 
-    logInfo(FUNCTION_NAME, 'Usuario admin creado exitosamente', {
-      userId: result?.user.id,
-      username: result?.user.username,
-      roleName: result?.user.role_name
-    });
-
     return createOkResponse(result, 'Usuario admin creado exitosamente', event);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     
-    logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-      requestId: context.awsRequestId,
-      event: {
-        httpMethod: event.httpMethod,
-        path: event.path,
-      },
-    });
 
     // Manejar errores específicos
     if (errorMessage.includes('ya existe')) {

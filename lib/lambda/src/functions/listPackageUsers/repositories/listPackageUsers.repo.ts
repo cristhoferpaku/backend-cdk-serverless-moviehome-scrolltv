@@ -11,18 +11,20 @@ export class ListPackageUsersRepository {
   async getPackageUsers(
     search?: string,
     page: number = 1,
-    limit: number = 10
+    limit: number = 10,
+    userId: number = 0
   ): Promise<{ items: PackageUserResponse[]; total: number }> {
     try {
       // Ejecutar el stored procedure
       const query = `
-        SELECT * FROM sp_get_package_users($1, $2, $3)
+        SELECT * FROM sp_get_package_users($1, $2, $3, $4)
       `;
       
       const result = await dbConnector.query(query, [
         search || null,
         page,
-        limit
+        limit,
+        userId
       ]);
 
       const items: PackageUserResponse[] = result.rows.map((row: any) => ({

@@ -36,6 +36,11 @@ export const handler = async (
       return createUnauthorizedResponse(authValidation.error || 'No autorizado', event);
     }
 
+    const userId = authValidation.payload?.userId;
+    if (!userId) {
+      return createBadRequestResponse('El parámetro "userId" es requerido', event);
+    }
+
     // Extraer parámetros de query
     const queryParams = event.queryStringParameters || {};
     const request: ListPackageUsersRequest = {
@@ -55,7 +60,7 @@ export const handler = async (
 
     // Usar el servicio para obtener los paquetes
     const listPackageUsersService = new ListPackageUsersService();
-    const result = await listPackageUsersService.listPackageUsers(request);
+    const result = await listPackageUsersService.listPackageUsers(request , userId);
 
     return createOkResponse(result, 'Paquetes de usuario obtenidos exitosamente', event);
 

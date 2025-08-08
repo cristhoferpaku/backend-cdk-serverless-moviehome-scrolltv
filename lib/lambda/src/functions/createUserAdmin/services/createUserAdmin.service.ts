@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { CreateUserAdminRepository } from '../repositories/createUserAdmin.repo';
 import { CreateUserAdminRequest, CreateUserAdminResponse } from '../dtos/createUserAdmin.dto';
-import { logInfo, logError } from '../../../../layers/utils/nodejs/utils';
 
 export class CreateUserAdminService {
   private repository: CreateUserAdminRepository;
@@ -16,11 +15,6 @@ export class CreateUserAdminService {
    */
   async createUserAdmin(userData: CreateUserAdminRequest): Promise<CreateUserAdminResponse | null> {
     try {
-      logInfo(this.serviceName, 'Iniciando creación de usuario admin', { 
-        username: userData.username,
-        role_id: userData.role_id 
-      });
-
       // Validar que la contraseña sea segura
       if (!this.isValidPassword(userData.password)) {
         throw new Error('La contraseña debe tener al menos 8 caracteres, incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial');
@@ -46,11 +40,7 @@ export class CreateUserAdminService {
         throw new Error(result.message);
       }
 
-      logInfo(this.serviceName, 'Usuario admin creado exitosamente', {
-        userId: result.id,
-        username: result.username,
-        role_name: result.role_name
-      });
+
 
       // Preparar respuesta (sin incluir la contraseña hasheada)
       const response: CreateUserAdminResponse = {
@@ -71,9 +61,6 @@ export class CreateUserAdminService {
       return response;
 
     } catch (error) {
-      logError(this.serviceName, error instanceof Error ? error : 'Error desconocido', {
-        username: userData.username
-      });
       throw error;
     }
   }

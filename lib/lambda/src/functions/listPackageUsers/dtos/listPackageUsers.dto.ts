@@ -5,6 +5,8 @@ export interface ListPackageUsersRequest {
   search?: string;
   page?: number;
   limit?: number;
+  userId?: number;
+
 }
 
 /**
