@@ -16,45 +16,22 @@ interface RoleConfig {
  * Reduciendo significativamente el número de recursos en CloudFormation
  */
 export const OptimizedLambdaRoleConfig: RoleConfig[] = [
-  {
-    id: "AuthLambdaRole",
-    assumedByService: "lambda.amazonaws.com",
-    managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
-    policyStatements: [CloudWatchLogPermissions],
-    additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-    description: "Rol compartido para todas las funciones de autenticación (login, refresh token)"
-  },
+
   {
     id: "AdminLambdaRole", 
     assumedByService: "lambda.amazonaws.com",
     managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
     policyStatements: [CloudWatchLogPermissions],
     additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-    description: "Rol compartido para todas las funciones administrativas (users, platforms, roles, packages, accounts, resources)"
+    description: "Rol compartido para todas las funciones administrativas"
   },
-  {
-    id: "ContentLambdaRole",
-    assumedByService: "lambda.amazonaws.com", 
+   {
+    id: "MobileLambdaRole",
+    assumedByService: "lambda.amazonaws.com",
     managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
     policyStatements: [CloudWatchLogPermissions],
     additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-    description: "Rol compartido para todas las funciones de contenido multimedia (movies, series, seasons, categories, collections)"
-  },
-  {
-    id: "ManagementLambdaRole",
-    assumedByService: "lambda.amazonaws.com",
-    managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"], 
-    policyStatements: [CloudWatchLogPermissions],
-    additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-    description: "Rol compartido para todas las funciones de gestión (cast members, countries, sections)"
-  },
-  {
-    id: "UtilityLambdaRole",
-    assumedByService: "lambda.amazonaws.com",
-    managedPolicies: ["service-role/AWSLambdaBasicExecutionRole"],
-    policyStatements: [CloudWatchLogPermissions], 
-    additionalPolicies: ["SSMReadAccessPolicy", "SecretsManagerPolicy"],
-    description: "Rol compartido para funciones utilitarias y de soporte"
+    description: "Rol compartido para todas las funciones móviles"
   }
 ];
 
@@ -64,8 +41,8 @@ export const OptimizedLambdaRoleConfig: RoleConfig[] = [
  */
 export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   // Auth Functions
-  "AdminLoginLambdaRole": "AuthLambdaRole",
-  "RefreshTokenLambdaRole": "AuthLambdaRole",
+  "AdminLoginLambdaRole": "AdminLambdaRole",
+  "RefreshTokenLambdaRole": "AdminLambdaRole",
 
   // Admin Functions - User Management
   "ListUserAdminsLambdaRole": "AdminLambdaRole",
@@ -123,74 +100,74 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   "TransferirCreditosLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Movies
-    "CreateMovieLambdaRole": "ContentLambdaRole",
-    "GetMovieByIdLambdaRole": "ContentLambdaRole",
-    "DeleteMovieLambdaRole": "ContentLambdaRole",
-    "ChangeMovieStatusLambdaRole": "ContentLambdaRole",
-    "UpdateMovieLambdaRole": "ContentLambdaRole",
+  "CreateMovieLambdaRole": "AdminLambdaRole",
+  "GetMovieByIdLambdaRole": "AdminLambdaRole",
+  "DeleteMovieLambdaRole": "AdminLambdaRole",
+  "ChangeMovieStatusLambdaRole": "AdminLambdaRole",
+  "UpdateMovieLambdaRole": "AdminLambdaRole",
     
-    // Series Functions
-    "CreateSeriesLambdaRole": "ContentLambdaRole",
-    "GetSeriesByIdLambdaRole": "ContentLambdaRole",
-    "DeleteSeriesLambdaRole": "ContentLambdaRole",
-    "ChangeSeriesStatusLambdaRole": "ContentLambdaRole",
-    "UpdateSeriesLambdaRole": "ContentLambdaRole",
+  // Series Functions
+  "CreateSeriesLambdaRole": "AdminLambdaRole",
+  "GetSeriesByIdLambdaRole": "AdminLambdaRole",
+  "DeleteSeriesLambdaRole": "AdminLambdaRole",
+  "ChangeSeriesStatusLambdaRole": "AdminLambdaRole",
+  "UpdateSeriesLambdaRole": "AdminLambdaRole",
     
-    // Multimedia Functions (unified)
-    "ListMultimediaLambdaRole": "ContentLambdaRole",
+  // Multimedia Functions (unified)
+  "ListMultimediaLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Seasons
-  "ListSeasonsLambdaRole": "ContentLambdaRole",
-  "CreateSeasonLambdaRole": "ContentLambdaRole",
-  "GetSeasonByIdLambdaRole": "ContentLambdaRole",
-  "DeleteSeasonLambdaRole": "ContentLambdaRole",
-  "ChangeSeasonStatusLambdaRole": "ContentLambdaRole",
-  "UpdateSeasonLambdaRole": "ContentLambdaRole",
+  "ListSeasonsLambdaRole": "AdminLambdaRole",
+  "CreateSeasonLambdaRole": "AdminLambdaRole",
+  "GetSeasonByIdLambdaRole": "AdminLambdaRole",
+  "DeleteSeasonLambdaRole": "AdminLambdaRole",
+  "ChangeSeasonStatusLambdaRole": "AdminLambdaRole",
+  "UpdateSeasonLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Episodes
-  "ListEpisodesLambdaRole": "ContentLambdaRole",
-  "CreateEpisodeLambdaRole": "ContentLambdaRole",
-  "GetEpisodeByIdLambdaRole": "ContentLambdaRole",
-  "DeleteEpisodeLambdaRole": "ContentLambdaRole",
-  "UpdateEpisodeLambdaRole": "ContentLambdaRole",
+  "ListEpisodesLambdaRole": "AdminLambdaRole",
+  "CreateEpisodeLambdaRole": "AdminLambdaRole",
+  "GetEpisodeByIdLambdaRole": "AdminLambdaRole",
+  "DeleteEpisodeLambdaRole": "AdminLambdaRole",
+  "UpdateEpisodeLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Video Signature
-  "GetVideoSignatureLambdaRole": "ContentLambdaRole",
+  "GetVideoSignatureLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Categories & Collections
-  "ListMultimediaCategoriesLambdaRole": "ContentLambdaRole",
-  "GetMultimediaCategoryByIdLambdaRole": "ContentLambdaRole",
-  "CreateMultimediaCategoryLambdaRole": "ContentLambdaRole",
-  "UpdateMultimediaCategoryLambdaRole": "ContentLambdaRole",
-  "DeleteMultimediaCategoryLambdaRole": "ContentLambdaRole",
-  "ChangeMultimediaCategoryStatusLambdaRole": "ContentLambdaRole",
-  "GetAllMultimediaCategoriesLambdaRole": "ContentLambdaRole",
-  "ListCollectionsLambdaRole": "ContentLambdaRole",
-  "GetCollectionByIdLambdaRole": "ContentLambdaRole",
-  "CreateCollectionLambdaRole": "ContentLambdaRole",
-  "UpdateCollectionLambdaRole": "ContentLambdaRole",
-  "DeleteCollectionLambdaRole": "ContentLambdaRole",
-  "ChangeCollectionStatusLambdaRole": "ContentLambdaRole",
-  "GetAllCollectionsLambdaRole": "ContentLambdaRole",
+  "ListMultimediaCategoriesLambdaRole": "AdminLambdaRole",
+  "GetMultimediaCategoryByIdLambdaRole": "AdminLambdaRole",
+  "CreateMultimediaCategoryLambdaRole": "AdminLambdaRole",
+  "UpdateMultimediaCategoryLambdaRole": "AdminLambdaRole",
+  "DeleteMultimediaCategoryLambdaRole": "AdminLambdaRole",
+  "ChangeMultimediaCategoryStatusLambdaRole": "AdminLambdaRole",
+  "GetAllMultimediaCategoriesLambdaRole": "AdminLambdaRole",
+  "ListCollectionsLambdaRole": "AdminLambdaRole",
+  "GetCollectionByIdLambdaRole": "AdminLambdaRole",
+  "CreateCollectionLambdaRole": "AdminLambdaRole",
+  "UpdateCollectionLambdaRole": "AdminLambdaRole",
+  "DeleteCollectionLambdaRole": "AdminLambdaRole",
+  "ChangeCollectionStatusLambdaRole": "AdminLambdaRole",
+  "GetAllCollectionsLambdaRole": "AdminLambdaRole",
 
   // Content Functions - Top10
-  "ListTop10LambdaRole": "ContentLambdaRole",
-  "CreateTop10LambdaRole": "ContentLambdaRole",
-  "DeleteTop10LambdaRole": "ContentLambdaRole",
+  "ListTop10LambdaRole": "AdminLambdaRole",
+  "CreateTop10LambdaRole": "AdminLambdaRole",
+  "DeleteTop10LambdaRole": "AdminLambdaRole",
 
   // Management Functions - Cast, Countries, Sections
-  "ListCastMembersLambdaRole": "ManagementLambdaRole",
-  "GetCastMemberByIdLambdaRole": "ManagementLambdaRole",
-  "CreateCastMemberLambdaRole": "ManagementLambdaRole",
-  "UpdateCastMemberLambdaRole": "ManagementLambdaRole",
-  "DeleteCastMemberLambdaRole": "ManagementLambdaRole",
-  "ListAllCountriesLambdaRole": "ManagementLambdaRole",
-  "GetAllSectionsLambdaRole": "ManagementLambdaRole"
+  "ListCastMembersLambdaRole": "AdminLambdaRole",
+  "GetCastMemberByIdLambdaRole": "AdminLambdaRole",
+  "CreateCastMemberLambdaRole": "AdminLambdaRole",
+  "UpdateCastMemberLambdaRole": "AdminLambdaRole",
+  "DeleteCastMemberLambdaRole": "AdminLambdaRole",
+  "ListAllCountriesLambdaRole": "AdminLambdaRole",
+  "GetAllSectionsLambdaRole": "AdminLambdaRole"
 };
 
 /**
  * Función helper para obtener el rol compartido para una función específica
  */
 export function getSharedRoleForFunction(functionRoleName: string): string {
-  return LambdaFunctionToRoleMapping[functionRoleName] || "UtilityLambdaRole";
+  return LambdaFunctionToRoleMapping[functionRoleName] || "AdminLambdaRole";
 }

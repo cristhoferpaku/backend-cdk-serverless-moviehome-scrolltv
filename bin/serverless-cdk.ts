@@ -44,6 +44,7 @@ const lambdaFunctionStack = new LambdaFunctionStack(app, 'LambdaFunctionStack', 
 const apiGatewayStack = new ApiGatewayStack(app, 'ApiGatewayStack', {
   ...generateStackProps('api-gateway-stack'),
   environmentStack: environment,
+  domainName: 'scrollprivate.work', // Tu dominio de Cloudflare
 });
 
 lambdaRoleStack.addDependency(lambdaLayerStack); 
@@ -109,4 +110,4 @@ app.synth();
 // Tags globales
 //Tags.of(app).add('Project', 'MovieHomeScrollTV');
 //Tags.of(app).add('Environment', environment);
-//Tags.of(app).add('CreatedBy', 'CDK'); 
+//Tags.of(app).add('CreatedBy', 'CDK');

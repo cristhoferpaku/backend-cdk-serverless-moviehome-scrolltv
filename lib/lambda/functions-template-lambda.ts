@@ -24,9 +24,6 @@ const baseLambdaConfig = {
     minify: true,
     target: 'node20',
     forceDockerBundling: false,
-    esbuildArgs: {
-      '--packages': 'bundle'
-    },
   },
   environment: {
     NODE_ENV: 'production',

@@ -27,7 +27,13 @@
     "deploy:api": "cdk deploy ApiGatewayStack",
     "deploy:incremental": "npm run deploy:layers && npm run deploy:functions && npm run deploy:api",
     "update:layers": "npm run build:layers && npm run deploy:layers && echo '✅ Capas actualizadas! Ahora ejecuta: npm run deploy:functions'",
-    "deploy:safe": "npm run deploy:layers && npm run deploy:roles && npm run deploy:functions && npm run deploy:api"
+    "deploy:safe": "npm run deploy:layers && npm run deploy:roles && npm run deploy:functions && npm run deploy:api",
+    "deploy:domain": "powershell -ExecutionPolicy Bypass -File scripts/deploy-with-domain.ps1",
+    "deploy:domain:dev": "powershell -ExecutionPolicy Bypass -File scripts/deploy-with-domain.ps1 -Environment dev",
+    "deploy:domain:prod": "powershell -ExecutionPolicy Bypass -File scripts/deploy-with-domain.ps1 -Environment prod",
+    "check:domain": "nslookup api.scrollprivate.work",
+    "test:domain": "curl -X GET https://api.scrollprivate.work/admin/platforms -H \"Content-Type: application/json\"",
+    "outputs": "aws cloudformation describe-stacks --stack-name moviehome-0001-scrolltv-dev-api-gateway-stack --query 'Stacks[0].Outputs' --output table"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.119",
