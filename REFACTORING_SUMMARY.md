@@ -29,8 +29,21 @@ La infraestructura ha sido exitosamente refactorizada de un enfoque monolítico 
 - **Integración**: Funciones Lambda organizadas por contexto
 
 ### 6. **ApiGatewayStack** (refactorizado)
-- **Propósito**: API Gateway y configuración de dominio
+- **Propósito**: API Gateway base y configuración de dominio
 - **Integración**: Usa recursos de SecurityStack y MonitoringStack
+- **Exports**: RestApiId y RootResourceId para otros stacks
+
+### 7. **AuthApiMethodsStack** (nuevo)
+- **Propósito**: Endpoints de autenticación y administración
+- **Recursos**: Login, gestión de usuarios, plataformas y roles
+
+### 8. **ContentApiMethodsStack** (nuevo)
+- **Propósito**: Endpoints de contenido multimedia
+- **Recursos**: Películas, series, cast, categorías, etc.
+
+### 9. **CommerceApiMethodsStack** (nuevo)
+- **Propósito**: Endpoints de comercio y facturación
+- **Recursos**: Paquetes, pagos, revendedores, etc.
 
 ## 🔧 Configuración Centralizada
 
@@ -58,26 +71,61 @@ ApiGatewayStack (depende de: SecurityStack, MonitoringStack, LambdaFunctionStack
 
 ## 🚀 Beneficios Obtenidos
 
-1. **Modularidad**: Cada stack tiene una responsabilidad específica
-2. **Mantenibilidad**: Código más organizado y fácil de mantener
-3. **Escalabilidad**: Fácil agregar nuevos recursos por categoría
-4. **Reutilización**: Stacks pueden ser reutilizados en otros proyectos
-5. **Despliegue Granular**: Posibilidad de desplegar stacks individualmente
-6. **Separación de Responsabilidades**: Cada stack maneja un dominio específico
+### ✅ **Separación de Responsabilidades**
+- Cada stack tiene una responsabilidad específica
+- API methods organizados por dominio de negocio
+- Facilita el mantenimiento y debugging
+- Mejora la legibilidad del código
+
+### ✅ **Escalabilidad**
+- Fácil agregar nuevos stacks sin afectar existentes
+- Configuración centralizada permite cambios globales
+- Estructura modular para crecimiento futuro
+- Evita límites de CloudFormation (500 recursos por stack)
+
+### ✅ **Gestión de Dependencias**
+- Dependencias explícitas entre stacks
+- Orden de despliegue automático
+- Previene errores de configuración
+- Referencias cruzadas bien definidas
+
+### ✅ **Reutilización**
+- Configuración centralizada reutilizable
+- Stacks modulares para diferentes entornos
+- Patrones consistentes en toda la aplicación
+- Funciones de utilidad reutilizables
+
+### ✅ **Despliegues Granulares**
+- Deploy independiente por dominio (auth, content, commerce)
+- Menor tiempo de despliegue para cambios específicos
+- Menor riesgo en actualizaciones
+- Rollback granular por funcionalidad
 
 ## 📝 Archivos Principales Modificados
 
+### Nuevos Archivos Creados
+- `lib/config/stack-config.ts` - Configuración centralizada
+- `lib/security/security-stack.ts` - Stack de seguridad
+- `lib/monitoring/monitoring-stack.ts` - Stack de monitoreo
+- `lib/apigateway/auth-api-methods-stack.ts` - Stack de endpoints de autenticación
+- `lib/apigateway/content-api-methods-stack.ts` - Stack de endpoints de contenido
+- `lib/apigateway/commerce-api-methods-stack.ts` - Stack de endpoints de comercio
+- `lib/apigateway/add-auth-api-methods.ts` - Utilidad para endpoints de auth
+- `lib/apigateway/add-content-api-methods.ts` - Utilidad para endpoints de content
+- `lib/apigateway/add-commerce-api-methods.ts` - Utilidad para endpoints de commerce
+- `ARCHITECTURE.md`
+
+### Archivos Modificados
 - `bin/serverless-cdk.ts` - Configuración principal con nueva arquitectura
 - `lib/apigateway/apigateway-stack.ts` - Integración con otros stacks
 - `lib/lambda/lambda-functions-stack.ts` - Integración con DatabaseStack
-- `lib/config/stack-config.ts` - Nueva configuración centralizada
 
-## 📝 Archivos Nuevos Creados
+### Archivos de Configuración
+- `package.json` - Scripts de deploy actualizados
+- `cdk.json` - Configuración de CDK actualizada
 
-- `lib/security/security-stack.ts`
-- `lib/monitoring/monitoring-stack.ts`
-- `lib/config/stack-config.ts`
-- `ARCHITECTURE.md`
+### Archivos Obsoletos (mantenidos)
+- `lib/apigateway/add-api-methods.ts` - Reemplazado por stacks específicos
 
 ## ✅ Estado Actual
 
@@ -131,6 +179,29 @@ CommerceApiMethodsStack
 - Crear 3 nuevos stacks que importen el API Gateway
 - Dividir `add-api-methods.ts` en módulos específicos
 - Mantener compatibilidad total con URLs existentes
+
+## 🚀 Comandos de Deploy
+
+```bash
+# Deploy completo
+npm run deploy
+
+# Deploy por stacks individuales
+npm run deploy:security    # Certificados SSL
+npm run deploy:monitoring  # CloudWatch Logs
+npm run deploy:layers      # Lambda Layers
+npm run deploy:roles       # Roles IAM
+npm run deploy:functions   # Lambda Functions
+npm run deploy:api         # API Gateway base
+npm run deploy:auth        # Endpoints de autenticación
+npm run deploy:content     # Endpoints de contenido
+npm run deploy:commerce    # Endpoints de comercio
+
+# Deploy por dominio de negocio
+cdk deploy AuthApiMethodsStack
+cdk deploy ContentApiMethodsStack
+cdk deploy CommerceApiMethodsStack
+```
 
 ## 🎯 Próximos Pasos Recomendados
 

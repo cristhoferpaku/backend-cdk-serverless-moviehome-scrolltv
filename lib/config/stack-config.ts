@@ -36,7 +36,9 @@ export const STACK_NAMES = {
   LAMBDA_ROLES: 'lambda-roles',
   LAMBDA_FUNCTIONS: 'lambda-functions',
   API_GATEWAY: 'api-gateway',
-
+  AUTH_API_METHODS: 'auth-api-methods',
+  CONTENT_API_METHODS: 'content-api-methods',
+  COMMERCE_API_METHODS: 'commerce-api-methods',
   MONITORING: 'monitoring',
   SECURITY: 'security'
 } as const;

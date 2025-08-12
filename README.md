@@ -143,19 +143,50 @@ npm run diff           # Ver diferencias
 
 ## 🏛️ Stacks de CDK
 
-### 1. LambdaLayerStack
+### 1. SecurityStack
+Gestiona certificados SSL y recursos de seguridad:
+- **Certificate**: Certificado SSL para dominio personalizado
+- **DNS Validation**: Validación automática
+
+### 2. MonitoringStack
+Gestiona logging y monitoreo:
+- **API Gateway LogGroup**: Logs de API Gateway
+- **Lambda LogGroup**: Logs de funciones Lambda
+
+### 3. LambdaLayerStack
 Crea los layers reutilizables:
 - **PgLayer**: PostgreSQL y AWS SDK
 - **UtilsLayer**: Utilidades comunes
 
-### 2. LambdaRoleStack
+### 4. LambdaRoleStack
 Crea los roles IAM para cada función Lambda con permisos específicos.
 
-### 3. LambdaFunctionsStack
+### 5. LambdaFunctionsStack
 Despliega todas las funciones Lambda con su configuración optimizada.
 
-### 4. ApiGatewayStack
-Configura API Gateway con todas las rutas y métodos, incluyendo CORS.
+### 6. ApiGatewayStack
+Configura API Gateway base:
+- **REST API**: API Gateway principal
+- **Custom Domain**: Dominio personalizado
+- **Deployment & Stages**: Configuración de despliegue
+
+### 7. AuthApiMethodsStack
+Endpoints de autenticación y administración:
+- **Login Endpoints**: Admin, User, Platform
+- **User Management**: CRUD de usuarios
+- **Platform & Roles**: Gestión de plataformas y roles
+
+### 8. ContentApiMethodsStack
+Endpoints de contenido multimedia:
+- **Movies & Series**: Gestión de contenido
+- **Cast & Countries**: Metadatos
+- **Categories & Collections**: Organización
+
+### 9. CommerceApiMethodsStack
+Endpoints de comercio y facturación:
+- **Packages**: Tipos y gestión de paquetes
+- **Billing**: Facturación y pagos
+- **Resellers**: Gestión de revendedores
 
 ## 🔒 Seguridad
 
@@ -450,10 +481,15 @@ npm run deploy:safe
 
 #### ⚡ **Deploy Específico por Stack**
 ```bash
+npm run deploy:security   # Solo seguridad (certificados)
+npm run deploy:monitoring # Solo monitoreo (logs)
 npm run deploy:layers     # Solo capas
-npm run deploy:functions  # Solo funciones Lambda
 npm run deploy:roles      # Solo roles IAM
-npm run deploy:api        # Solo API Gateway
+npm run deploy:functions  # Solo funciones Lambda
+npm run deploy:api        # Solo API Gateway base
+npm run deploy:auth       # Solo endpoints de autenticación
+npm run deploy:content    # Solo endpoints de contenido
+npm run deploy:commerce   # Solo endpoints de comercio
 ```
 
 ### 🎯 Estrategias Específicas
@@ -495,4 +531,4 @@ npm run deploy:incremental
 Solo cuando cambies:
 - Estructura fundamental de stacks
 - Configuración de CDK
-- Dependencias entre stacks 
+- Dependencias entre stacks

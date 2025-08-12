@@ -3,6 +3,10 @@ import { Construct } from 'constructs';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { addApiMethodsWithLambda } from '../lambda/helpers/add-api-methods';
 
+
+/* ya no sirve */
+
+
 interface AddAllApiMethodsProps {
   restApi: RestApi;
   authorizer?: any;
@@ -131,7 +135,7 @@ export function addAllApiMethods(props: AddAllApiMethodsProps): void {
     restApi,
     lambdaFunction: lambdaFunctions.refreshTokenFunction,
     authorizer,
-    resourcePath: 'auth/refresh-token',
+    resourcePath: 'auth/refresh',
     methods: [
       {
         method: 'POST',

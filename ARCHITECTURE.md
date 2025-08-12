@@ -39,11 +39,33 @@ La infraestructura del backend de MovieHome ScrollTV ha sido refactorizada para 
 - Integración con otros stacks
 
 ### 6. ApiGatewayStack (`lib/apigateway/apigateway-stack.ts`)
-**Propósito**: API Gateway y configuración de endpoints
+**Propósito**: API Gateway base y configuración de dominio
 - REST API con CORS
 - Dominio personalizado
-- Integración con Lambda
-- Logging y métricas
+- Deployment y stages
+- Exports de RestApiId y RootResourceId
+
+### 7. AuthApiMethodsStack (`lib/apigateway/auth-api-methods-stack.ts`)
+**Propósito**: Endpoints de autenticación y administración de usuarios
+- Endpoints de login (admin, user, platform)
+- Gestión de usuarios administrativos
+- Gestión de cuentas de usuario
+- Gestión de plataformas y roles
+
+### 8. ContentApiMethodsStack (`lib/apigateway/content-api-methods-stack.ts`)
+**Propósito**: Endpoints de contenido multimedia
+- Gestión de cast members y países
+- Gestión de secciones y colecciones
+- Gestión de categorías multimedia
+- Gestión de películas, series, temporadas y episodios
+- Firmas de video y top 10
+
+### 9. CommerceApiMethodsStack (`lib/apigateway/commerce-api-methods-stack.ts`)
+**Propósito**: Endpoints de comercio y facturación
+- Gestión de tipos de paquetes
+- Gestión de vendedores y usuarios de paquetes
+- Gestión de recursos y créditos
+- Gestión de revendedores
 
 ## Dependencias entre Stacks
 
@@ -56,7 +78,11 @@ LambdaRoleStack → LambdaLayerStack
     ↓
 LambdaFunctionStack → LambdaLayerStack, LambdaRoleStack
     ↓
-ApiGatewayStack → LambdaFunctionStack, SecurityStack, MonitoringStack
+ApiGatewayStack → SecurityStack, MonitoringStack
+    ↓
+AuthApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
+ContentApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
+CommerceApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
 ```
 
 ## Configuración Centralizada
@@ -107,8 +133,17 @@ cdk deploy LambdaRoleStack --context env=prod
 # Solo funciones Lambda
 cdk deploy LambdaFunctionStack --context env=prod
 
-# Solo API Gateway
+# Solo API Gateway base
 cdk deploy ApiGatewayStack --context env=prod
+
+# Solo endpoints de autenticación
+cdk deploy AuthApiMethodsStack --context env=prod
+
+# Solo endpoints de contenido
+cdk deploy ContentApiMethodsStack --context env=prod
+
+# Solo endpoints de comercio
+cdk deploy CommerceApiMethodsStack --context env=prod
 ```
 
 ## Beneficios de la Arquitectura Modular
@@ -119,6 +154,9 @@ cdk deploy ApiGatewayStack --context env=prod
 4. **Mantenibilidad**: Código más organizado y fácil de mantener
 5. **Escalabilidad**: Fácil agregar nuevos stacks o modificar existentes
 6. **Testing**: Posibilidad de probar stacks de forma aislada
+7. **Distribución de Recursos**: Evita límites de CloudFormation (500 recursos/stack)
+8. **Despliegues Granulares**: Actualizar solo endpoints específicos sin afectar otros
+9. **Organización por Contexto**: Endpoints agrupados por dominio de negocio
 
 ## Outputs y Referencias Cruzadas
 
@@ -128,6 +166,9 @@ Los stacks exponen recursos a través de propiedades públicas que son consumida
 - `MonitoringStack.apiGatewayLogGroup` → `ApiGatewayStack`
 - `LambdaLayerStack.layers` → `LambdaFunctionStack`
 - `LambdaRoleStack.roles` → `LambdaFunctionStack`
+- `ApiGatewayStack.restApiId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
+- `ApiGatewayStack.restApiRootResourceId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
+- `LambdaFunctionStack.functions` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
 
 ## Tags Globales
 

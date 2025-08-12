@@ -11,6 +11,9 @@ import { LambdaLayerStack } from '../lib/lambda/lambda-layer-stack';
 import { LambdaRoleStack } from '../lib/lambda/lambda-role-stack';
 import { LambdaFunctionStack } from '../lib/lambda/lambda-functions-stack';
 import { ApiGatewayStack } from '../lib/apigateway/apigateway-stack';
+import { AuthApiMethodsStack } from '../lib/apigateway/auth-api-methods-stack';
+import { ContentApiMethodsStack } from '../lib/apigateway/content-api-methods-stack';
+import { CommerceApiMethodsStack } from '../lib/apigateway/commerce-api-methods-stack';
 
 const app = new App();
 
@@ -53,109 +56,167 @@ const lambdaFunctionStack = new LambdaFunctionStack(app, 'LambdaFunctionStack', 
   layerStack: lambdaLayerStack,
 });
 
-// 7. Stack de API Gateway
+// 7. Stack de API Gateway (simplificado)
 const apiGatewayStack = new ApiGatewayStack(app, 'ApiGatewayStack', {
   ...generateStackProps(config, STACK_NAMES.API_GATEWAY),
   environment: config.environment,
   domainName: config.domainName,
   certificate: securityStack.certificate,
   logGroup: monitoringStack.apiGatewayLogGroup,
-  lambdaFunctions: {
-    adminLoginFunction: lambdaFunctionStack.adminLoginFunction,
-    refreshTokenFunction: lambdaFunctionStack.refreshTokenFunction,
-    listUserAdminsFunction: lambdaFunctionStack.listUserAdminsFunction,
-    createUserAdminFunction: lambdaFunctionStack.createUserAdminFunction,
-    getUserAdminByIdFunction: lambdaFunctionStack.getUserAdminByIdFunction,
-    updateUserAdminFunction: lambdaFunctionStack.updateUserAdminFunction,
-    deleteUserAdminFunction: lambdaFunctionStack.deleteUserAdminFunction,
-    changeUserAdminStatusFunction: lambdaFunctionStack.changeUserAdminStatusFunction,
-    getPlatformsFunction: lambdaFunctionStack.getPlatformsFunction,
-    getRolesFunction: lambdaFunctionStack.getRolesFunction,
-    createPackageSellerFunction: lambdaFunctionStack.createPackageSellerFunction,
-    createPackageTypeFunction: lambdaFunctionStack.createPackageTypeFunction,
-    listPackageTypesFunction: lambdaFunctionStack.listPackageTypesFunction,
-    getPackageTypeByIdFunction: lambdaFunctionStack.getPackageTypeByIdFunction,
-    deletePackageTypeFunction: lambdaFunctionStack.deletePackageTypeFunction,
-    updatePackageTypeFunction: lambdaFunctionStack.updatePackageTypeFunction,
-    changePackageTypeStatusFunction: lambdaFunctionStack.changePackageTypeStatusFunction,
-    listPackageSellerFunction: lambdaFunctionStack.listPackageSellerFunction,
-    getPackageSellerByIdFunction: lambdaFunctionStack.getPackageSellerByIdFunction,
-    updatePackageSellerFunction: lambdaFunctionStack.updatePackageSellerFunction,
-    deletePackageSellerFunction: lambdaFunctionStack.deletePackageSellerFunction,
-    changePackageSellerStatusFunction: lambdaFunctionStack.changePackageSellerStatusFunction,
-    createPackageUserFunction: lambdaFunctionStack.createPackageUserFunction,
-    getPackageUserByIdFunction: lambdaFunctionStack.getPackageUserByIdFunction,
-    listPackageUsersFunction: lambdaFunctionStack.listPackageUsersFunction,
-    updatePackageUserFunction: lambdaFunctionStack.updatePackageUserFunction,
-    deletePackageUserFunction: lambdaFunctionStack.deletePackageUserFunction,
-    changePackageUserStatusFunction: lambdaFunctionStack.changePackageUserStatusFunction,
-    listPackageTypesActiveFunction: lambdaFunctionStack.listPackageTypesActiveFunction,
-    createUserAccountFunction: lambdaFunctionStack.createUserAccountFunction,
-    getUserAccountByIdFunction: lambdaFunctionStack.getUserAccountByIdFunction,
-    listUserAccountsFunction: lambdaFunctionStack.listUserAccountsFunction,
-    updateUserAccountFunction: lambdaFunctionStack.updateUserAccountFunction,
-    deleteUserAccountFunction: lambdaFunctionStack.deleteUserAccountFunction,
-    changeUserAccountStatusFunction: lambdaFunctionStack.changeUserAccountStatusFunction,
-    listUserAccountByAdminFunction: lambdaFunctionStack.listUserAccountByAdminFunction,
-    assignSellerCreditFunction: lambdaFunctionStack.assignSellerCreditFunction,
-    createResourceFunction: lambdaFunctionStack.createResourceFunction,
-    listResourceFunction: lambdaFunctionStack.listResourceFunction,
-    getResourceByIdFunction: lambdaFunctionStack.getResourceByIdFunction,
-    changeResourceStateFunction: lambdaFunctionStack.changeResourceStateFunction,
-    deleteResourceFunction: lambdaFunctionStack.deleteResourceFunction,
-    updateResourceFunction: lambdaFunctionStack.updateResourceFunction,
-    getSellerCreditByIdFunction: lambdaFunctionStack.getSellerCreditByIdFunction,
-    listCastMembersFunction: lambdaFunctionStack.listCastMembersFunction,
-    getCastMemberByIdFunction: lambdaFunctionStack.getCastMemberByIdFunction,
-    createCastMemberFunction: lambdaFunctionStack.createCastMemberFunction,
-    updateCastMemberFunction: lambdaFunctionStack.updateCastMemberFunction,
-    deleteCastMemberFunction: lambdaFunctionStack.deleteCastMemberFunction,
-    listAllCountriesFunction: lambdaFunctionStack.listAllCountriesFunction,
-    getAllSectionsFunction: lambdaFunctionStack.getAllSectionsFunction,
-    listCollectionsFunction: lambdaFunctionStack.listCollectionsFunction,
-    getCollectionByIdFunction: lambdaFunctionStack.getCollectionByIdFunction,
-    createCollectionFunction: lambdaFunctionStack.createCollectionFunction,
-    updateCollectionFunction: lambdaFunctionStack.updateCollectionFunction,
-    deleteCollectionFunction: lambdaFunctionStack.deleteCollectionFunction,
-    changeCollectionStatusFunction: lambdaFunctionStack.changeCollectionStatusFunction,
-    getAllCollectionsFunction: lambdaFunctionStack.getAllCollectionsFunction,
-    listMultimediaCategoriesFunction: lambdaFunctionStack.listMultimediaCategoriesFunction,
-    getMultimediaCategoryByIdFunction: lambdaFunctionStack.getMultimediaCategoryByIdFunction,
-    createMultimediaCategoryFunction: lambdaFunctionStack.createMultimediaCategoryFunction,
-    updateMultimediaCategoryFunction: lambdaFunctionStack.updateMultimediaCategoryFunction,
-    deleteMultimediaCategoryFunction: lambdaFunctionStack.deleteMultimediaCategoryFunction,
-    changeMultimediaCategoryStatusFunction: lambdaFunctionStack.changeMultimediaCategoryStatusFunction,
-    getAllMultimediaCategoriesFunction: lambdaFunctionStack.getAllMultimediaCategoriesFunction,
-    createMovieFunction: lambdaFunctionStack.createMovieFunction,
-    getMovieByIdFunction: lambdaFunctionStack.getMovieByIdFunction,
-    deleteMovieFunction: lambdaFunctionStack.deleteMovieFunction,
-    changeMovieStatusFunction: lambdaFunctionStack.changeMovieStatusFunction,
-    updateMovieFunction: lambdaFunctionStack.updateMovieFunction,
-    createSeriesFunction: lambdaFunctionStack.createSeriesFunction,
-    getSeriesByIdFunction: lambdaFunctionStack.getSeriesByIdFunction,
-    deleteSeriesFunction: lambdaFunctionStack.deleteSeriesFunction,
-    changeSeriesStatusFunction: lambdaFunctionStack.changeSeriesStatusFunction,
-    updateSeriesFunction: lambdaFunctionStack.updateSeriesFunction,
-    listMultimediaFunction: lambdaFunctionStack.listMultimediaFunction,
-    createSeasonFunction: lambdaFunctionStack.createSeasonFunction,
-    getSeasonByIdFunction: lambdaFunctionStack.getSeasonByIdFunction,
-    listSeasonsFunction: lambdaFunctionStack.listSeasonsFunction,
-    deleteSeasonFunction: lambdaFunctionStack.deleteSeasonFunction,
-    updateSeasonFunction: lambdaFunctionStack.updateSeasonFunction,
-    createEpisodeFunction: lambdaFunctionStack.createEpisodeFunction,
-    getEpisodeByIdFunction: lambdaFunctionStack.getEpisodeByIdFunction,
-    listEpisodesFunction: lambdaFunctionStack.listEpisodesFunction,
-    deleteEpisodeFunction: lambdaFunctionStack.deleteEpisodeFunction,
-    updateEpisodeFunction: lambdaFunctionStack.updateEpisodeFunction,
-    getVideoSignatureFunction: lambdaFunctionStack.getVideoSignatureFunction,
-    listTop10Function: lambdaFunctionStack.listTop10Function,
-    createTop10Function: lambdaFunctionStack.createTop10Function,
-    deleteTop10Function: lambdaFunctionStack.deleteTop10Function,
-    createRevendedorFunction: lambdaFunctionStack.createRevendedorFunction,
-    listRevendedoresFunction: lambdaFunctionStack.listRevendedoresFunction,
-    transferirCreditosFunction: lambdaFunctionStack.transferirCreditosFunction,
-    clientLoginFunction: lambdaFunctionStack.clientLoginFunction,
-  },
+});
+
+// 8. Stack de métodos de API de autenticación
+const authApiMethodsStack = new AuthApiMethodsStack(app, 'AuthApiMethodsStack', {
+  ...generateStackProps(config, STACK_NAMES.AUTH_API_METHODS),
+  environment: config.environment,
+  restApiId: apiGatewayStack.restApiId,
+  restApiRootResourceId: apiGatewayStack.restApiRootResourceId,
+  // Auth Lambda Functions
+  adminLoginFunction: lambdaFunctionStack.adminLoginFunction,
+  clientLoginFunction: lambdaFunctionStack.clientLoginFunction,
+  refreshTokenFunction: lambdaFunctionStack.refreshTokenFunction,
+  // User Admin Functions
+  listUserAdminsFunction: lambdaFunctionStack.listUserAdminsFunction,
+  createUserAdminFunction: lambdaFunctionStack.createUserAdminFunction,
+  getUserAdminByIdFunction: lambdaFunctionStack.getUserAdminByIdFunction,
+  updateUserAdminFunction: lambdaFunctionStack.updateUserAdminFunction,
+  deleteUserAdminFunction: lambdaFunctionStack.deleteUserAdminFunction,
+  changeUserAdminStatusFunction: lambdaFunctionStack.changeUserAdminStatusFunction,
+
+  // User Account Functions
+  getUserAccountByIdFunction: lambdaFunctionStack.getUserAccountByIdFunction,
+  listUserAccountsFunction: lambdaFunctionStack.listUserAccountsFunction,
+  listUserAccountByAdminFunction: lambdaFunctionStack.listUserAccountByAdminFunction,
+  createUserAccountFunction: lambdaFunctionStack.createUserAccountFunction,
+  updateUserAccountFunction: lambdaFunctionStack.updateUserAccountFunction,
+  deleteUserAccountFunction: lambdaFunctionStack.deleteUserAccountFunction,
+  changeUserAccountStatusFunction: lambdaFunctionStack.changeUserAccountStatusFunction,
+  // Platform Functions
+  getPlatformsFunction: lambdaFunctionStack.getPlatformsFunction,
+  // Role Functions
+  getRolesFunction: lambdaFunctionStack.getRolesFunction,
+});
+
+// 9. Stack de métodos de API de contenido
+const contentApiMethodsStack = new ContentApiMethodsStack(app, 'ContentApiMethodsStack', {
+  ...generateStackProps(config, STACK_NAMES.CONTENT_API_METHODS),
+  environment: config.environment,
+  restApiId: apiGatewayStack.restApiId,
+  restApiRootResourceId: apiGatewayStack.restApiRootResourceId,
+  // Cast Member Functions
+  createCastMemberFunction: lambdaFunctionStack.createCastMemberFunction,
+  getCastMemberByIdFunction: lambdaFunctionStack.getCastMemberByIdFunction,
+  updateCastMemberFunction: lambdaFunctionStack.updateCastMemberFunction,
+  deleteCastMemberFunction: lambdaFunctionStack.deleteCastMemberFunction,
+  listCastMembersFunction: lambdaFunctionStack.listCastMembersFunction,
+  // Country Functions
+  createCountryFunction: lambdaFunctionStack.listAllCountriesFunction,
+  getCountryFunction: lambdaFunctionStack.listAllCountriesFunction,
+  updateCountryFunction: lambdaFunctionStack.listAllCountriesFunction,
+  deleteCountryFunction: lambdaFunctionStack.listAllCountriesFunction,
+  listCountriesFunction: lambdaFunctionStack.listAllCountriesFunction,
+  // Section Functions
+  createSectionFunction: lambdaFunctionStack.getAllSectionsFunction,
+  getSectionFunction: lambdaFunctionStack.getAllSectionsFunction,
+  updateSectionFunction: lambdaFunctionStack.getAllSectionsFunction,
+  deleteSectionFunction: lambdaFunctionStack.getAllSectionsFunction,
+  listSectionsFunction: lambdaFunctionStack.getAllSectionsFunction,
+  // Collection Functions
+  createCollectionFunction: lambdaFunctionStack.createCollectionFunction,
+  getCollectionByIdFunction: lambdaFunctionStack.getCollectionByIdFunction,
+  updateCollectionFunction: lambdaFunctionStack.updateCollectionFunction,
+  deleteCollectionFunction: lambdaFunctionStack.deleteCollectionFunction,
+  listCollectionsFunction: lambdaFunctionStack.listCollectionsFunction,
+  changeCollectionStatusFunction: lambdaFunctionStack.changeCollectionStatusFunction,
+  getAllCollectionsFunction: lambdaFunctionStack.getAllCollectionsFunction,
+  // Multimedia Category Functions
+  createMultimediaCategoryFunction: lambdaFunctionStack.createMultimediaCategoryFunction,
+  getMultimediaCategoryByIdFunction: lambdaFunctionStack.getMultimediaCategoryByIdFunction,
+  updateMultimediaCategoryFunction: lambdaFunctionStack.updateMultimediaCategoryFunction,
+  deleteMultimediaCategoryFunction: lambdaFunctionStack.deleteMultimediaCategoryFunction,
+  listMultimediaCategoriesFunction: lambdaFunctionStack.listMultimediaCategoriesFunction,
+  changeMultimediaCategoryStatusFunction: lambdaFunctionStack.changeMultimediaCategoryStatusFunction,
+  getAllMultimediaCategoriesFunction: lambdaFunctionStack.getAllMultimediaCategoriesFunction,
+
+  // Movie Functions
+  createMovieFunction: lambdaFunctionStack.createMovieFunction,
+  getMovieByIdFunction: lambdaFunctionStack.getMovieByIdFunction,
+  updateMovieFunction: lambdaFunctionStack.updateMovieFunction,
+  deleteMovieFunction: lambdaFunctionStack.deleteMovieFunction,
+  changeMovieStatusFunction: lambdaFunctionStack.changeMovieStatusFunction,
+  // Series Functions
+  createSeriesFunction: lambdaFunctionStack.createSeriesFunction,
+  getSeriesByIdFunction: lambdaFunctionStack.getSeriesByIdFunction,
+  updateSeriesFunction: lambdaFunctionStack.updateSeriesFunction,
+  deleteSeriesFunction: lambdaFunctionStack.deleteSeriesFunction,
+  changeSeriesStatusFunction: lambdaFunctionStack.changeSeriesStatusFunction,
+  // Multimedia Functions
+  listMultimediaFunction: lambdaFunctionStack.listMultimediaFunction,
+  // Season Functions
+  createSeasonFunction: lambdaFunctionStack.createSeasonFunction,
+  getSeasonByIdFunction: lambdaFunctionStack.getSeasonByIdFunction,
+  updateSeasonFunction: lambdaFunctionStack.updateSeasonFunction,
+  deleteSeasonFunction: lambdaFunctionStack.deleteSeasonFunction,
+  listSeasonsFunction: lambdaFunctionStack.listSeasonsFunction,
+  // Episode Functions
+  createEpisodeFunction: lambdaFunctionStack.createEpisodeFunction,
+  getEpisodeByIdFunction: lambdaFunctionStack.getEpisodeByIdFunction,
+  updateEpisodeFunction: lambdaFunctionStack.updateEpisodeFunction,
+  deleteEpisodeFunction: lambdaFunctionStack.deleteEpisodeFunction,
+  listEpisodesFunction: lambdaFunctionStack.listEpisodesFunction,
+  // Video Signature Functions
+  getVideoSignatureFunction: lambdaFunctionStack.getVideoSignatureFunction,
+  // Top 10 Functions
+  createTop10Function: lambdaFunctionStack.createTop10Function,
+  deleteTop10Function: lambdaFunctionStack.deleteTop10Function,
+  listTop10Function: lambdaFunctionStack.listTop10Function,
+});
+
+// 10. Stack de métodos de API de comercio
+const commerceApiMethodsStack = new CommerceApiMethodsStack(app, 'CommerceApiMethodsStack', {
+  ...generateStackProps(config, STACK_NAMES.COMMERCE_API_METHODS),
+  environment: config.environment,
+  restApiId: apiGatewayStack.restApiId,
+  restApiRootResourceId: apiGatewayStack.restApiRootResourceId,
+  // Package Type Functions
+  createPackageTypeFunction: lambdaFunctionStack.createPackageTypeFunction,
+  getPackageTypeByIdFunction: lambdaFunctionStack.getPackageTypeByIdFunction,
+  updatePackageTypeFunction: lambdaFunctionStack.updatePackageTypeFunction,
+  deletePackageTypeFunction: lambdaFunctionStack.deletePackageTypeFunction,
+  listPackageTypesFunction: lambdaFunctionStack.listPackageTypesFunction,
+  changePackageTypeStatusFunction: lambdaFunctionStack.changePackageTypeStatusFunction,
+  listPackageTypesActiveFunction: lambdaFunctionStack.listPackageTypesActiveFunction,
+  // Package Seller Functions
+  createPackageSellerFunction: lambdaFunctionStack.createPackageSellerFunction,
+  getPackageSellerByIdFunction: lambdaFunctionStack.getPackageSellerByIdFunction,
+  updatePackageSellerFunction: lambdaFunctionStack.updatePackageSellerFunction,
+  deletePackageSellerFunction: lambdaFunctionStack.deletePackageSellerFunction,
+  listPackageSellerFunction: lambdaFunctionStack.listPackageSellerFunction,
+  changePackageSellerStatusFunction: lambdaFunctionStack.changePackageSellerStatusFunction,
+  // Package User Functions
+  createPackageUserFunction: lambdaFunctionStack.createPackageUserFunction,
+  getPackageUserByIdFunction: lambdaFunctionStack.getPackageUserByIdFunction,
+  updatePackageUserFunction: lambdaFunctionStack.updatePackageUserFunction,
+  deletePackageUserFunction: lambdaFunctionStack.deletePackageUserFunction,
+  listPackageUsersFunction: lambdaFunctionStack.listPackageUsersFunction,
+  changePackageUserStatusFunction: lambdaFunctionStack.changePackageUserStatusFunction,
+
+  // Resource Functions
+  createResourceFunction: lambdaFunctionStack.createResourceFunction,
+  getResourceByIdFunction: lambdaFunctionStack.getResourceByIdFunction,
+  updateResourceFunction: lambdaFunctionStack.updateResourceFunction,
+  deleteResourceFunction: lambdaFunctionStack.deleteResourceFunction,
+  listResourceFunction: lambdaFunctionStack.listResourceFunction,
+  changeResourceStatusFunction: lambdaFunctionStack.changeResourceStateFunction,
+  // Seller Credit Functions
+  assignSellerCreditFunction: lambdaFunctionStack.assignSellerCreditFunction,
+  getSellerCreditByIdFunction: lambdaFunctionStack.getSellerCreditByIdFunction,
+  // Reseller Functions
+  createResellerFunction: lambdaFunctionStack.createRevendedorFunction,
+  listResellersFunction: lambdaFunctionStack.listRevendedoresFunction,
+
+  // Transferencia de crédito
+  transferirCreditosFunction: lambdaFunctionStack.transferirCreditosFunction,
 });
 
 // Configurar dependencias entre stacks
@@ -166,6 +227,14 @@ lambdaFunctionStack.addDependency(lambdaRoleStack);
 apiGatewayStack.addDependency(lambdaFunctionStack);
 apiGatewayStack.addDependency(securityStack); // Para el certificado SSL
 apiGatewayStack.addDependency(monitoringStack); // Para los logs
+
+// Dependencias para los nuevos stacks de métodos de API
+authApiMethodsStack.addDependency(apiGatewayStack);
+authApiMethodsStack.addDependency(lambdaFunctionStack);
+contentApiMethodsStack.addDependency(apiGatewayStack);
+contentApiMethodsStack.addDependency(lambdaFunctionStack);
+commerceApiMethodsStack.addDependency(apiGatewayStack);
+commerceApiMethodsStack.addDependency(lambdaFunctionStack);
 
 // Tags globales para toda la aplicación
 Tags.of(app).add('Project', 'MovieHomeScrollTV');

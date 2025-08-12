@@ -15,121 +15,24 @@ import {
 
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { addAllApiMethods } from './add-api-methods';
 
 export interface ApiGatewayStackProps extends StackProps {
   environment: string;
   domainName: string;
   certificate: Certificate;
   logGroup: LogGroup;
-  lambdaFunctions: {
-    adminLoginFunction: NodejsFunction;
-    refreshTokenFunction: NodejsFunction;
-    listUserAdminsFunction: NodejsFunction;
-    createUserAdminFunction: NodejsFunction;
-    getUserAdminByIdFunction: NodejsFunction;
-    updateUserAdminFunction: NodejsFunction;
-    deleteUserAdminFunction: NodejsFunction;
-    changeUserAdminStatusFunction: NodejsFunction;
-    getPlatformsFunction: NodejsFunction;
-    getRolesFunction: NodejsFunction;
-    createPackageSellerFunction: NodejsFunction;
-    createPackageTypeFunction: NodejsFunction;
-    listPackageTypesFunction: NodejsFunction;
-    getPackageTypeByIdFunction: NodejsFunction;
-    deletePackageTypeFunction: NodejsFunction;
-    updatePackageTypeFunction: NodejsFunction;
-    changePackageTypeStatusFunction: NodejsFunction;
-    listPackageSellerFunction: NodejsFunction;
-    getPackageSellerByIdFunction: NodejsFunction;
-    updatePackageSellerFunction: NodejsFunction;
-    deletePackageSellerFunction: NodejsFunction;
-    changePackageSellerStatusFunction: NodejsFunction;
-    createPackageUserFunction: NodejsFunction;
-    getPackageUserByIdFunction: NodejsFunction;
-    listPackageUsersFunction: NodejsFunction;
-    updatePackageUserFunction: NodejsFunction;
-    deletePackageUserFunction: NodejsFunction;
-    changePackageUserStatusFunction: NodejsFunction;
-    listPackageTypesActiveFunction: NodejsFunction;
-    createUserAccountFunction: NodejsFunction;
-    getUserAccountByIdFunction: NodejsFunction;
-    listUserAccountsFunction: NodejsFunction;
-    updateUserAccountFunction: NodejsFunction;
-    deleteUserAccountFunction: NodejsFunction;
-    changeUserAccountStatusFunction: NodejsFunction;
-    listUserAccountByAdminFunction: NodejsFunction;
-    assignSellerCreditFunction: NodejsFunction;
-    createResourceFunction: NodejsFunction;
-    listResourceFunction: NodejsFunction;
-    getResourceByIdFunction: NodejsFunction;
-    changeResourceStateFunction: NodejsFunction;
-    deleteResourceFunction: NodejsFunction;
-    updateResourceFunction: NodejsFunction;
-    getSellerCreditByIdFunction: NodejsFunction;
-    listCastMembersFunction: NodejsFunction;
-    getCastMemberByIdFunction: NodejsFunction;
-    createCastMemberFunction: NodejsFunction;
-    updateCastMemberFunction: NodejsFunction;
-    deleteCastMemberFunction: NodejsFunction;
-    listAllCountriesFunction: NodejsFunction;
-    getAllSectionsFunction: NodejsFunction;
-    listCollectionsFunction: NodejsFunction;
-    getCollectionByIdFunction: NodejsFunction;
-    createCollectionFunction: NodejsFunction;
-    updateCollectionFunction: NodejsFunction;
-    deleteCollectionFunction: NodejsFunction;
-    changeCollectionStatusFunction: NodejsFunction;
-    getAllCollectionsFunction: NodejsFunction;
-    listMultimediaCategoriesFunction: NodejsFunction;
-    getMultimediaCategoryByIdFunction: NodejsFunction;
-    createMultimediaCategoryFunction: NodejsFunction;
-    updateMultimediaCategoryFunction: NodejsFunction;
-    deleteMultimediaCategoryFunction: NodejsFunction;
-    changeMultimediaCategoryStatusFunction: NodejsFunction;
-    getAllMultimediaCategoriesFunction: NodejsFunction;
-    createMovieFunction: NodejsFunction;
-    getMovieByIdFunction: NodejsFunction;
-    deleteMovieFunction: NodejsFunction;
-    changeMovieStatusFunction: NodejsFunction;
-    updateMovieFunction: NodejsFunction;
-    createSeriesFunction: NodejsFunction;
-    getSeriesByIdFunction: NodejsFunction;
-    deleteSeriesFunction: NodejsFunction;
-    changeSeriesStatusFunction: NodejsFunction;
-    updateSeriesFunction: NodejsFunction;
-    listMultimediaFunction: NodejsFunction;
-    createSeasonFunction: NodejsFunction;
-    getSeasonByIdFunction: NodejsFunction;
-    listSeasonsFunction: NodejsFunction;
-    deleteSeasonFunction: NodejsFunction;
-    updateSeasonFunction: NodejsFunction;
-    createEpisodeFunction: NodejsFunction;
-    getEpisodeByIdFunction: NodejsFunction;
-    listEpisodesFunction: NodejsFunction;
-    deleteEpisodeFunction: NodejsFunction;
-    updateEpisodeFunction: NodejsFunction;
-    getVideoSignatureFunction: NodejsFunction;
-    listTop10Function: NodejsFunction;
-    createTop10Function: NodejsFunction;
-    deleteTop10Function: NodejsFunction;
-    createRevendedorFunction: NodejsFunction;
-    listRevendedoresFunction: NodejsFunction;
-    transferirCreditosFunction: NodejsFunction;
-    
-    clientLoginFunction: NodejsFunction;
-  };
 }
 
 export class ApiGatewayStack extends Stack {
   public readonly restApi: RestApi;
   public readonly customDomain?: DomainName;
+  public readonly restApiId: string;
+  public readonly restApiRootResourceId: string;
 
   constructor(scope: Construct, id: string, props: ApiGatewayStackProps) {
     super(scope, id, props);
 
-    const { environment, domainName, certificate, logGroup, lambdaFunctions } = props;
+    const { environment, domainName, certificate, logGroup } = props;
     const apiSubdomain = `api.${domainName}`;
 
     this.restApi = new RestApi(this, 'MovieHomeScrollTvApi', {
@@ -171,13 +74,9 @@ export class ApiGatewayStack extends Stack {
       securityPolicy: SecurityPolicy.TLS_1_2,
     });
 
-    // Agregar todos los métodos a la API
-    addAllApiMethods({
-      restApi: this.restApi,
-      authorizer: undefined, // JWT se valida en la Lambda
-      scope: this,
-      lambdaFunctions,
-    });
+    // Asignar valores para exports
+    this.restApiId = this.restApi.restApiId;
+    this.restApiRootResourceId = this.restApi.restApiRootResourceId;
 
     // Despliegue manual
     const deployment = new Deployment(this, 'Deployment', {
@@ -240,6 +139,19 @@ export class ApiGatewayStack extends Stack {
     new CfnOutput(this, 'ApiGatewayId', {
       value: this.restApi.restApiId,
       description: 'ID del API Gateway',
+    });
+
+    // Exports para otros stacks
+    new CfnOutput(this, 'RestApiId', {
+      value: this.restApiId,
+      exportName: `${this.stackName}-RestApiId`,
+      description: 'ID del REST API para importar en otros stacks',
+    });
+
+    new CfnOutput(this, 'RestApiRootResourceId', {
+      value: this.restApiRootResourceId,
+      exportName: `${this.stackName}-RestApiRootResourceId`,
+      description: 'ID del recurso raíz del REST API para importar en otros stacks',
     });
 
     Tags.of(this).add('Component', 'ApiGateway');
