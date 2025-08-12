@@ -1,6 +1,8 @@
 import { CfnOutput, Stack, StackProps, Tags } from "aws-cdk-lib";
 import { Role } from "aws-cdk-lib/aws-iam";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { Bucket } from "aws-cdk-lib/aws-s3";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from 'constructs';
 import { getSharedRole } from './lambda-role-mapper';
 import {
@@ -107,6 +109,8 @@ import {
   createRevendedorTemplateLambda,
   listRevendedoresTemplateLambda,
   transferirCreditosTemplateLambda,
+  //MOBILE 
+    clientLoginTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -116,6 +120,7 @@ interface LambdaFunctionStackProps extends StackProps {
 }
 export class LambdaFunctionStack extends Stack {
   public readonly adminLoginFunction: NodejsFunction;
+  public readonly clientLoginFunction: NodejsFunction;
   public readonly refreshTokenFunction: NodejsFunction;
   public readonly listUserAdminsFunction: NodejsFunction;
   public readonly createUserAdminFunction: NodejsFunction;
@@ -242,6 +247,8 @@ export class LambdaFunctionStack extends Stack {
       layerStack: props.layerStack,
       scope: this,
     });
+
+
 
     // Función refreshToken - Usando rol compartido AuthLambdaRole
     this.refreshTokenFunction = refreshTokenTemplateLambda({
@@ -900,6 +907,13 @@ export class LambdaFunctionStack extends Stack {
     // Función transferirCreditos - Usando rol compartido AdminLambdaRole
     this.transferirCreditosFunction = transferirCreditosTemplateLambda({
       lambdaRole: getSharedRole('TransferirCreditosLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+        // Función clientLogin - Usando rol compartido AuthLambdaRole
+    this.clientLoginFunction = clientLoginTemplateLambda({
+      lambdaRole: getSharedRole('ClientLoginLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });

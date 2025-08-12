@@ -130,5 +130,9 @@ export const LAMBDA_ROLE_MAPPING = {
   'UpdateCastMemberLambdaRole': 'AdminLambdaRole',
   'DeleteCastMemberLambdaRole': 'AdminLambdaRole',
   'ListAllCountriesLambdaRole': 'AdminLambdaRole',
-  'GetAllSectionsLambdaRole': 'AdminLambdaRole'
+  'GetAllSectionsLambdaRole': 'AdminLambdaRole',
+
+
+  //MOBILE 
+  'ClientLoginLambdaRole': 'MobileLambdaRole',
 } as const;

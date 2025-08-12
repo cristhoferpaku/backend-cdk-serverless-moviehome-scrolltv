@@ -1,30 +1,120 @@
-import { RestApi, AuthorizationType } from 'aws-cdk-lib/aws-apigateway';
+﻿import { RestApi, AuthorizationType } from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { addApiMethodsWithLambda } from '../lambda/helpers/add-api-methods';
-import { ArnFunctions } from '../lambda/helpers/arn-functions';
 
 interface AddAllApiMethodsProps {
   restApi: RestApi;
   authorizer?: any;
   scope: Construct;
+  lambdaFunctions: {
+    adminLoginFunction: NodejsFunction;
+    clientLoginFunction: NodejsFunction;
+    refreshTokenFunction: NodejsFunction;
+    listUserAdminsFunction: NodejsFunction;
+    createUserAdminFunction: NodejsFunction;
+    getUserAdminByIdFunction: NodejsFunction;
+    updateUserAdminFunction: NodejsFunction;
+    deleteUserAdminFunction: NodejsFunction;
+    changeUserAdminStatusFunction: NodejsFunction;
+    getPlatformsFunction: NodejsFunction;
+    getRolesFunction: NodejsFunction;
+    createPackageSellerFunction: NodejsFunction;
+    createPackageTypeFunction: NodejsFunction;
+    listPackageTypesFunction: NodejsFunction;
+    getPackageTypeByIdFunction: NodejsFunction;
+    deletePackageTypeFunction: NodejsFunction;
+    updatePackageTypeFunction: NodejsFunction;
+    changePackageTypeStatusFunction: NodejsFunction;
+    listPackageSellerFunction: NodejsFunction;
+    getPackageSellerByIdFunction: NodejsFunction;
+    updatePackageSellerFunction: NodejsFunction;
+    deletePackageSellerFunction: NodejsFunction;
+    changePackageSellerStatusFunction: NodejsFunction;
+    createPackageUserFunction: NodejsFunction;
+    getPackageUserByIdFunction: NodejsFunction;
+    listPackageUsersFunction: NodejsFunction;
+    updatePackageUserFunction: NodejsFunction;
+    deletePackageUserFunction: NodejsFunction;
+    changePackageUserStatusFunction: NodejsFunction;
+    listPackageTypesActiveFunction: NodejsFunction;
+    createUserAccountFunction: NodejsFunction;
+    getUserAccountByIdFunction: NodejsFunction;
+    listUserAccountsFunction: NodejsFunction;
+    updateUserAccountFunction: NodejsFunction;
+    deleteUserAccountFunction: NodejsFunction;
+    changeUserAccountStatusFunction: NodejsFunction;
+    listUserAccountByAdminFunction: NodejsFunction;
+    assignSellerCreditFunction: NodejsFunction;
+    createResourceFunction: NodejsFunction;
+    listResourceFunction: NodejsFunction;
+    getResourceByIdFunction: NodejsFunction;
+    changeResourceStateFunction: NodejsFunction;
+    deleteResourceFunction: NodejsFunction;
+    updateResourceFunction: NodejsFunction;
+    getSellerCreditByIdFunction: NodejsFunction;
+    listCastMembersFunction: NodejsFunction;
+    getCastMemberByIdFunction: NodejsFunction;
+    createCastMemberFunction: NodejsFunction;
+    updateCastMemberFunction: NodejsFunction;
+    deleteCastMemberFunction: NodejsFunction;
+    listAllCountriesFunction: NodejsFunction;
+    getAllSectionsFunction: NodejsFunction;
+    listCollectionsFunction: NodejsFunction;
+    getCollectionByIdFunction: NodejsFunction;
+    createCollectionFunction: NodejsFunction;
+    updateCollectionFunction: NodejsFunction;
+    deleteCollectionFunction: NodejsFunction;
+    changeCollectionStatusFunction: NodejsFunction;
+    getAllCollectionsFunction: NodejsFunction;
+    listMultimediaCategoriesFunction: NodejsFunction;
+    getMultimediaCategoryByIdFunction: NodejsFunction;
+    createMultimediaCategoryFunction: NodejsFunction;
+    updateMultimediaCategoryFunction: NodejsFunction;
+    deleteMultimediaCategoryFunction: NodejsFunction;
+    changeMultimediaCategoryStatusFunction: NodejsFunction;
+    getAllMultimediaCategoriesFunction: NodejsFunction;
+    createMovieFunction: NodejsFunction;
+    getMovieByIdFunction: NodejsFunction;
+    deleteMovieFunction: NodejsFunction;
+    changeMovieStatusFunction: NodejsFunction;
+    updateMovieFunction: NodejsFunction;
+    createSeriesFunction: NodejsFunction;
+    getSeriesByIdFunction: NodejsFunction;
+    deleteSeriesFunction: NodejsFunction;
+    changeSeriesStatusFunction: NodejsFunction;
+    updateSeriesFunction: NodejsFunction;
+    listMultimediaFunction: NodejsFunction;
+    createSeasonFunction: NodejsFunction;
+    getSeasonByIdFunction: NodejsFunction;
+    listSeasonsFunction: NodejsFunction;
+    deleteSeasonFunction: NodejsFunction;
+    updateSeasonFunction: NodejsFunction;
+    createEpisodeFunction: NodejsFunction;
+    getEpisodeByIdFunction: NodejsFunction;
+    listEpisodesFunction: NodejsFunction;
+    deleteEpisodeFunction: NodejsFunction;
+    updateEpisodeFunction: NodejsFunction;
+    getVideoSignatureFunction: NodejsFunction;
+    listTop10Function: NodejsFunction;
+    createTop10Function: NodejsFunction;
+    deleteTop10Function: NodejsFunction;
+    createRevendedorFunction: NodejsFunction;
+    listRevendedoresFunction: NodejsFunction;
+    transferirCreditosFunction: NodejsFunction;
+  };
 }
 
 /**
- * Agregar todos los métodos del API siguiendo el patrón establecido
+ * Agregar todos los mÃ©todos del API siguiendo el patrÃ³n establecido
  */
 export function addAllApiMethods(props: AddAllApiMethodsProps): void {
-  const { restApi, authorizer, scope } = props;
+  const { restApi, authorizer, scope, lambdaFunctions } = props;
 
   // Admin Login routes
-  const adminLoginFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.ADMIN_LOGIN_FUNCTION_ARN,
-    "ImportedAdminLoginFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: adminLoginFunction,
+    lambdaFunction: lambdaFunctions.adminLoginFunction,
     authorizer,
     resourcePath: 'auth/login',
     methods: [
@@ -37,15 +127,9 @@ export function addAllApiMethods(props: AddAllApiMethodsProps): void {
   });
 
   // Refresh Token routes
-  const refreshTokenFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.REFRESH_TOKEN_FUNCTION_ARN,
-    "ImportedRefreshTokenFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: refreshTokenFunction,
+    lambdaFunction: lambdaFunctions.refreshTokenFunction,
     authorizer,
     resourcePath: 'auth/refresh-token',
     methods: [
@@ -56,37 +140,27 @@ export function addAllApiMethods(props: AddAllApiMethodsProps): void {
       },
     ],
   });
- // List User Admins routes
- const listUserAdminsFunction = ArnFunctions.getLambdaFunctionFromArn(
-  scope,
-  ArnFunctions.LIST_USER_ADMINS_FUNCTION_ARN,
-  "ImportedListUserAdminsFunction"
-);
 
-addApiMethodsWithLambda({
-  restApi,
-  lambdaFunction: listUserAdminsFunction,
-  authorizer,
-  resourcePath: 'admin/admin-users',
-  methods: [
-    {
-      method: 'GET',
-      authorizationType: AuthorizationType.NONE, // JWT validado en handler
-      useAuthorizer: false,
-      queryParameters: ['search', 'roleId', 'page', 'limit'],
-    },
-  ],
-});
-  // Create User Admin routes
-  const createUserAdminFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_USER_ADMIN_FUNCTION_ARN,
-    "ImportedCreateUserAdminFunction"
-  );
-
+  // List User Admins routes
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createUserAdminFunction,
+    lambdaFunction: lambdaFunctions.listUserAdminsFunction,
+    authorizer,
+    resourcePath: 'admin/admin-users',
+    methods: [
+      {
+        method: 'GET',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+        queryParameters: ['search', 'roleId', 'page', 'limit'],
+      },
+    ],
+  });
+
+  // Create User Admin routes
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: lambdaFunctions.createUserAdminFunction,
     authorizer,
     resourcePath: 'admin/admin-users',
     methods: [
@@ -99,16 +173,9 @@ addApiMethodsWithLambda({
   });
 
   // Get User Admin By ID routes
-
-  const getUserAdminByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_USER_ADMIN_BY_ID_FUNCTION_ARN,
-    "ImportedGetUserAdminByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getUserAdminByIdFunction,
+    lambdaFunction: lambdaFunctions.getUserAdminByIdFunction,
     authorizer,
     resourcePath: 'admin/admin-users/{id}',
     methods: [
@@ -121,15 +188,9 @@ addApiMethodsWithLambda({
   });
 
   // Update User Admin routes
-  const updateUserAdminFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_USER_ADMIN_FUNCTION_ARN,
-    "ImportedUpdateUserAdminFunction"
-  );
-
   addApiMethodsWithLambda({ 
     restApi,
-    lambdaFunction: updateUserAdminFunction,
+    lambdaFunction: lambdaFunctions.updateUserAdminFunction,
     authorizer,
     resourcePath: 'admin/admin-users/{id}',
     methods: [
@@ -142,14 +203,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete User Admin routes
-  const deleteUserAdminFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_USER_ADMIN_FUNCTION_ARN,
-    "ImportedDeleteUserAdminFunction"
-  );
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteUserAdminFunction,
+    lambdaFunction: lambdaFunctions.deleteUserAdminFunction,
     authorizer,
     resourcePath: 'admin/admin-users/{id}',
     methods: [
@@ -162,15 +218,9 @@ addApiMethodsWithLambda({
   });
 
   // Change User Admin Status routes
-  const changeUserAdminStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_USER_ADMIN_STATUS_FUNCTION_ARN,
-    "ImportedChangeUserAdminStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi, 
-    lambdaFunction: changeUserAdminStatusFunction,
+    lambdaFunction: lambdaFunctions.changeUserAdminStatusFunction,
     authorizer,
     resourcePath: 'admin/admin-users/{id}/status',
     methods: [
@@ -183,15 +233,9 @@ addApiMethodsWithLambda({
   });
 
     // Get Platforms routes
-  const getPlatformsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_PLATFORMS_FUNCTION_ARN,
-    "ImportedGetPlatformsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getPlatformsFunction,
+    lambdaFunction: lambdaFunctions.getPlatformsFunction,
     authorizer,
     resourcePath: 'admin/platforms',
     methods: [
@@ -204,15 +248,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Roles routes
-  const getRolesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_ROLES_FUNCTION_ARN,
-    "ImportedGetRolesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getRolesFunction,
+    lambdaFunction: lambdaFunctions.getRolesFunction,
     authorizer,
     resourcePath: 'admin/roles',
     methods: [
@@ -225,15 +263,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Package Seller routes
-  const createPackageSellerFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_PACKAGE_SELLER_FUNCTION_ARN,
-    "ImportedCreatePackageSellerFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createPackageSellerFunction,
+    lambdaFunction: lambdaFunctions.createPackageSellerFunction,
     authorizer,
     resourcePath: 'admin/packages/seller',
     methods: [
@@ -246,15 +278,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Package Type routes
-  const createPackageTypeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_PACKAGE_TYPE_FUNCTION_ARN,
-    "ImportedCreatePackageTypeFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createPackageTypeFunction,
+    lambdaFunction: lambdaFunctions.createPackageTypeFunction,
     authorizer,
     resourcePath: 'admin/packages/type',
     methods: [
@@ -267,15 +293,9 @@ addApiMethodsWithLambda({
   });
 
   // List Package Types routes
-  const listPackageTypesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_PACKAGE_TYPES_FUNCTION_ARN,
-    "ImportedListPackageTypesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listPackageTypesFunction,
+    lambdaFunction: lambdaFunctions.listPackageTypesFunction,
     authorizer,
     resourcePath: 'admin/packages/type',
     methods: [
@@ -283,21 +303,15 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
-        queryParameters: ['search', 'page', 'pageSize'],
+        queryParameters: ['search', 'page', 'limit'],
       },
     ],
   });
 
   // Get Package Type By ID routes
-  const getPackageTypeByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_PACKAGE_TYPE_BY_ID_FUNCTION_ARN,
-    "ImportedGetPackageTypeByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getPackageTypeByIdFunction,
+    lambdaFunction: lambdaFunctions.getPackageTypeByIdFunction,
     authorizer,
     resourcePath: 'admin/packages/type/{id}',
     methods: [
@@ -310,15 +324,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Package Type routes
-  const deletePackageTypeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_PACKAGE_TYPE_FUNCTION_ARN,
-    "ImportedDeletePackageTypeFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deletePackageTypeFunction,
+    lambdaFunction: lambdaFunctions.deletePackageTypeFunction,
     authorizer,
     resourcePath: 'admin/packages/type/{id}',
     methods: [
@@ -331,15 +339,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Package Type routes
-  const updatePackageTypeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_PACKAGE_TYPE_FUNCTION_ARN,
-    "ImportedUpdatePackageTypeFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updatePackageTypeFunction,
+    lambdaFunction: lambdaFunctions.updatePackageTypeFunction,
     authorizer,
     resourcePath: 'admin/packages/type/{id}',
     methods: [
@@ -352,15 +354,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Package Type Status routes
-  const changePackageTypeStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_PACKAGE_TYPE_STATUS_FUNCTION_ARN,
-    "ImportedChangePackageTypeStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changePackageTypeStatusFunction,
+    lambdaFunction: lambdaFunctions.changePackageTypeStatusFunction,
     authorizer,
     resourcePath: 'admin/packages/type/{id}/status',
     methods: [
@@ -373,15 +369,9 @@ addApiMethodsWithLambda({
   });
 
   // List Package Seller routes
-  const listPackageSellerFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_PACKAGE_SELLER_FUNCTION_ARN,
-    "ImportedListPackageSellerFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listPackageSellerFunction,
+    lambdaFunction: lambdaFunctions.listPackageSellerFunction,
     authorizer,
     resourcePath: 'admin/packages/seller',
     methods: [
@@ -389,21 +379,15 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
-        queryParameters: ['search', 'page', 'pageSize'],
+        queryParameters: ['search', 'page', 'limit'],
       },
     ],
   });
 
   // Get Package Seller By ID routes
-  const getPackageSellerByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_PACKAGE_SELLER_BY_ID_FUNCTION_ARN,
-    "ImportedGetPackageSellerByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getPackageSellerByIdFunction,
+    lambdaFunction: lambdaFunctions.getPackageSellerByIdFunction,
     authorizer,
     resourcePath: 'admin/packages/seller/{id}',
     methods: [
@@ -416,15 +400,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Package Seller routes
-  const updatePackageSellerFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_PACKAGE_SELLER_FUNCTION_ARN,
-    "ImportedUpdatePackageSellerFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updatePackageSellerFunction,
+    lambdaFunction: lambdaFunctions.updatePackageSellerFunction,
     authorizer,
     resourcePath: 'admin/packages/seller/{id}',
     methods: [
@@ -437,15 +415,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Package Seller routes
-  const deletePackageSellerFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_PACKAGE_SELLER_FUNCTION_ARN,
-    "ImportedDeletePackageSellerFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deletePackageSellerFunction,
+    lambdaFunction: lambdaFunctions.deletePackageSellerFunction,
     authorizer,
     resourcePath: 'admin/packages/seller/{id}',
     methods: [
@@ -458,15 +430,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Package Seller Status routes
-  const changePackageSellerStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_PACKAGE_SELLER_STATUS_FUNCTION_ARN,
-    "ImportedChangePackageSellerStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changePackageSellerStatusFunction,
+    lambdaFunction: lambdaFunctions.changePackageSellerStatusFunction,
     authorizer,
     resourcePath: 'admin/packages/seller/{id}/status',
     methods: [
@@ -479,15 +445,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Package User routes
-  const createPackageUserFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_PACKAGE_USER_FUNCTION_ARN,
-    "ImportedCreatePackageUserFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createPackageUserFunction,
+    lambdaFunction: lambdaFunctions.createPackageUserFunction,
     authorizer,
     resourcePath: 'admin/packages/user',
     methods: [
@@ -500,15 +460,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Package User By ID routes
-  const getPackageUserByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_PACKAGE_USER_BY_ID_FUNCTION_ARN,
-    "ImportedGetPackageUserByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getPackageUserByIdFunction,
+    lambdaFunction: lambdaFunctions.getPackageUserByIdFunction,
     authorizer,
     resourcePath: 'admin/packages/user/{id}',
     methods: [
@@ -521,15 +475,9 @@ addApiMethodsWithLambda({
   });
 
   // List Package Users routes
-  const listPackageUsersFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_PACKAGE_USERS_FUNCTION_ARN,
-    "ImportedListPackageUsersFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listPackageUsersFunction,
+    lambdaFunction: lambdaFunctions.listPackageUsersFunction,
     authorizer,
     resourcePath: 'admin/packages/user',
     methods: [
@@ -543,15 +491,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Package User routes
-  const updatePackageUserFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_PACKAGE_USER_FUNCTION_ARN,
-    "ImportedUpdatePackageUserFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updatePackageUserFunction,
+    lambdaFunction: lambdaFunctions.updatePackageUserFunction,
     authorizer,
     resourcePath: 'admin/packages/user/{id}',
     methods: [
@@ -564,15 +506,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Package User routes
-  const deletePackageUserFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_PACKAGE_USER_FUNCTION_ARN,
-    "ImportedDeletePackageUserFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deletePackageUserFunction,
+    lambdaFunction: lambdaFunctions.deletePackageUserFunction,
     authorizer,
     resourcePath: 'admin/packages/user/{id}',
     methods: [
@@ -585,15 +521,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Package User Status routes
-  const changePackageUserStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_PACKAGE_USER_STATUS_FUNCTION_ARN,
-    "ImportedChangePackageUserStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changePackageUserStatusFunction,
+    lambdaFunction: lambdaFunctions.changePackageUserStatusFunction,
     authorizer,
     resourcePath: 'admin/packages/user/{id}/status',
     methods: [
@@ -606,15 +536,9 @@ addApiMethodsWithLambda({
   });
 
   // List Package Types Active routes
-  const listPackageTypesActiveFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_PACKAGE_TYPES_ACTIVE_FUNCTION_ARN,
-    "ImportedListPackageTypesActiveFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listPackageTypesActiveFunction,
+    lambdaFunction: lambdaFunctions.listPackageTypesActiveFunction,
     authorizer,
     resourcePath: 'admin/packages/type/active',
     methods: [
@@ -627,15 +551,9 @@ addApiMethodsWithLambda({
   });
 
   // Create User Account routes
-  const createUserAccountFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_USER_ACCOUNT_FUNCTION_ARN,
-    "ImportedCreateUserAccountFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createUserAccountFunction,
+    lambdaFunction: lambdaFunctions.createUserAccountFunction,
     authorizer,
     resourcePath: 'admin/user-account',
     methods: [
@@ -649,15 +567,9 @@ addApiMethodsWithLambda({
 
   // Get User Account By ID routes
 
-  const getUserAccountByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_USER_ACCOUNT_BY_ID_FUNCTION_ARN,
-    "ImportedGetUserAccountByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getUserAccountByIdFunction,
+    lambdaFunction: lambdaFunctions.getUserAccountByIdFunction,
     authorizer,
     resourcePath: 'admin/user-account/{id}',
     methods: [
@@ -671,15 +583,9 @@ addApiMethodsWithLambda({
   });
 
   // List User Accounts routes
-  const listUserAccountsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_USER_ACCOUNTS_FUNCTION_ARN,
-    "ImportedListUserAccountsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listUserAccountsFunction,
+    lambdaFunction: lambdaFunctions.listUserAccountsFunction,
     authorizer,
     resourcePath: 'admin/user-account',
     methods: [
@@ -693,15 +599,9 @@ addApiMethodsWithLambda({
   });
 
   // Update User Account routes
-  const updateUserAccountFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_USER_ACCOUNT_FUNCTION_ARN,
-    "ImportedUpdateUserAccountFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateUserAccountFunction,
+    lambdaFunction: lambdaFunctions.updateUserAccountFunction,
     authorizer,
     resourcePath: 'admin/user-account/{id}',
     methods: [
@@ -714,15 +614,9 @@ addApiMethodsWithLambda({
    });
   
   // Delete User Account routes
-  const deleteUserAccountFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_USER_ACCOUNT_FUNCTION_ARN,
-    "ImportedDeleteUserAccountFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteUserAccountFunction,
+    lambdaFunction: lambdaFunctions.deleteUserAccountFunction,
     authorizer,
     resourcePath: 'admin/user-account/{id}',
     methods: [
@@ -735,15 +629,9 @@ addApiMethodsWithLambda({
   });
 
   // Change User Account Status routes
-  const changeUserAccountStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_USER_ACCOUNT_STATUS_FUNCTION_ARN,
-    "ImportedChangeUserAccountStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeUserAccountStatusFunction,
+    lambdaFunction: lambdaFunctions.changeUserAccountStatusFunction,
     authorizer,
     resourcePath: 'admin/user-account/{id}/status',
     methods: [
@@ -756,15 +644,9 @@ addApiMethodsWithLambda({
   });
 
   // List User Account By Admin routes
-  const listUserAccountByAdminFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_USER_ACCOUNT_BY_ADMIN_FUNCTION_ARN,
-    "ImportedListUserAccountByAdminFunction"
-  );
-  
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listUserAccountByAdminFunction,
+    lambdaFunction: lambdaFunctions.listUserAccountByAdminFunction,
     authorizer,
     resourcePath: 'admin/user-account/admin',
     methods: [
@@ -778,15 +660,9 @@ addApiMethodsWithLambda({
   });
 
   // Assign Seller Credit routes
-  const assignSellerCreditFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.ASSIGN_SELLER_CREDIT_FUNCTION_ARN,
-    "ImportedAssignSellerCreditFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: assignSellerCreditFunction,
+    lambdaFunction: lambdaFunctions.assignSellerCreditFunction,
     authorizer,
     resourcePath: 'admin/assign-seller-credit',
     methods: [
@@ -799,15 +675,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Resource routes
-  const createResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_RESOURCE_FUNCTION_ARN,
-    "ImportedCreateResourceFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createResourceFunction,
+    lambdaFunction: lambdaFunctions.createResourceFunction,
     authorizer,
     resourcePath: 'admin/resource',
     methods: [
@@ -820,15 +690,9 @@ addApiMethodsWithLambda({
   });
 
   // List Resource routes
-  const listResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_RESOURCE_FUNCTION_ARN,
-    "ImportedListResourceFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listResourceFunction,
+    lambdaFunction: lambdaFunctions.listResourceFunction,
     authorizer,
     resourcePath: 'admin/resource',
     methods: [
@@ -842,15 +706,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Resource By ID routes
-  const getResourceByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_RESOURCE_BY_ID_FUNCTION_ARN,
-    "ImportedGetResourceByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getResourceByIdFunction,
+    lambdaFunction: lambdaFunctions.getResourceByIdFunction,
     authorizer,
     resourcePath: 'admin/resource/{id}',
     methods: [
@@ -863,15 +721,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Resource State routes
-  const changeResourceStateFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_RESOURCE_STATE_FUNCTION_ARN,
-    "ImportedChangeResourceStateFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeResourceStateFunction,
+    lambdaFunction: lambdaFunctions.changeResourceStateFunction,
     authorizer,
     resourcePath: 'admin/resource/{id}/state',
     methods: [
@@ -884,15 +736,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Resource routes
-  const updateResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_RESOURCE_FUNCTION_ARN,
-    "ImportedUpdateResourceFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateResourceFunction,
+    lambdaFunction: lambdaFunctions.updateResourceFunction,
     authorizer,
     resourcePath: 'admin/resource/{id}',
     methods: [
@@ -905,15 +751,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Resource routes
-  const deleteResourceFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_RESOURCE_FUNCTION_ARN,
-    "ImportedDeleteResourceFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteResourceFunction,
+    lambdaFunction: lambdaFunctions.deleteResourceFunction,
     authorizer,
     resourcePath: 'admin/resource/{id}',
     methods: [
@@ -926,15 +766,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Seller Credit routes
-  const getSellerCreditFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_SELLER_CREDIT_BY_ID_FUNCTION_ARN,
-    "ImportedGetSellerCreditFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getSellerCreditFunction,
+    lambdaFunction: lambdaFunctions.getSellerCreditByIdFunction,
     authorizer,
     resourcePath: 'admin/seller-credit',
     methods: [
@@ -947,15 +781,9 @@ addApiMethodsWithLambda({
   });
 
   // List Cast Members routes
-  const listCastMembersFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_CAST_MEMBERS_FUNCTION_ARN,
-    "ImportedListCastMembersFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listCastMembersFunction,
+    lambdaFunction: lambdaFunctions.listCastMembersFunction,
     authorizer,
     resourcePath: 'admin/cast-member',
     methods: [
@@ -969,15 +797,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Cast Member By ID routes
-  const getCastMemberByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_CAST_MEMBER_BY_ID_FUNCTION_ARN,
-    "ImportedGetCastMemberByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getCastMemberByIdFunction,
+    lambdaFunction: lambdaFunctions.getCastMemberByIdFunction,
     authorizer,
     resourcePath: 'admin/cast-member/{id}',
     methods: [
@@ -990,15 +812,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Cast Member routes
-  const createCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_CAST_MEMBER_FUNCTION_ARN,
-    "ImportedCreateCastMemberFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createCastMemberFunction,
+    lambdaFunction: lambdaFunctions.createCastMemberFunction,
     authorizer,
     resourcePath: 'admin/cast-member',
     methods: [
@@ -1011,15 +827,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Cast Member routes
-  const updateCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_CAST_MEMBER_FUNCTION_ARN,
-    "ImportedUpdateCastMemberFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateCastMemberFunction,
+    lambdaFunction: lambdaFunctions.updateCastMemberFunction,
     authorizer,
     resourcePath: 'admin/cast-member/{id}',
     methods: [
@@ -1032,15 +842,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Cast Member routes
-  const deleteCastMemberFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_CAST_MEMBER_FUNCTION_ARN,
-    "ImportedDeleteCastMemberFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteCastMemberFunction,
+    lambdaFunction: lambdaFunctions.deleteCastMemberFunction,
     authorizer,
     resourcePath: 'admin/cast-member/{id}',
     methods: [
@@ -1053,42 +857,30 @@ addApiMethodsWithLambda({
   });
 
   // List All Countries routes
-  const listAllCountriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_ALL_COUNTRIES_FUNCTION_ARN,
-    "ImportedListAllCountriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listAllCountriesFunction,
+    lambdaFunction: lambdaFunctions.listAllCountriesFunction,
     authorizer,
     resourcePath: 'admin/countries',
     methods: [
       {
         method: 'GET',
-        authorizationType: AuthorizationType.NONE, // Sin autenticación requerida
+        authorizationType: AuthorizationType.NONE, // Sin autenticaciÃ³n requerida
         useAuthorizer: false,
       },
     ],
   });
 
   // Get All Sections routes
-  const getAllSectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_ALL_SECTIONS_FUNCTION_ARN,
-    "ImportedGetAllSectionsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getAllSectionsFunction,
+    lambdaFunction: lambdaFunctions.getAllSectionsFunction,
     authorizer,
     resourcePath: 'admin/sections',
     methods: [
       {
         method: 'GET',
-        authorizationType: AuthorizationType.NONE, // Sin autenticación requerida
+        authorizationType: AuthorizationType.NONE, // Sin autenticaciÃ³n requerida
         useAuthorizer: false,
       },
     ],
@@ -1097,15 +889,9 @@ addApiMethodsWithLambda({
   // Collections Routes
 
   // List Collections routes
-  const listCollectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_COLLECTIONS_FUNCTION_ARN,
-    "ImportedListCollectionsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listCollectionsFunction,
+    lambdaFunction: lambdaFunctions.listCollectionsFunction,
     authorizer,
     resourcePath: 'admin/collections',
     methods: [
@@ -1119,15 +905,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Collection By ID routes
-  const getCollectionByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_COLLECTION_BY_ID_FUNCTION_ARN,
-    "ImportedGetCollectionByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getCollectionByIdFunction,
+    lambdaFunction: lambdaFunctions.getCollectionByIdFunction,
     authorizer,
     resourcePath: 'admin/collections/{id}',
     methods: [
@@ -1140,15 +920,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Collection routes
-  const createCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_COLLECTION_FUNCTION_ARN,
-    "ImportedCreateCollectionFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createCollectionFunction,
+    lambdaFunction: lambdaFunctions.createCollectionFunction,
     authorizer,
     resourcePath: 'admin/collections',
     methods: [
@@ -1161,15 +935,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Collection routes
-  const updateCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_COLLECTION_FUNCTION_ARN,
-    "ImportedUpdateCollectionFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateCollectionFunction,
+    lambdaFunction: lambdaFunctions.updateCollectionFunction,
     authorizer,
     resourcePath: 'admin/collections/{id}',
     methods: [
@@ -1182,15 +950,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Collection routes
-  const deleteCollectionFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_COLLECTION_FUNCTION_ARN,
-    "ImportedDeleteCollectionFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteCollectionFunction,
+    lambdaFunction: lambdaFunctions.deleteCollectionFunction,
     authorizer,
     resourcePath: 'admin/collections/{id}',
     methods: [
@@ -1203,15 +965,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Collection Status routes
-  const changeCollectionStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_COLLECTION_STATUS_FUNCTION_ARN,
-    "ImportedChangeCollectionStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeCollectionStatusFunction,
+    lambdaFunction: lambdaFunctions.changeCollectionStatusFunction,
     authorizer,
     resourcePath: 'admin/collections/{id}/status',
     methods: [
@@ -1224,15 +980,9 @@ addApiMethodsWithLambda({
   });
 
   // Get All Collections routes
-  const getAllCollectionsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_ALL_COLLECTIONS_FUNCTION_ARN,
-    "ImportedGetAllCollectionsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getAllCollectionsFunction,
+    lambdaFunction: lambdaFunctions.getAllCollectionsFunction,
     authorizer,
     resourcePath: 'admin/collections/all',
     methods: [
@@ -1247,15 +997,9 @@ addApiMethodsWithLambda({
   // Multimedia Categories Routes
 
   // List Multimedia (Movies and Series) routes
-  const listMultimediaFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_MULTIMEDIA_FUNCTION_ARN,
-    "ImportedListMultimediaFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listMultimediaFunction,
+    lambdaFunction: lambdaFunctions.listMultimediaFunction,
     authorizer,
     resourcePath: 'admin/multimedia',
     methods: [
@@ -1269,15 +1013,9 @@ addApiMethodsWithLambda({
   });
 
   // List Multimedia Categories routes
-  const listMultimediaCategoriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
-    "ImportedListMultimediaCategoriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listMultimediaCategoriesFunction,
+    lambdaFunction: lambdaFunctions.listMultimediaCategoriesFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories',
     methods: [
@@ -1291,15 +1029,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Multimedia Category By ID routes
-  const getMultimediaCategoryByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_MULTIMEDIA_CATEGORY_BY_ID_FUNCTION_ARN,
-    "ImportedGetMultimediaCategoryByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getMultimediaCategoryByIdFunction,
+    lambdaFunction: lambdaFunctions.getMultimediaCategoryByIdFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories/{id}',
     methods: [
@@ -1312,15 +1044,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Multimedia Category routes
-  const createMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
-    "ImportedCreateMultimediaCategoryFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createMultimediaCategoryFunction,
+    lambdaFunction: lambdaFunctions.createMultimediaCategoryFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories',
     methods: [
@@ -1333,15 +1059,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Multimedia Category routes
-  const updateMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
-    "ImportedUpdateMultimediaCategoryFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateMultimediaCategoryFunction,
+    lambdaFunction: lambdaFunctions.updateMultimediaCategoryFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories/{id}',
     methods: [
@@ -1354,15 +1074,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Multimedia Category routes
-  const deleteMultimediaCategoryFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_MULTIMEDIA_CATEGORY_FUNCTION_ARN,
-    "ImportedDeleteMultimediaCategoryFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteMultimediaCategoryFunction,
+    lambdaFunction: lambdaFunctions.deleteMultimediaCategoryFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories/{id}',
     methods: [
@@ -1375,15 +1089,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Multimedia Category Status routes
-  const changeMultimediaCategoryStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_MULTIMEDIA_CATEGORY_STATUS_FUNCTION_ARN,
-    "ImportedChangeMultimediaCategoryStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeMultimediaCategoryStatusFunction,
+    lambdaFunction: lambdaFunctions.changeMultimediaCategoryStatusFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories/{id}/status',
     methods: [
@@ -1396,15 +1104,9 @@ addApiMethodsWithLambda({
   });
 
   // Get All Multimedia Categories routes
-  const getAllMultimediaCategoriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_ALL_MULTIMEDIA_CATEGORIES_FUNCTION_ARN,
-    "ImportedGetAllMultimediaCategoriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getAllMultimediaCategoriesFunction,
+    lambdaFunction: lambdaFunctions.getAllMultimediaCategoriesFunction,
     authorizer,
     resourcePath: 'admin/multimedia-categories/all',
     methods: [
@@ -1419,15 +1121,9 @@ addApiMethodsWithLambda({
   // Movies Routes
 
   // Create Movie routes
-  const createMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_MOVIE_FUNCTION_ARN,
-    "ImportedCreateMovieFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createMovieFunction,
+    lambdaFunction: lambdaFunctions.createMovieFunction,
     authorizer,
     resourcePath: 'admin/movies',
     methods: [
@@ -1440,15 +1136,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Movie By ID routes
-  const getMovieByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_MOVIE_BY_ID_FUNCTION_ARN,
-    "ImportedGetMovieByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getMovieByIdFunction,
+    lambdaFunction: lambdaFunctions.getMovieByIdFunction,
     authorizer,
     resourcePath: 'admin/movies/{id}',
     methods: [
@@ -1461,15 +1151,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Movie routes
-  const deleteMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_MOVIE_FUNCTION_ARN,
-    "ImportedDeleteMovieFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteMovieFunction,
+    lambdaFunction: lambdaFunctions.deleteMovieFunction,
     authorizer,
     resourcePath: 'admin/movies/{id}',
     methods: [
@@ -1482,15 +1166,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Movie Status routes
-  const changeMovieStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_MOVIE_STATUS_FUNCTION_ARN,
-    "ImportedChangeMovieStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeMovieStatusFunction,
+    lambdaFunction: lambdaFunctions.changeMovieStatusFunction,
     authorizer,
     resourcePath: 'admin/movies/{id}/status',
     methods: [
@@ -1503,15 +1181,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Movie routes
-  const updateMovieFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_MOVIE_FUNCTION_ARN,
-    "ImportedUpdateMovieFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateMovieFunction,
+    lambdaFunction: lambdaFunctions.updateMovieFunction,
     authorizer,
     resourcePath: 'admin/movies/{id}',
     methods: [
@@ -1526,15 +1198,9 @@ addApiMethodsWithLambda({
   // Series Routes
 
   // Create Series routes
-  const createSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_SERIES_FUNCTION_ARN,
-    "ImportedCreateSeriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createSeriesFunction,
+    lambdaFunction: lambdaFunctions.createSeriesFunction,
     authorizer,
     resourcePath: 'admin/series',
     methods: [
@@ -1547,15 +1213,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Series By ID routes
-  const getSeriesByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_SERIES_BY_ID_FUNCTION_ARN,
-    "ImportedGetSeriesByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getSeriesByIdFunction,
+    lambdaFunction: lambdaFunctions.getSeriesByIdFunction,
     authorizer,
     resourcePath: 'admin/series/{id}',
     methods: [
@@ -1568,15 +1228,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Series routes
-  const deleteSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_SERIES_FUNCTION_ARN,
-    "ImportedDeleteSeriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteSeriesFunction,
+    lambdaFunction: lambdaFunctions.deleteSeriesFunction,
     authorizer,
     resourcePath: 'admin/series/{id}',
     methods: [
@@ -1589,15 +1243,9 @@ addApiMethodsWithLambda({
   });
 
   // Change Series Status routes
-  const changeSeriesStatusFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CHANGE_SERIES_STATUS_FUNCTION_ARN,
-    "ImportedChangeSeriesStatusFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: changeSeriesStatusFunction,
+    lambdaFunction: lambdaFunctions.changeSeriesStatusFunction,
     authorizer,
     resourcePath: 'admin/series/{id}/status',
     methods: [
@@ -1610,15 +1258,9 @@ addApiMethodsWithLambda({
   });
 
   // Update Series routes
-  const updateSeriesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_SERIES_FUNCTION_ARN,
-    "ImportedUpdateSeriesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateSeriesFunction,
+    lambdaFunction: lambdaFunctions.updateSeriesFunction,
     authorizer,
     resourcePath: 'admin/series/{id}',
     methods: [
@@ -1633,15 +1275,9 @@ addApiMethodsWithLambda({
   // Seasons Routes
 
   // List Seasons routes
-  const listSeasonsFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_SEASONS_FUNCTION_ARN,
-    "ImportedListSeasonsFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listSeasonsFunction,
+    lambdaFunction: lambdaFunctions.listSeasonsFunction,
     authorizer,
     resourcePath: 'admin/seasons',
     methods: [
@@ -1655,15 +1291,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Season routes
-  const createSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_SEASON_FUNCTION_ARN,
-    "ImportedCreateSeasonFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createSeasonFunction,
+    lambdaFunction: lambdaFunctions.createSeasonFunction,
     authorizer,
     resourcePath: 'admin/seasons',
     methods: [
@@ -1676,15 +1306,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Season By ID routes
-  const getSeasonByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_SEASON_BY_ID_FUNCTION_ARN,
-    "ImportedGetSeasonByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getSeasonByIdFunction,
+    lambdaFunction: lambdaFunctions.getSeasonByIdFunction,
     authorizer,
     resourcePath: 'admin/seasons/{id}',
     methods: [
@@ -1697,15 +1321,9 @@ addApiMethodsWithLambda({
   });
 
   // Delete Season routes
-  const deleteSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_SEASON_FUNCTION_ARN,
-    "ImportedDeleteSeasonFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteSeasonFunction,
+    lambdaFunction: lambdaFunctions.deleteSeasonFunction,
     authorizer,
     resourcePath: 'admin/seasons/{id}',
     methods: [
@@ -1717,17 +1335,10 @@ addApiMethodsWithLambda({
     ],
   });
 
-
   // Update Season routes
-  const updateSeasonFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_SEASON_FUNCTION_ARN,
-    "ImportedUpdateSeasonFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateSeasonFunction,
+    lambdaFunction: lambdaFunctions.updateSeasonFunction,
     authorizer,
     resourcePath: 'admin/seasons/{id}',
     methods: [
@@ -1742,15 +1353,9 @@ addApiMethodsWithLambda({
   // Episodes Routes
 
   // List Episodes routes
-  const listEpisodesFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_EPISODES_FUNCTION_ARN,
-    "ImportedListEpisodesFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listEpisodesFunction,
+    lambdaFunction: lambdaFunctions.listEpisodesFunction,
     authorizer,
     resourcePath: 'admin/episodes',
     methods: [
@@ -1764,15 +1369,9 @@ addApiMethodsWithLambda({
   });
 
   // Create Episode routes
-  const createEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_EPISODE_FUNCTION_ARN,
-    "ImportedCreateEpisodeFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createEpisodeFunction,
+    lambdaFunction: lambdaFunctions.createEpisodeFunction,
     authorizer,
     resourcePath: 'admin/episodes',
     methods: [
@@ -1785,15 +1384,9 @@ addApiMethodsWithLambda({
   });
 
   // Get Episode By ID routes
-  const getEpisodeByIdFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_EPISODE_BY_ID_FUNCTION_ARN,
-    "ImportedGetEpisodeByIdFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getEpisodeByIdFunction,
+    lambdaFunction: lambdaFunctions.getEpisodeByIdFunction,
     authorizer,
     resourcePath: 'admin/episodes/{id}',
     methods: [
@@ -1805,16 +1398,25 @@ addApiMethodsWithLambda({
     ],
   });
 
-  // Update Episode routes
-  const updateEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.UPDATE_EPISODE_FUNCTION_ARN,
-    "ImportedUpdateEpisodeFunction"
-  );
-
+  // Delete Episode routes
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: updateEpisodeFunction,
+    lambdaFunction: lambdaFunctions.deleteEpisodeFunction,
+    authorizer,
+    resourcePath: 'admin/episodes/{id}',
+    methods: [
+      {
+        method: 'DELETE',
+        authorizationType: AuthorizationType.NONE, // JWT validado en handler
+        useAuthorizer: false,
+      },
+    ],
+  });
+
+  // Update Episode routes
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: lambdaFunctions.updateEpisodeFunction,
     authorizer,
     resourcePath: 'admin/episodes/{id}',
     methods: [
@@ -1826,39 +1428,12 @@ addApiMethodsWithLambda({
     ],
   });
 
-  // Delete Episode routes
-  const deleteEpisodeFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_EPISODE_FUNCTION_ARN,
-    "ImportedDeleteEpisodeFunction"
-  );
-
-  addApiMethodsWithLambda({
-    restApi,
-    lambdaFunction: deleteEpisodeFunction,
-    authorizer,
-    resourcePath: 'admin/episodes/{id}',
-    methods: [
-      {
-        method: 'DELETE',
-        authorizationType: AuthorizationType.NONE, // JWT validado en handler
-        useAuthorizer: false,
-      },
-    ],
-  });
-
   // Get Video Signature routes
-  const getVideoSignatureFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.GET_VIDEO_SIGNATURE_FUNCTION_ARN,
-    "ImportedGetVideoSignatureFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: getVideoSignatureFunction,
+    lambdaFunction: lambdaFunctions.getVideoSignatureFunction,
     authorizer,
-    resourcePath: 'admin/get-video-signature',
+    resourcePath: 'admin/video-signature',
     methods: [
       {
         method: 'POST',
@@ -1868,18 +1443,10 @@ addApiMethodsWithLambda({
     ],
   });
 
-  // Top10 Routes
-
-  // List Top10 routes
-  const listTop10Function = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_TOP10_FUNCTION_ARN,
-    "ImportedListTop10Function"
-  );
-
+  // List Top 10 routes
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listTop10Function,
+    lambdaFunction: lambdaFunctions.listTop10Function,
     authorizer,
     resourcePath: 'admin/top10',
     methods: [
@@ -1887,20 +1454,15 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
+        queryParameters: ['page', 'limit'],
       },
     ],
   });
 
-  // Create Top10 routes
-  const createTop10Function = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_TOP10_FUNCTION_ARN,
-    "ImportedCreateTop10Function"
-  );
-
+  // Create Top 10 routes
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createTop10Function,
+    lambdaFunction: lambdaFunctions.createTop10Function,
     authorizer,
     resourcePath: 'admin/top10',
     methods: [
@@ -1912,16 +1474,10 @@ addApiMethodsWithLambda({
     ],
   });
 
-  // Delete Top10 routes
-  const deleteTop10Function = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.DELETE_TOP10_FUNCTION_ARN,
-    "ImportedDeleteTop10Function"
-  );
-
+  // Delete Top 10 routes
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: deleteTop10Function,
+    lambdaFunction: lambdaFunctions.deleteTop10Function,
     authorizer,
     resourcePath: 'admin/top10/{id}',
     methods: [
@@ -1933,18 +1489,10 @@ addApiMethodsWithLambda({
     ],
   });
 
-  // Revendedor Routes
-
   // Create Revendedor routes
-  const createRevendedorFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.CREATE_REVENDEDOR_FUNCTION_ARN,
-    "ImportedCreateRevendedorFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: createRevendedorFunction,
+    lambdaFunction: lambdaFunctions.createRevendedorFunction,
     authorizer,
     resourcePath: 'admin/revendedores',
     methods: [
@@ -1957,15 +1505,9 @@ addApiMethodsWithLambda({
   });
 
   // List Revendedores routes
-  const listRevendedoresFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.LIST_REVENDEDORES_FUNCTION_ARN,
-    "ImportedListRevendedoresFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: listRevendedoresFunction,
+    lambdaFunction: lambdaFunctions.listRevendedoresFunction,
     authorizer,
     resourcePath: 'admin/revendedores',
     methods: [
@@ -1973,22 +1515,17 @@ addApiMethodsWithLambda({
         method: 'GET',
         authorizationType: AuthorizationType.NONE, // JWT validado en handler
         useAuthorizer: false,
+        queryParameters: ['page', 'limit'],
       },
     ],
   });
 
   // Transferir Creditos routes
-  const transferirCreditosFunction = ArnFunctions.getLambdaFunctionFromArn(
-    scope,
-    ArnFunctions.TRANSFERIR_CREDITOS_FUNCTION_ARN,
-    "ImportedTransferirCreditosFunction"
-  );
-
   addApiMethodsWithLambda({
     restApi,
-    lambdaFunction: transferirCreditosFunction,
+    lambdaFunction: lambdaFunctions.transferirCreditosFunction,
     authorizer,
-    resourcePath: 'admin/revendedores/transferir-creditos',
+    resourcePath: 'admin/transferir-creditos',
     methods: [
       {
         method: 'POST',
@@ -1998,4 +1535,22 @@ addApiMethodsWithLambda({
     ],
   });
 
+
+  ///MOBILE  
+  // Client Login routes (mobile)
+  addApiMethodsWithLambda({
+    restApi,
+    lambdaFunction: lambdaFunctions.clientLoginFunction,
+    authorizer,
+    resourcePath: 'auth/client-login',
+    methods: [
+      {
+        method: 'POST',
+        authorizationType: AuthorizationType.NONE,
+        useAuthorizer: false,
+      },
+    ],
+  });
+
 }
+

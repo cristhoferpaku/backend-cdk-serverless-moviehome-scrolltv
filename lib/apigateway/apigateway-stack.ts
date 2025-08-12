@@ -9,18 +9,117 @@ import {
   LogGroupLogDestination,
   DomainName,
   BasePathMapping,
-  SecurityPolicy
+  SecurityPolicy,
+  MethodLoggingLevel
 } from 'aws-cdk-lib/aws-apigateway';
+
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
-import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
-import { HostedZone, ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
-import { ApiGatewayDomain } from 'aws-cdk-lib/aws-route53-targets';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { addAllApiMethods } from './add-api-methods';
 
 export interface ApiGatewayStackProps extends StackProps {
-  environmentStack?: any;
-  domainName?: string;
-  certificateArn?: string;
+  environment: string;
+  domainName: string;
+  certificate: Certificate;
+  logGroup: LogGroup;
+  lambdaFunctions: {
+    adminLoginFunction: NodejsFunction;
+    refreshTokenFunction: NodejsFunction;
+    listUserAdminsFunction: NodejsFunction;
+    createUserAdminFunction: NodejsFunction;
+    getUserAdminByIdFunction: NodejsFunction;
+    updateUserAdminFunction: NodejsFunction;
+    deleteUserAdminFunction: NodejsFunction;
+    changeUserAdminStatusFunction: NodejsFunction;
+    getPlatformsFunction: NodejsFunction;
+    getRolesFunction: NodejsFunction;
+    createPackageSellerFunction: NodejsFunction;
+    createPackageTypeFunction: NodejsFunction;
+    listPackageTypesFunction: NodejsFunction;
+    getPackageTypeByIdFunction: NodejsFunction;
+    deletePackageTypeFunction: NodejsFunction;
+    updatePackageTypeFunction: NodejsFunction;
+    changePackageTypeStatusFunction: NodejsFunction;
+    listPackageSellerFunction: NodejsFunction;
+    getPackageSellerByIdFunction: NodejsFunction;
+    updatePackageSellerFunction: NodejsFunction;
+    deletePackageSellerFunction: NodejsFunction;
+    changePackageSellerStatusFunction: NodejsFunction;
+    createPackageUserFunction: NodejsFunction;
+    getPackageUserByIdFunction: NodejsFunction;
+    listPackageUsersFunction: NodejsFunction;
+    updatePackageUserFunction: NodejsFunction;
+    deletePackageUserFunction: NodejsFunction;
+    changePackageUserStatusFunction: NodejsFunction;
+    listPackageTypesActiveFunction: NodejsFunction;
+    createUserAccountFunction: NodejsFunction;
+    getUserAccountByIdFunction: NodejsFunction;
+    listUserAccountsFunction: NodejsFunction;
+    updateUserAccountFunction: NodejsFunction;
+    deleteUserAccountFunction: NodejsFunction;
+    changeUserAccountStatusFunction: NodejsFunction;
+    listUserAccountByAdminFunction: NodejsFunction;
+    assignSellerCreditFunction: NodejsFunction;
+    createResourceFunction: NodejsFunction;
+    listResourceFunction: NodejsFunction;
+    getResourceByIdFunction: NodejsFunction;
+    changeResourceStateFunction: NodejsFunction;
+    deleteResourceFunction: NodejsFunction;
+    updateResourceFunction: NodejsFunction;
+    getSellerCreditByIdFunction: NodejsFunction;
+    listCastMembersFunction: NodejsFunction;
+    getCastMemberByIdFunction: NodejsFunction;
+    createCastMemberFunction: NodejsFunction;
+    updateCastMemberFunction: NodejsFunction;
+    deleteCastMemberFunction: NodejsFunction;
+    listAllCountriesFunction: NodejsFunction;
+    getAllSectionsFunction: NodejsFunction;
+    listCollectionsFunction: NodejsFunction;
+    getCollectionByIdFunction: NodejsFunction;
+    createCollectionFunction: NodejsFunction;
+    updateCollectionFunction: NodejsFunction;
+    deleteCollectionFunction: NodejsFunction;
+    changeCollectionStatusFunction: NodejsFunction;
+    getAllCollectionsFunction: NodejsFunction;
+    listMultimediaCategoriesFunction: NodejsFunction;
+    getMultimediaCategoryByIdFunction: NodejsFunction;
+    createMultimediaCategoryFunction: NodejsFunction;
+    updateMultimediaCategoryFunction: NodejsFunction;
+    deleteMultimediaCategoryFunction: NodejsFunction;
+    changeMultimediaCategoryStatusFunction: NodejsFunction;
+    getAllMultimediaCategoriesFunction: NodejsFunction;
+    createMovieFunction: NodejsFunction;
+    getMovieByIdFunction: NodejsFunction;
+    deleteMovieFunction: NodejsFunction;
+    changeMovieStatusFunction: NodejsFunction;
+    updateMovieFunction: NodejsFunction;
+    createSeriesFunction: NodejsFunction;
+    getSeriesByIdFunction: NodejsFunction;
+    deleteSeriesFunction: NodejsFunction;
+    changeSeriesStatusFunction: NodejsFunction;
+    updateSeriesFunction: NodejsFunction;
+    listMultimediaFunction: NodejsFunction;
+    createSeasonFunction: NodejsFunction;
+    getSeasonByIdFunction: NodejsFunction;
+    listSeasonsFunction: NodejsFunction;
+    deleteSeasonFunction: NodejsFunction;
+    updateSeasonFunction: NodejsFunction;
+    createEpisodeFunction: NodejsFunction;
+    getEpisodeByIdFunction: NodejsFunction;
+    listEpisodesFunction: NodejsFunction;
+    deleteEpisodeFunction: NodejsFunction;
+    updateEpisodeFunction: NodejsFunction;
+    getVideoSignatureFunction: NodejsFunction;
+    listTop10Function: NodejsFunction;
+    createTop10Function: NodejsFunction;
+    deleteTop10Function: NodejsFunction;
+    createRevendedorFunction: NodejsFunction;
+    listRevendedoresFunction: NodejsFunction;
+    transferirCreditosFunction: NodejsFunction;
+    
+    clientLoginFunction: NodejsFunction;
+  };
 }
 
 export class ApiGatewayStack extends Stack {
@@ -30,16 +129,14 @@ export class ApiGatewayStack extends Stack {
   constructor(scope: Construct, id: string, props: ApiGatewayStackProps) {
     super(scope, id, props);
 
-    const logGroup = new LogGroup(this, 'ApiGatewayLogGroup');
-
-    // Configuración del dominio personalizado
-    const domainName = props.domainName || 'scrollprivate.work';
+    const { environment, domainName, certificate, logGroup, lambdaFunctions } = props;
     const apiSubdomain = `api.${domainName}`;
 
     this.restApi = new RestApi(this, 'MovieHomeScrollTvApi', {
-      restApiName: 'MovieHome ScrollTV API',
-      description: 'API Gateway para MovieHome ScrollTV Backend',
+      restApiName: `MovieHome ScrollTV API - ${environment}`,
+      description: `API Gateway para MovieHome ScrollTV Backend - ${environment}`,
       deploy: false,
+      cloudWatchRole: true,
       defaultCorsPreflightOptions: {
         allowOrigins: Cors.ALL_ORIGINS,
         allowMethods: Cors.ALL_METHODS,
@@ -67,14 +164,7 @@ export class ApiGatewayStack extends Stack {
       },
     });
 
-    // Crear certificado SSL para el dominio personalizado
-    const certificate = new Certificate(this, 'ApiCertificate', {
-      domainName: apiSubdomain,
-      subjectAlternativeNames: [`*.${domainName}`], // Para subdominios adicionales
-      validation: CertificateValidation.fromDns(),
-    });
-
-    // Crear dominio personalizado
+    // Crear dominio personalizado usando el certificado del SecurityStack
     this.customDomain = new DomainName(this, 'CustomDomain', {
       domainName: apiSubdomain,
       certificate: certificate,
@@ -86,6 +176,7 @@ export class ApiGatewayStack extends Stack {
       restApi: this.restApi,
       authorizer: undefined, // JWT se valida en la Lambda
       scope: this,
+      lambdaFunctions,
     });
 
     // Despliegue manual
@@ -96,11 +187,19 @@ export class ApiGatewayStack extends Stack {
     const devStage = new Stage(this, 'DevStage', {
       deployment,
       stageName: 'dev',
+      accessLogDestination: new LogGroupLogDestination(logGroup),
+      loggingLevel: MethodLoggingLevel.ERROR,
+      dataTraceEnabled: true,
+      metricsEnabled: true,
     });
 
     const prodStage = new Stage(this, 'ProdStage', {
       deployment,
       stageName: 'prod',
+      accessLogDestination: new LogGroupLogDestination(logGroup),
+      loggingLevel: MethodLoggingLevel.INFO,
+      dataTraceEnabled: false,
+      metricsEnabled: true,
     });
 
     // Apuntar el deployment principal a producción
@@ -143,12 +242,7 @@ export class ApiGatewayStack extends Stack {
       description: 'ID del API Gateway',
     });
 
-    // Output del certificado
-    new CfnOutput(this, 'CertificateArn', {
-      value: certificate.certificateArn,
-      description: 'ARN del certificado SSL',
-    });
-
     Tags.of(this).add('Component', 'ApiGateway');
+    Tags.of(this).add('Environment', environment);
   }
 }

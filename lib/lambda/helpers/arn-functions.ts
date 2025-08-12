@@ -9,6 +9,7 @@ import { Construct } from "constructs";
 export class ArnFunctions {
   // Constantes de los nombres de parámetros para MovieHome ScrollTV
   static readonly ADMIN_LOGIN_FUNCTION_ARN = "/moviehome-scrolltv/admin-login-function-arn";
+  static readonly CLIENT_LOGIN_FUNCTION_ARN = "/moviehome-scrolltv/client-login-function-arn";
   static readonly REFRESH_TOKEN_FUNCTION_ARN = "/moviehome-scrolltv/refresh-token-function-arn";
   static readonly LIST_USER_ADMINS_FUNCTION_ARN = "/moviehome-scrolltv/list-user-admins-function-arn";
   static readonly CREATE_USER_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/create-user-admin-function-arn";

@@ -162,7 +162,10 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   "UpdateCastMemberLambdaRole": "AdminLambdaRole",
   "DeleteCastMemberLambdaRole": "AdminLambdaRole",
   "ListAllCountriesLambdaRole": "AdminLambdaRole",
-  "GetAllSectionsLambdaRole": "AdminLambdaRole"
+  "GetAllSectionsLambdaRole": "AdminLambdaRole",
+
+  //MOBILE 
+  "ClientLoginLambdaRole": "MobileLambdaRole"
 };
 
 /**

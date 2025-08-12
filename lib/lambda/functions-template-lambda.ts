@@ -55,6 +55,7 @@ export const adminLoginTemplateLambda = (props: LambdaProps): NodejsFunction => 
   return adminLoginFunction;
 };
 
+
 /**
  * 🔄 Plantilla para Lambda refreshToken
  */
@@ -2081,6 +2082,29 @@ export const transferirCreditosTemplateLambda = (props: LambdaProps): NodejsFunc
   });
 
   return transferirCreditosFunction;
+};
+
+
+/**
+ * 📱 Plantilla para Lambda clientLogin
+ */
+export const clientLoginTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const clientLoginFunction = new NodejsFunction(props.scope, 'ClientLoginFunction', {
+    functionName: 'ClientLoginFunction',
+    entry: 'lib/lambda/src/functions/clientLogin/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ClientLoginFunctionArnParameter', {
+    parameterName: ArnFunctions.CLIENT_LOGIN_FUNCTION_ARN,
+    stringValue: clientLoginFunction.functionArn,
+  });
+
+  return clientLoginFunction;
 };
 
 
