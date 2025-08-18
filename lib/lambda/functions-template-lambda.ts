@@ -2107,6 +2107,27 @@ export const clientLoginTemplateLambda = (props: LambdaProps): NodejsFunction =>
   return clientLoginFunction;
 };
 
+/**
+ * 🏆 Plantilla para Lambda getHomeData
+ */
+export const getHomeDataTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getHomeDataFunction = new NodejsFunction(props.scope, 'GetHomeDataFunction', {
+    functionName: 'GetHomeDataFunction',
+    entry: 'lib/lambda/src/functions/getHomeData/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetHomeDataFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_HOME_DATA_FUNCTION_ARN,
+    stringValue: getHomeDataFunction.functionArn,
+  });
+
+  return getHomeDataFunction;
+};
 
 
 

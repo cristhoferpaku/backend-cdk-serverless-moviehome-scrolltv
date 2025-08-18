@@ -1,9 +1,9 @@
+import * as bcrypt from 'bcryptjs';
 import { CreateUserAccountRepository } from '../repositories/createUserAccount.repo';
 import {
   CreateUserAccountRequest,
   CreateUserAccountResponse
 } from '../dtos/createUserAccount.dto';
-import { logError, logInfo } from '../../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'CreateUserAccountService';
 
@@ -18,11 +18,17 @@ export class CreateUserAccountService {
     try {
       this.validate(data);
 
-      logInfo(FUNCTION_NAME, 'Iniciando creación de cuenta de usuario', {
-        username: data.username
-      });
+      // Hash de la contraseña
+      const saltRounds = 12;
+      const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+      
+      // Crear una copia de los datos con la contraseña hasheada
+      const dataWithHashedPassword = {
+        ...data,
+        password: hashedPassword
+      };
 
-      const dbResult = await this.repository.createUserAccount(data);
+      const dbResult = await this.repository.createUserAccount(dataWithHashedPassword);
 
       if (dbResult.success) {
         return {
@@ -50,14 +56,6 @@ export class CreateUserAccountService {
       };
 
     } catch (error) {
-      logError(FUNCTION_NAME, error instanceof Error ? error : 'Error desconocido', {
-        userAccountData: {
-          username: data.username,
-          package_user_id: data.package_user_id,
-          platform_id: data.platform_id,
-          user_admin_id: data.user_admin_id
-        }
-      });
       return {
         success: false,
         message: error instanceof Error ? error.message : 'Error interno del servidor'
@@ -69,9 +67,15 @@ export class CreateUserAccountService {
     if (!data.username || data.username.trim().length === 0) {
       throw new Error('El nombre de usuario es requerido');
     }
-    if (!data.password || data.password.trim().length < 6) {
-      throw new Error('La contraseña debe tener al menos 6 caracteres');
+    if (!data.password || data.password.trim().length === 0) {
+      throw new Error('La contraseña es requerida');
     }
+    
+    // Validar que la contraseña sea segura
+    if (!this.isValidPassword(data.password)) {
+      throw new Error('La contraseña debe tener al menos 8 caracteres, incluir al menos una letra mayúscula, una minúscula, un número y un carácter especial');
+    }
+    
     if (!Number.isInteger(data.package_user_id) || data.package_user_id <= 0) {
       throw new Error('El paquete es inválido');
     }
@@ -81,5 +85,27 @@ export class CreateUserAccountService {
     if (!Number.isInteger(data.user_admin_id) || data.user_admin_id <= 0) {
       throw new Error('El usuario administrador es inválido');
     }
+  }
+
+  /**
+   * Valida que la contraseña cumpla con los requisitos de seguridad
+   */
+  private isValidPassword(password: string): boolean {
+    // Al menos 8 caracteres
+    if (password.length < 8) return false;
+    
+    // Al menos una letra mayúscula
+    if (!/[A-Z]/.test(password)) return false;
+    
+    // Al menos una letra minúscula
+    if (!/[a-z]/.test(password)) return false;
+    
+    // Al menos un número
+    if (!/\d/.test(password)) return false;
+    
+    // Al menos un carácter especial
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) return false;
+    
+    return true;
   }
 }

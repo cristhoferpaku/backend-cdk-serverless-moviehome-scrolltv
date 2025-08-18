@@ -111,6 +111,7 @@ import {
   transferirCreditosTemplateLambda,
   //MOBILE 
     clientLoginTemplateLambda,
+    getHomeDataTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -235,6 +236,9 @@ export class LambdaFunctionStack extends Stack {
   public readonly createRevendedorFunction: NodejsFunction;
   public readonly listRevendedoresFunction: NodejsFunction;
   public readonly transferirCreditosFunction: NodejsFunction;
+
+  //App functions
+  public readonly getHomeDataFunction: NodejsFunction;
 
 
 
@@ -914,6 +918,12 @@ export class LambdaFunctionStack extends Stack {
         // Función clientLogin - Usando rol compartido AuthLambdaRole
     this.clientLoginFunction = clientLoginTemplateLambda({
       lambdaRole: getSharedRole('ClientLoginLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.getHomeDataFunction = getHomeDataTemplateLambda({
+      lambdaRole: getSharedRole('GetHomeDataLambdaRole', props.lambdaRoles),
       layerStack: props.layerStack,
       scope: this,
     });

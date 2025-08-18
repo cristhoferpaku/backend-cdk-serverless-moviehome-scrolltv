@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { RestApi, LambdaIntegration, Resource } from 'aws-cdk-lib/aws-apigateway';
+import { RestApi, LambdaIntegration, Resource, Cors, CorsOptions } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 interface CommerceApiMethodsProps {
@@ -59,8 +59,24 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
     rootResourceId: restApi.restApiRootResourceId,
   });
 
+  // Configuración CORS para todos los recursos
+  const corsOptions: CorsOptions = {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+    allowHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Amz-Date',
+      'X-Api-Key',
+      'X-Amz-Security-Token'
+    ],
+    allowCredentials: true
+  };
+
   // === PACKAGES ENDPOINTS ===
-  const packageResource = api.root.addResource('packages');
+  const packageResource = api.root.addResource('packages', {
+    defaultCorsPreflightOptions: corsOptions
+  });
 
   // === PACKAGE TYPES ENDPOINTS ===
   const packageTypesResource = packageResource.addResource('type');
@@ -140,7 +156,9 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
 
   // === RESOURCES ENDPOINTS ===
   
-  const resourcesResource = api.root.addResource('resources');
+  const resourcesResource = api.root.addResource('resources', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   resourcesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createResourceFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -165,7 +183,9 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
 
 
   // === SELLER CREDITS ENDPOINTS ===
-  const sellerCreditsResource = api.root.addResource('seller-credit');
+  const sellerCreditsResource = api.root.addResource('seller-credit', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   sellerCreditsResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.assignSellerCreditFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -176,7 +196,9 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
 
 
   // === RESELLERS ENDPOINTS ===
-  const resellersResource = api.root.addResource('revendedores');
+  const resellersResource = api.root.addResource('revendedores', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   resellersResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createResellerFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -186,7 +208,9 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
   
 
   // === TRANSFERENCIA DE CRÉDITO ENDPOINTS ===
-  const transferenciaCreditoResource = api.root.addResource('transferir-creditos');
+  const transferenciaCreditoResource = api.root.addResource('transferir-creditos', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   transferenciaCreditoResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.transferirCreditosFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });

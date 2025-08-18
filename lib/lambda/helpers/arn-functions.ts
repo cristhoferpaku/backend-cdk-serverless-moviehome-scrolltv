@@ -124,6 +124,9 @@ export class ArnFunctions {
   static readonly LIST_REVENDEDORES_FUNCTION_ARN = "/moviehome-scrolltv/list-revendedores-function-arn";
   static readonly TRANSFERIR_CREDITOS_FUNCTION_ARN = "/moviehome-scrolltv/transferir-creditos-function-arn";
 
+  //APP FUNCTIONS
+  static readonly GET_HOME_DATA_FUNCTION_ARN = "/moviehome-scrolltv/get-home-data-function-arn";
+
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.
    * @param scope - El constructo desde el cual se realiza la llamada.

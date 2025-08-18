@@ -39,6 +39,7 @@ export const STACK_NAMES = {
   AUTH_API_METHODS: 'auth-api-methods',
   CONTENT_API_METHODS: 'content-api-methods',
   COMMERCE_API_METHODS: 'commerce-api-methods',
+  APP_API_METHODS: 'app-api-methods',
   MONITORING: 'monitoring',
   SECURITY: 'security'
 } as const;

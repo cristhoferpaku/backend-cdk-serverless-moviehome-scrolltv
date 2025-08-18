@@ -135,4 +135,5 @@ export const LAMBDA_ROLE_MAPPING = {
 
   //MOBILE 
   'ClientLoginLambdaRole': 'MobileLambdaRole',
+  'GetHomeDataLambdaRole': 'MobileLambdaRole',
 } as const;

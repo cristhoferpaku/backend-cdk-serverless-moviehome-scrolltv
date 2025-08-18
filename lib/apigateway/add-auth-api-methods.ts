@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { RestApi, LambdaIntegration, Resource } from 'aws-cdk-lib/aws-apigateway';
+import { RestApi, LambdaIntegration, Resource, Cors, CorsOptions } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 interface AuthApiMethodsProps {
@@ -45,8 +45,24 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
     rootResourceId: restApi.restApiRootResourceId,
   });
 
+  // Configuración CORS para todos los recursos
+  const corsOptions: CorsOptions = {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+    allowHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Amz-Date',
+      'X-Api-Key',
+      'X-Amz-Security-Token'
+    ],
+    allowCredentials: true
+  };
+
   // === AUTH ENDPOINTS ===
-  const authResource = api.root.addResource('auth');
+  const authResource = api.root.addResource('auth', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   
   const adminLoginResource = authResource.addResource('login');
   adminLoginResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.adminLoginFunction));
@@ -59,7 +75,9 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
 
   
   // === USER ADMIN ENDPOINTS ===
-  const usersAdminResource = api.root.addResource('admin-users');
+  const usersAdminResource = api.root.addResource('admin-users', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   usersAdminResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createUserAdminFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -83,7 +101,9 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
   });
 
   // === USER ACCOUNT ENDPOINTS ===
-  const userAccountResource = api.root.addResource('user-account');
+  const userAccountResource = api.root.addResource('user-account', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   userAccountResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createUserAccountFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -111,7 +131,9 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
   });
 
   // === PLATFORM ENDPOINTS ===
-  const platformsResource = api.root.addResource('platforms');
+  const platformsResource = api.root.addResource('platforms', {
+    defaultCorsPreflightOptions: corsOptions
+  });
 
   platformsResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getPlatformsFunction), {
     authorizationType: authorizer ? undefined : undefined,
@@ -119,7 +141,9 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
 
 
   // === ROLE ENDPOINTS ===
-  const rolesResource = api.root.addResource('roles');
+  const rolesResource = api.root.addResource('roles', {
+    defaultCorsPreflightOptions: corsOptions
+  });
 
   rolesResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getRolesFunction), {
     authorizationType: authorizer ? undefined : undefined,

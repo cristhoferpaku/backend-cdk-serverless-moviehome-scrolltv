@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { RestApi, LambdaIntegration, Resource } from 'aws-cdk-lib/aws-apigateway';
+import { RestApi, LambdaIntegration, Resource, Cors, CorsOptions } from 'aws-cdk-lib/aws-apigateway';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 interface ContentApiMethodsProps {
@@ -80,10 +80,26 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
     rootResourceId: restApi.restApiRootResourceId,
   });
 
+  // Configuración CORS para todos los recursos
+  const corsOptions: CorsOptions = {
+    allowOrigins: Cors.ALL_ORIGINS,
+    allowMethods: Cors.ALL_METHODS,
+    allowHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Amz-Date',
+      'X-Api-Key',
+      'X-Amz-Security-Token'
+    ],
+    allowCredentials: true
+  };
+
   // Obtener el recurso admin existente (debe haber sido creado por AuthApiMethodsStack)
 
   // === CAST MEMBERS ENDPOINTS ===
-  const castMembersResource = api.root.addResource('cast-member');
+  const castMembersResource = api.root.addResource('cast-member', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   castMembersResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createCastMemberFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -104,20 +120,26 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
 
   // === COUNTRIES ENDPOINTS ===
   // Solo mantener el endpoint GET que existía originalmente
-  const countriesResource = api.root.addResource('countries');
+  const countriesResource = api.root.addResource('countries', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   countriesResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.listCountriesFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
 
   // === SECTIONS ENDPOINTS ===
   // Solo mantener el endpoint GET que existía originalmente
-  const sectionsResource = api.root.addResource('sections');
+  const sectionsResource = api.root.addResource('sections', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   sectionsResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.listSectionsFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
 
   // === COLLECTIONS ENDPOINTS ===
-  const collectionsResource = api.root.addResource('collections');
+  const collectionsResource = api.root.addResource('collections', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   collectionsResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createCollectionFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -145,7 +167,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === MULTIMEDIA CATEGORIES ENDPOINTS ===
-  const multimediaCategoriesResource = api.root.addResource('multimedia-categories');
+  const multimediaCategoriesResource = api.root.addResource('multimedia-categories', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   multimediaCategoriesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createMultimediaCategoryFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -173,7 +197,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === MOVIES ENDPOINTS ===
-  const moviesResource = api.root.addResource('movies');
+  const moviesResource = api.root.addResource('movies', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   moviesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createMovieFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -194,7 +220,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === SERIES ENDPOINTS ===
-  const seriesResource = api.root.addResource('series');
+  const seriesResource = api.root.addResource('series', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   seriesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createSeriesFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -216,14 +244,18 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === MULTIMEDIA ENDPOINTS ===
-  const multimediaResource = api.root.addResource('multimedia');
+  const multimediaResource = api.root.addResource('multimedia', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   multimediaResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.listMultimediaFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
 
 
   // === SEASONS ENDPOINTS ===
-  const seasonsResource = api.root.addResource('seasons');
+  const seasonsResource = api.root.addResource('seasons', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   seasonsResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createSeasonFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -243,7 +275,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === EPISODES ENDPOINTS ===
-  const episodesResource = api.root.addResource('episodes');
+  const episodesResource = api.root.addResource('episodes', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   episodesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createEpisodeFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
@@ -263,7 +297,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
   });
 
   // === VIDEO SIGNATURES ENDPOINTS ===
-  const videoSignaturesResource = api.root.addResource('get-video-signature');
+  const videoSignaturesResource = api.root.addResource('get-video-signature', {
+    defaultCorsPreflightOptions: corsOptions
+  });
 
   videoSignaturesResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.getVideoSignatureFunction), {
     authorizationType: authorizer ? undefined : undefined,
@@ -271,7 +307,9 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
 
 
   // === TOP 10 ENDPOINTS ===
-  const top10Resource = api.root.addResource('top10');
+  const top10Resource = api.root.addResource('top10', {
+    defaultCorsPreflightOptions: corsOptions
+  });
   top10Resource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createTop10Function), {
     authorizationType: authorizer ? undefined : undefined,
   });

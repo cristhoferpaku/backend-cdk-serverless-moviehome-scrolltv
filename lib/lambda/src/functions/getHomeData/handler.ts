@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { GetSectionsService } from './services/getAllSections.service';
+import { GetHomeService } from './services/getHomeData.service';
 import { 
   createOkResponse, 
   createBadRequestResponse,
@@ -9,10 +9,10 @@ import {
   validateAuthorizationHeader
 } from '../../../layers/utils/nodejs/utils';
 
-const FUNCTION_NAME = 'GetSectionsHandler';
+const FUNCTION_NAME = 'GetHomeHandler';
 
 /**
- * Handler principal de la función Lambda getSections
+ * Handler principal de la función Lambda getHome
  */
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -34,12 +34,17 @@ export const handler = async (
       } else {
         return createForbiddenResponse(authValidation.error || 'Acceso denegado', event);
       }
+    } 
+    // Usar el servicio para obtener todos los Home
+    const sectionIdStr = event.queryStringParameters?.sectionId ?? event.queryStringParameters?.section_id;
+    const sectionId = Number(sectionIdStr);
+        if (!sectionIdStr || Number.isNaN(sectionId) || sectionId <= 0) {
+      return createBadRequestResponse('Parámetro "sectionId" es requerido y debe ser un número > 0', event);
     }
-    // Usar el servicio para obtener todos los Sections
-    const getSectionsService = new GetSectionsService();
-    const result = await getSectionsService.getAllSections();
+    const getHomeService = new GetHomeService();
+    const result = await getHomeService.getAllHome(sectionId);
 
-    return createOkResponse(result, result.message, event);
+    return createOkResponse(result.data, result.message, event);
 
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';

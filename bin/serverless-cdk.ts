@@ -14,6 +14,8 @@ import { ApiGatewayStack } from '../lib/apigateway/apigateway-stack';
 import { AuthApiMethodsStack } from '../lib/apigateway/auth-api-methods-stack';
 import { ContentApiMethodsStack } from '../lib/apigateway/content-api-methods-stack';
 import { CommerceApiMethodsStack } from '../lib/apigateway/commerce-api-methods-stack';
+import { AppApiMethodsStack } from '../lib/apigateway/app-api-methods-stack';
+
 
 const app = new App();
 
@@ -219,6 +221,17 @@ const commerceApiMethodsStack = new CommerceApiMethodsStack(app, 'CommerceApiMet
   transferirCreditosFunction: lambdaFunctionStack.transferirCreditosFunction,
 });
 
+// 11. Stack de métodos de API de aplicación
+const appApiMethodsStack = new AppApiMethodsStack(app, 'AppApiMethodsStack', {
+  ...generateStackProps(config, STACK_NAMES.APP_API_METHODS),
+  environment: config.environment,
+  restApiId: apiGatewayStack.restApiId,
+  restApiRootResourceId: apiGatewayStack.restApiRootResourceId,
+  // App Functions
+  getHomeDataFunction: lambdaFunctionStack.getHomeDataFunction,
+});
+
+
 // Configurar dependencias entre stacks
 lambdaRoleStack.addDependency(lambdaLayerStack);
 lambdaFunctionStack.addDependency(lambdaLayerStack);
@@ -235,6 +248,8 @@ contentApiMethodsStack.addDependency(apiGatewayStack);
 contentApiMethodsStack.addDependency(lambdaFunctionStack);
 commerceApiMethodsStack.addDependency(apiGatewayStack);
 commerceApiMethodsStack.addDependency(lambdaFunctionStack);
+appApiMethodsStack.addDependency(apiGatewayStack);
+appApiMethodsStack.addDependency(lambdaFunctionStack);
 
 // Tags globales para toda la aplicación
 Tags.of(app).add('Project', 'MovieHomeScrollTV');

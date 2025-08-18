@@ -67,6 +67,10 @@ La infraestructura del backend de MovieHome ScrollTV ha sido refactorizada para 
 - Gestión de recursos y créditos
 - Gestión de revendedores
 
+### 10. AppApiMethodsStack
+**Propósito**: Endpoints de la aplicación
+- Gestión de datos de la página de inicio
+
 ## Dependencias entre Stacks
 
 ```
@@ -83,6 +87,7 @@ ApiGatewayStack → SecurityStack, MonitoringStack
 AuthApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
 ContentApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
 CommerceApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
+AppApiMethodsStack → ApiGatewayStack, LambdaFunctionStack
 ```
 
 ## Configuración Centralizada
@@ -146,6 +151,11 @@ cdk deploy ContentApiMethodsStack --context env=prod
 cdk deploy CommerceApiMethodsStack --context env=prod
 ```
 
+### Solo endpoints de la aplicación
+```bash
+cdk deploy AppApiMethodsStack --context env=prod
+```
+
 ## Beneficios de la Arquitectura Modular
 
 1. **Separación de Responsabilidades**: Cada stack tiene un propósito específico
@@ -166,9 +176,9 @@ Los stacks exponen recursos a través de propiedades públicas que son consumida
 - `MonitoringStack.apiGatewayLogGroup` → `ApiGatewayStack`
 - `LambdaLayerStack.layers` → `LambdaFunctionStack`
 - `LambdaRoleStack.roles` → `LambdaFunctionStack`
-- `ApiGatewayStack.restApiId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
-- `ApiGatewayStack.restApiRootResourceId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
-- `LambdaFunctionStack.functions` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`
+- `ApiGatewayStack.restApiId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`, `AppApiMethodsStack`
+- `ApiGatewayStack.restApiRootResourceId` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`, `AppApiMethodsStack`
+- `LambdaFunctionStack.functions` → `AuthApiMethodsStack`, `ContentApiMethodsStack`, `CommerceApiMethodsStack`, `AppApiMethodsStack`
 
 ## Tags Globales
 

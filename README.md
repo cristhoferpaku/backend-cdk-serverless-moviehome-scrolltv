@@ -188,6 +188,11 @@ Endpoints de comercio y facturación:
 - **Billing**: Facturación y pagos
 - **Resellers**: Gestión de revendedores
 
+### 10. AppApiMethodsStack
+Endpoints de la aplicación:
+- **GetHomeData**: Obtiene los datos de la página de inicio
+
+
 ## 🔒 Seguridad
 
 - Roles IAM con principio de menor privilegio
