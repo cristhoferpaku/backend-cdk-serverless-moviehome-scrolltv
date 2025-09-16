@@ -17,6 +17,7 @@ export interface SerieData {
   title: string;
   description: string;
   cover_image: string | null;
+  banner_image: string | null;
   duration_mins: number | null;
   status: number;
   categories_list: string;

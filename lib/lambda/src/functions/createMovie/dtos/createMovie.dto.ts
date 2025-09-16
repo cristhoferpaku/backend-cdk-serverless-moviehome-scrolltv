@@ -9,6 +9,8 @@ export interface CreateMovieRequest {
     collection_id: number;
     duration_mins: number;
     cover_image: string | null;
+    banner_image: string | null;
+
     video_url: string | null;
     cast_ids: number[] | null;
     publish_platform_1: boolean ;

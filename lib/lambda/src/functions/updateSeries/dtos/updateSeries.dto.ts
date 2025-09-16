@@ -3,6 +3,7 @@ export interface UpdateSerieRequest {
     title?: string;
     description?: string;
     cover_image?: string;
+    banner_image?: string;
     category_ids?: number[];
     section_id?: number;
     country_id?: number;

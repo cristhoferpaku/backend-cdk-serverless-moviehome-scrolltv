@@ -12,12 +12,10 @@ export class GetHomeService {
   /**
    * Obtiene todos los Home disponibles
    */
-  async getAllHome(sectionId: number): Promise<GetHomeResponse> {
+  async getAllHome(sectionId: number, user_id : number): Promise<GetHomeResponse> {
     try {
 
-       const data = await this.repository.getAllHome(sectionId);
-    
-
+       const data = await this.repository.getAllHome(sectionId, user_id);
      return {
         data,
         message: 'Datos de home obtenidos correctamente',

@@ -8,6 +8,7 @@ import { getSharedRole } from './lambda-role-mapper';
 import {
   adminLoginTemplateLambda,
   refreshTokenTemplateLambda,  
+  refreshTokenClientTemplateLambda,
   listUserAdminsTemplateLambda,
   createUserAdminTemplateLambda,
   getUserAdminByIdTemplateLambda,
@@ -109,9 +110,24 @@ import {
   createRevendedorTemplateLambda,
   listRevendedoresTemplateLambda,
   transferirCreditosTemplateLambda,
+
+  // live tv templates
+  listLiveTvTemplateLambda,
+  createLiveTvTemplateLambda,
+  getLiveTvByIdTemplateLambda,
+  updateLiveTvTemplateLambda,
+  deleteLiveTvTemplateLambda,
   //MOBILE 
     clientLoginTemplateLambda,
     getHomeDataTemplateLambda,
+    getContentDataDetailTemplateLambda,
+    getCollectionContentTemplateLambda,
+    getSearchContentTemplateLambda,
+    logoutMobileTemplateLambda,
+    validateServiceExpirationTemplateLambda,
+    getEpisodesFromSeasonTemplateLambda,
+    getAllLiveTvTemplateLambda,
+    changeLiveTvStatusTemplateLambda,
 } from './functions-template-lambda';
 import { LambdaLayerStack } from './lambda-layer-stack';
 
@@ -123,6 +139,7 @@ export class LambdaFunctionStack extends Stack {
   public readonly adminLoginFunction: NodejsFunction;
   public readonly clientLoginFunction: NodejsFunction;
   public readonly refreshTokenFunction: NodejsFunction;
+  public readonly refreshTokenClientFunction: NodejsFunction;
   public readonly listUserAdminsFunction: NodejsFunction;
   public readonly createUserAdminFunction: NodejsFunction;
   public readonly getUserAdminByIdFunction: NodejsFunction;
@@ -237,8 +254,26 @@ export class LambdaFunctionStack extends Stack {
   public readonly listRevendedoresFunction: NodejsFunction;
   public readonly transferirCreditosFunction: NodejsFunction;
 
+  // live tv Functions
+  public readonly listLiveTvFunction: NodejsFunction;
+  public readonly getLiveTvByIdFunction: NodejsFunction;
+  public readonly createLiveTvFunction: NodejsFunction;
+  public readonly updateLiveTvFunction: NodejsFunction;
+  public readonly deleteLiveTvFunction: NodejsFunction;
+  public readonly changeLiveTvStatusFunction: NodejsFunction;
+  
+
   //App functions
   public readonly getHomeDataFunction: NodejsFunction;
+  public readonly getContentDataDetailFunction: NodejsFunction;
+  public readonly getCollectionContentFunction: NodejsFunction;
+  public readonly getCollectionContentDetailFunction: NodejsFunction;
+  public readonly getSearchContentFunction: NodejsFunction;
+  public readonly logoutMobileFunction: NodejsFunction;
+  public readonly validateServiceExpirationFunction: NodejsFunction;
+  public readonly getEpisodesFromSeasonFunction: NodejsFunction;
+  public readonly getAllLiveTvFunction: NodejsFunction;
+
 
 
 
@@ -260,6 +295,11 @@ export class LambdaFunctionStack extends Stack {
       layerStack: props.layerStack,
       scope: this,
     });
+    this.refreshTokenClientFunction = refreshTokenClientTemplateLambda({
+      lambdaRole: getSharedRole('RefreshTokenClientLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    })
           // Función listUserAdmins - Usando rol compartido AdminLambdaRole
     this.listUserAdminsFunction = listUserAdminsTemplateLambda({
           lambdaRole: getSharedRole('ListUserAdminsLambdaRole', props.lambdaRoles),
@@ -915,6 +955,43 @@ export class LambdaFunctionStack extends Stack {
       scope: this,
     });
 
+  // Live TV Functions
+    this.createLiveTvFunction = createLiveTvTemplateLambda({
+      lambdaRole: getSharedRole('CreateLiveTvLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.listLiveTvFunction = listLiveTvTemplateLambda({
+      lambdaRole: getSharedRole('ListLiveTvLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.getLiveTvByIdFunction = getLiveTvByIdTemplateLambda({
+      lambdaRole: getSharedRole('GetLiveTvByIdLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.updateLiveTvFunction = updateLiveTvTemplateLambda({
+      lambdaRole: getSharedRole('UpdateLiveTvLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.deleteLiveTvFunction = deleteLiveTvTemplateLambda({
+      lambdaRole: getSharedRole('DeleteLiveTvLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+        this.changeLiveTvStatusFunction = changeLiveTvStatusTemplateLambda({
+      lambdaRole: getSharedRole('ChangeLiveTvStatusLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+
         // Función clientLogin - Usando rol compartido AuthLambdaRole
     this.clientLoginFunction = clientLoginTemplateLambda({
       lambdaRole: getSharedRole('ClientLoginLambdaRole', props.lambdaRoles),
@@ -927,6 +1004,46 @@ export class LambdaFunctionStack extends Stack {
       layerStack: props.layerStack,
       scope: this,
     });
+
+    this.getContentDataDetailFunction = getContentDataDetailTemplateLambda({
+      lambdaRole: getSharedRole('GetContentDataDetailLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+    this.getCollectionContentFunction = getCollectionContentTemplateLambda({
+      lambdaRole: getSharedRole('GetCollectionContentLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+    this.getSearchContentFunction = getSearchContentTemplateLambda({
+      lambdaRole: getSharedRole('GetSearchContentLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+    this.logoutMobileFunction = logoutMobileTemplateLambda({
+      lambdaRole: getSharedRole('LogoutMobileLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+    this.validateServiceExpirationFunction = validateServiceExpirationTemplateLambda({
+      lambdaRole: getSharedRole('ValidateServiceExpirationLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.getEpisodesFromSeasonFunction = getEpisodesFromSeasonTemplateLambda({
+      lambdaRole: getSharedRole('GetEpisodesFromSeasonLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+    this.getAllLiveTvFunction = getAllLiveTvTemplateLambda({
+      lambdaRole: getSharedRole('GetAllLiveTvLambdaRole', props.lambdaRoles),
+      layerStack: props.layerStack,
+      scope: this,
+    });
+
+
 
   }
 }

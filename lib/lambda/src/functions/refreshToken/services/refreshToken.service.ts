@@ -69,7 +69,7 @@ export class RefreshTokenService {
    */
   private generateTokens(payload: RefreshTokenPayload) {
     const jwtSecret = process.env.JWT_SECRET || 'moviehome-secret-key';
-    const expiresIn = process.env.JWT_EXPIRES_IN || '30m';
+    const expiresIn = process.env.JWT_EXPIRES_IN || '1d';
     const refreshExpiresIn = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 
     const accessTokenOptions = {
@@ -100,7 +100,7 @@ export class RefreshTokenService {
     return {
       accessToken,
       refreshToken: newRefreshToken,
-      expiresIn: 1800, // 30 minutos
+      expiresIn: 86400, // 1 día
       refreshExpiresIn: 604800, // 7 días
       tokenType: 'Bearer'
     };

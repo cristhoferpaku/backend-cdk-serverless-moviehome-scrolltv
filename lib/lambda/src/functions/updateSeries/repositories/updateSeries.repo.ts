@@ -8,7 +8,7 @@ export class UpdateSerieRepository {
   async updateSerie(id: number, data: UpdateSerieRequest): Promise<UpdateSerieDbResult> {
 
     const query = `
-      SELECT * FROM sp_update_serie($1, $2, $3 ,$4 , $5 , $6 , $7, $8, $9, $10, $11)
+      SELECT * FROM sp_update_serie($1, $2, $3 ,$4 , $5 , $6 , $7, $8, $9, $10, $11, $12)
     `;
 
     const values = [
@@ -16,6 +16,7 @@ export class UpdateSerieRepository {
       data.title || null,
       data.description || null,
       data.cover_image || null,
+      data.banner_image || null,
       data.category_ids || null,
       data.section_id || null,
       data.country_id || null,

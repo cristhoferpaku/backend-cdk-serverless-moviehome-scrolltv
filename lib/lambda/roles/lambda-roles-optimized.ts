@@ -43,6 +43,7 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   // Auth Functions
   "AdminLoginLambdaRole": "AdminLambdaRole",
   "RefreshTokenLambdaRole": "AdminLambdaRole",
+  
 
   // Admin Functions - User Management
   "ListUserAdminsLambdaRole": "AdminLambdaRole",
@@ -164,8 +165,25 @@ export const LambdaFunctionToRoleMapping: { [functionName: string]: string } = {
   "ListAllCountriesLambdaRole": "AdminLambdaRole",
   "GetAllSectionsLambdaRole": "AdminLambdaRole",
 
+  // Live TV Functions
+  "ListLiveTvLambdaRole": "AdminLambdaRole",
+  "CreateLiveTvLambdaRole": "AdminLambdaRole",
+  "GetLiveTvByIdLambdaRole": "AdminLambdaRole",
+  "UpdateLiveTvLambdaRole": "AdminLambdaRole",
+  "DeleteLiveTvLambdaRole": "AdminLambdaRole",
+
   //MOBILE 
-  "ClientLoginLambdaRole": "MobileLambdaRole"
+  "ClientLoginLambdaRole": "MobileLambdaRole",
+  "RefreshTokenClientLambdaRole": "MobileLambdaRole",
+  "GetHomeDataLambdaRole": "MobileLambdaRole",
+  "GetContentDataDetailLambdaRole": "MobileLambdaRole",
+  "GetCollectionContentLambdaRole": "MobileLambdaRole",
+  "GetSearchContentLambdaRole": "MobileLambdaRole",
+  "LogoutMobileLambdaRole": "MobileLambdaRole",
+  "ValidateServiceExpirationLambdaRole": "MobileLambdaRole",
+  "GetEpisodesFromSeasonLambdaRole": "MobileLambdaRole",
+  "GetAllLiveTvLambdaRole": "MobileLambdaRole",
+
 };
 
 /**

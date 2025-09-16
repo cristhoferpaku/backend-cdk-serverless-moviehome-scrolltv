@@ -34,11 +34,11 @@ export const handler = async (
     }
 
     // Validar campos requeridos
-    const requiredFields = ['username', 'password'];
+    const requiredFields = ['username', 'password', 'id_device', 'platform'];
     const validationErrors = validateRequiredFields(loginData, requiredFields);
 
     if (validationErrors.length > 0) {
-      return createBadRequestResponse('Username/email y password son requeridos', event);
+      return createBadRequestResponse('Username, password, id_device y platform son requeridos', event);
     }
 
     // Usar el servicio para autenticar cliente

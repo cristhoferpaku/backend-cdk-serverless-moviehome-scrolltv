@@ -9,8 +9,14 @@ export interface AppApiMethodsStackProps extends StackProps {
   restApiId: string;
   restApiRootResourceId: string;
   // App Lambda Functions
-  getHomeDataFunction: NodejsFunction
- 
+  getHomeDataFunction: NodejsFunction;
+  getContentDataDetailFunction: NodejsFunction;
+  getCollectionContentFunction: NodejsFunction;
+  getSearchContentFunction: NodejsFunction; 
+  logoutMobileFunction: NodejsFunction; 
+  validateServiceExpirationFunction: NodejsFunction;  
+  getEpisodesFromSeasonFunction: NodejsFunction;  
+  getAllLiveTvFunction: NodejsFunction;
 }
 
 export class AppApiMethodsStack extends Stack {
@@ -22,7 +28,14 @@ export class AppApiMethodsStack extends Stack {
       restApiId,
       restApiRootResourceId,
       // App Functions
-      getHomeDataFunction
+      getHomeDataFunction,
+      getContentDataDetailFunction,
+      getCollectionContentFunction,
+      getSearchContentFunction,
+      logoutMobileFunction,
+      validateServiceExpirationFunction,  
+      getEpisodesFromSeasonFunction,
+      getAllLiveTvFunction,
     } = props;
 
     // Importar el REST API desde ApiGatewayStack
@@ -38,6 +51,13 @@ export class AppApiMethodsStack extends Stack {
       scope: this,
       lambdaFunctions: {
         getHomeDataFunction,
+        getContentDataDetailFunction,
+        getCollectionContentFunction,
+        getSearchContentFunction,
+        logoutMobileFunction,
+        validateServiceExpirationFunction,
+        getEpisodesFromSeasonFunction,
+        getAllLiveTvFunction,
       },
     });
   }

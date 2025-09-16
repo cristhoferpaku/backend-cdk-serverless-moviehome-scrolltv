@@ -16,7 +16,7 @@ import {
 } from '../../../layers/utils/nodejs/utils';
 
 const FUNCTION_NAME = 'GetUserAccountByIdHandler';
-const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia' , 'vendedor', 'revendedor'];
+const REQUIRED_ROLES = ['administrador', 'gestor de contenido multimedia' , 'vendedor', 'revendedor','cliente'];
 
 export const handler = async (
   event: APIGatewayProxyEvent,

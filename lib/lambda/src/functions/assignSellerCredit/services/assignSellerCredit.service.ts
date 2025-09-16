@@ -27,8 +27,13 @@ export class AssignSellerCreditService {
       requestData.receiver_admin_id,
       requestData.package_seller_id
     );
-
-    return result;
+    if (!result.success) {
+        throw new Error(result.message);
+      }
+    return {
+      success: true,
+      data: result
+    }
   }
 
   /**

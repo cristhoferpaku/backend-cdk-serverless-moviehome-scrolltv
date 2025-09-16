@@ -8,6 +8,7 @@ export interface CreateSerieRequest {
     country_id: number;
     collection_id: number;
     cover_image: string | null;
+    banner_image: string | null;
     publish_platform_1: boolean;
     publish_platform_2: boolean;
   }

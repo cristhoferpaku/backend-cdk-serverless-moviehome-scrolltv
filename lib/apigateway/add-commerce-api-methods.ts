@@ -205,7 +205,6 @@ export function addCommerceApiMethods(props: CommerceApiMethodsProps): void {
   resellersResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.listResellersFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
-  
 
   // === TRANSFERENCIA DE CRÉDITO ENDPOINTS ===
   const transferenciaCreditoResource = api.root.addResource('transferir-creditos', {

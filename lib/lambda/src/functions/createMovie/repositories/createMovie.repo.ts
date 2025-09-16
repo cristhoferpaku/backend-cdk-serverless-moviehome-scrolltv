@@ -3,7 +3,7 @@ import { CreateMovieDbResult, CreateMovieRequest } from '../dtos/createMovie.dto
 
 export class CreateMovieRepository {
   async createMovie(data: CreateMovieRequest): Promise<CreateMovieDbResult> {
-    const query = 'SELECT * FROM sp_create_movie($1, $2 ,$3 ,$4, $5, $6, $7, $8, $9, $10, $11, $12)';
+    const query = 'SELECT * FROM sp_create_movie($1, $2 ,$3 ,$4, $5, $6, $7, $8, $9, $10, $11, $12 , $13)';
 
 
     const values = [
@@ -15,6 +15,7 @@ export class CreateMovieRepository {
       data.collection_id,
       data.duration_mins,
       data.cover_image,
+      data.banner_image,
       data.video_url,
       data.cast_ids,
       data.publish_platform_1,

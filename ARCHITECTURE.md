@@ -156,6 +156,12 @@ cdk deploy CommerceApiMethodsStack --context env=prod
 cdk deploy AppApiMethodsStack --context env=prod
 ```
 
+### Despliegue por stack individual
+```bash
+# Solo endpoints de la aplicación
+cdk deploy AppApiMethodsStack --exclusively --context env=prod
+```
+
 ## Beneficios de la Arquitectura Modular
 
 1. **Separación de Responsabilidades**: Cada stack tiene un propósito específico

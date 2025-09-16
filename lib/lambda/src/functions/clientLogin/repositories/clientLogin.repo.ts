@@ -1,30 +1,27 @@
 import dbConnector from '../../../../layers/pg/nodejs/dbConnector';
-import { ClientUser } from '../dtos/clientLogin.dto';
+import { ClientUser, LoginDbResult, LoginRequest } from '../dtos/clientLogin.dto';
 
 export class ClientLoginRepository {
   
   /**
-   * Busca un cliente por username
-   * Por defecto asigna role_id = 4 y role_name = 'cliente'
+   * Autentica un usuario usando el stored procedure sp_login_user
    */
-  async findByUsername(username: string): Promise<ClientUser | null> {
-    const query = `
-      SELECT 
-        c.id,
-        c.username,
-        c.password,
-        c.status,
-        4 as role_id,
-        'cliente' as role_name
-      FROM user_account c
-      WHERE c.username = $1
-    `;
-    
-    const result = await dbConnector.query(query, [username]);
+  async loginUser(loginData: LoginRequest): Promise<LoginDbResult> {
+    const query = 'SELECT * FROM sp_login_user($1, $2, $3, $4)';
+    const values = [
+      loginData.username,
+      loginData.password,
+      loginData.id_device,
+      loginData.platform
+    ];
+
+    const result = await dbConnector.query(query, values);
+
     if (result.rows.length === 0) {
-      return null;
+      throw new Error('No se recibió respuesta del stored procedure');
     }
-    return result.rows[0] as ClientUser;
+
+    return result.rows[0] as LoginDbResult;
   }
   /**
    * Busca un cliente por email (alternativa de login)

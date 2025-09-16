@@ -14,6 +14,7 @@ interface AuthApiMethodsProps {
     adminLoginFunction: NodejsFunction;
     clientLoginFunction: NodejsFunction;
     refreshTokenFunction: NodejsFunction;
+    refreshTokenClientFunction: NodejsFunction;
     // User Admin Functions
     createUserAdminFunction: NodejsFunction;
     getUserAdminByIdFunction: NodejsFunction;
@@ -73,6 +74,9 @@ export function addAuthApiMethods(props: AuthApiMethodsProps): void {
   const refreshLoginResource = authResource.addResource('refresh');
   refreshLoginResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.refreshTokenFunction));
 
+  const refreshLoginClientResource = authResource.addResource('client-refresh');
+  refreshLoginClientResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.refreshTokenClientFunction));
+  
   
   // === USER ADMIN ENDPOINTS ===
   const usersAdminResource = api.root.addResource('admin-users', {

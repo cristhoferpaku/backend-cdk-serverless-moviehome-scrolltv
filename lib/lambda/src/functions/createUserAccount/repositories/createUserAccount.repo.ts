@@ -18,6 +18,7 @@ export class CreateUserAccountRepository {
       throw new Error('No se recibió respuesta del stored procedure');
     }
 
+    // El stored procedure ahora retorna directamente las columnas como tabla
     return result.rows[0] as CreateUserAccountDbResult;
   }
 }

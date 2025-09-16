@@ -68,6 +68,14 @@ interface ContentApiMethodsProps {
     createTop10Function: NodejsFunction;
     deleteTop10Function: NodejsFunction;
     listTop10Function: NodejsFunction;
+
+    // livetvfunctions  
+    listLiveTvFunction: NodejsFunction;
+    createLiveTvFunction: NodejsFunction;
+    getLiveTvByIdFunction: NodejsFunction;
+    updateLiveTvFunction: NodejsFunction;
+    deleteLiveTvFunction: NodejsFunction;
+    changeLiveTvStatusFunction: NodejsFunction;
   };
 }
 
@@ -319,6 +327,31 @@ export function addContentApiMethods(props: ContentApiMethodsProps): void {
 
   const top10ItemResource = top10Resource.addResource('{id}');
   top10ItemResource.addMethod('DELETE', new LambdaIntegration(lambdaFunctions.deleteTop10Function), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+
+  // === LIVE TV ENDPOINTS ===
+  const liveTvResource = api.root.addResource('livetv', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  liveTvResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.createLiveTvFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  liveTvResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.listLiveTvFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+
+  const liveTvItemResource = liveTvResource.addResource('{id}');
+  liveTvItemResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getLiveTvByIdFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  liveTvItemResource.addMethod('PUT', new LambdaIntegration(lambdaFunctions.updateLiveTvFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  liveTvItemResource.addMethod('DELETE', new LambdaIntegration(lambdaFunctions.deleteLiveTvFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  liveTvItemResource.addMethod('PATCH', new LambdaIntegration(lambdaFunctions.changeLiveTvStatusFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
 }

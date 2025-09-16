@@ -1,6 +1,8 @@
 export interface LoginRequest {
   username: string;
   password: string;
+  id_device: string;
+  platform: number;
 }
 
 export interface ClientUser {
@@ -34,4 +36,15 @@ export interface JWTPayload {
   username: string;
   roleId: number;
   roleName: string;
+}
+
+export interface LoginDbResult {
+  id: number;
+  username: string;
+  password: string;
+  status: number;
+  role_id: number;
+  role_name: string;
+  success: boolean;
+  message: string;
 }

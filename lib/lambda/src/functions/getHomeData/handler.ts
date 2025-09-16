@@ -35,6 +35,11 @@ export const handler = async (
         return createForbiddenResponse(authValidation.error || 'Acceso denegado', event);
       }
     } 
+    // Obtener el user_id del token
+    const user_id = authValidation.payload?.userId;
+    if (!user_id) {
+      return createForbiddenResponse('Acceso denegado: userId no encontrado en el token', event);
+    }
     // Usar el servicio para obtener todos los Home
     const sectionIdStr = event.queryStringParameters?.sectionId ?? event.queryStringParameters?.section_id;
     const sectionId = Number(sectionIdStr);
@@ -42,7 +47,7 @@ export const handler = async (
       return createBadRequestResponse('Parámetro "sectionId" es requerido y debe ser un número > 0', event);
     }
     const getHomeService = new GetHomeService();
-    const result = await getHomeService.getAllHome(sectionId);
+    const result = await getHomeService.getAllHome(sectionId , user_id);
 
     return createOkResponse(result.data, result.message, event);
 

@@ -16,6 +16,7 @@ export interface MovieData {
   title: string;
   description: string;
   cover_image: string;
+  banner_image: string;
   duration_mins: number;
   video_url: string;
   status: number;

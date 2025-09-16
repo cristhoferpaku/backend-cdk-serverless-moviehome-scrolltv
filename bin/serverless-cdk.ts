@@ -77,6 +77,7 @@ const authApiMethodsStack = new AuthApiMethodsStack(app, 'AuthApiMethodsStack', 
   adminLoginFunction: lambdaFunctionStack.adminLoginFunction,
   clientLoginFunction: lambdaFunctionStack.clientLoginFunction,
   refreshTokenFunction: lambdaFunctionStack.refreshTokenFunction,
+  refreshTokenClientFunction: lambdaFunctionStack.refreshTokenClientFunction,
   // User Admin Functions
   listUserAdminsFunction: lambdaFunctionStack.listUserAdminsFunction,
   createUserAdminFunction: lambdaFunctionStack.createUserAdminFunction,
@@ -172,6 +173,15 @@ const contentApiMethodsStack = new ContentApiMethodsStack(app, 'ContentApiMethod
   createTop10Function: lambdaFunctionStack.createTop10Function,
   deleteTop10Function: lambdaFunctionStack.deleteTop10Function,
   listTop10Function: lambdaFunctionStack.listTop10Function,
+
+  // livetvfunctions  
+  listLiveTvFunction: lambdaFunctionStack.listLiveTvFunction,
+  createLiveTvFunction: lambdaFunctionStack.createLiveTvFunction,
+  getLiveTvByIdFunction: lambdaFunctionStack.getLiveTvByIdFunction,
+  updateLiveTvFunction: lambdaFunctionStack.updateLiveTvFunction,
+  deleteLiveTvFunction: lambdaFunctionStack.deleteLiveTvFunction,
+  changeLiveTvStatusFunction: lambdaFunctionStack.changeLiveTvStatusFunction,
+
 });
 
 // 10. Stack de métodos de API de comercio
@@ -229,6 +239,13 @@ const appApiMethodsStack = new AppApiMethodsStack(app, 'AppApiMethodsStack', {
   restApiRootResourceId: apiGatewayStack.restApiRootResourceId,
   // App Functions
   getHomeDataFunction: lambdaFunctionStack.getHomeDataFunction,
+  getContentDataDetailFunction: lambdaFunctionStack.getContentDataDetailFunction,
+  getCollectionContentFunction: lambdaFunctionStack.getCollectionContentFunction,
+  getSearchContentFunction: lambdaFunctionStack.getSearchContentFunction,
+  logoutMobileFunction: lambdaFunctionStack.logoutMobileFunction,
+  validateServiceExpirationFunction: lambdaFunctionStack.validateServiceExpirationFunction,
+  getEpisodesFromSeasonFunction: lambdaFunctionStack.getEpisodesFromSeasonFunction,
+  getAllLiveTvFunction: lambdaFunctionStack.getAllLiveTvFunction,
 });
 
 

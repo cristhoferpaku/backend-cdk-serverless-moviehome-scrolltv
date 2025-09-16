@@ -12,6 +12,7 @@ export interface AuthApiMethodsStackProps extends StackProps {
   adminLoginFunction: NodejsFunction;
   clientLoginFunction: NodejsFunction;
   refreshTokenFunction: NodejsFunction;
+  refreshTokenClientFunction: NodejsFunction;
   // User Admin Functions
   createUserAdminFunction: NodejsFunction;
   getUserAdminByIdFunction: NodejsFunction;
@@ -45,6 +46,7 @@ export class AuthApiMethodsStack extends Stack {
       adminLoginFunction,
       clientLoginFunction,
       refreshTokenFunction,
+      refreshTokenClientFunction,
       // User Admin Functions
       createUserAdminFunction,
       getUserAdminByIdFunction,
@@ -82,6 +84,7 @@ export class AuthApiMethodsStack extends Stack {
         adminLoginFunction,
         clientLoginFunction,
         refreshTokenFunction,
+        refreshTokenClientFunction,
         // User Admin Functions
         createUserAdminFunction,
         getUserAdminByIdFunction,

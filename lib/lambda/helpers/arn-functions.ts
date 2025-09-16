@@ -11,6 +11,7 @@ export class ArnFunctions {
   static readonly ADMIN_LOGIN_FUNCTION_ARN = "/moviehome-scrolltv/admin-login-function-arn";
   static readonly CLIENT_LOGIN_FUNCTION_ARN = "/moviehome-scrolltv/client-login-function-arn";
   static readonly REFRESH_TOKEN_FUNCTION_ARN = "/moviehome-scrolltv/refresh-token-function-arn";
+  static readonly REFRESH_TOKEN_CLIENT_FUNCTION_ARN = "/moviehome-scrolltv/refresh-token-client-function-arn";
   static readonly LIST_USER_ADMINS_FUNCTION_ARN = "/moviehome-scrolltv/list-user-admins-function-arn";
   static readonly CREATE_USER_ADMIN_FUNCTION_ARN = "/moviehome-scrolltv/create-user-admin-function-arn";
   static readonly GET_USER_ADMIN_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-user-admin-by-id-function-arn";
@@ -124,8 +125,24 @@ export class ArnFunctions {
   static readonly LIST_REVENDEDORES_FUNCTION_ARN = "/moviehome-scrolltv/list-revendedores-function-arn";
   static readonly TRANSFERIR_CREDITOS_FUNCTION_ARN = "/moviehome-scrolltv/transferir-creditos-function-arn";
 
+  // Live TV Functions
+  static readonly CREATE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/create-live-tv-function-arn";
+  static readonly LIST_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/list-live-tv-function-arn";
+  static readonly GET_LIVE_TV_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-live-tv-by-id-function-arn";
+  static readonly DELETE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/delete-live-tv-function-arn";
+  static readonly UPDATE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/update-live-tv-function-arn";
+  static readonly CHANGE_LIVE_TV_STATUS_FUNCTION_ARN = "/moviehome-scrolltv/change-live-tv-status-function-arn";
+
+
   //APP FUNCTIONS
   static readonly GET_HOME_DATA_FUNCTION_ARN = "/moviehome-scrolltv/get-home-data-function-arn";
+  static readonly GET_CONTENT_DATA_DETAIL_ARN = "/moviehome-scrolltv/get-content-data-detail-function-arn";
+  static readonly GET_COLLECTION_CONTENT_ARN = "/moviehome-scrolltv/get-collection-content-function-arn";
+  static readonly GET_SEARCH_CONTENT_ARN = "/moviehome-scrolltv/get-search-content-function-arn";
+  static readonly LOGOUT_MOBILE_FUNCTION_ARN = "/moviehome-scrolltv/logout-function-arn";
+  static readonly VALIDATE_SERVICE_EXPIRATION_FUNCTION_ARN = "/moviehome-scrolltv/validate-service-expiration-function-arn";
+  static readonly GET_EPISODES_FROM_SEASON_ARN = "/moviehome-scrolltv/get-episodes-from-season-function-arn";
+  static readonly GET_ALL_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/get-all-live-tv-function-arn";
 
   /**
    * Recuperar un valor de tipo string desde el Parameter Store.

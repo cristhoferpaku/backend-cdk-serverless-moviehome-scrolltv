@@ -77,7 +77,24 @@ export const refreshTokenTemplateLambda = (props: LambdaProps): NodejsFunction =
 
   return refreshTokenFunction;
 };
+export const refreshTokenClientTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const refreshTokenClientFunction = new NodejsFunction(props.scope, 'RefreshTokenClientFunction', {
+    functionName: 'RefreshTokenClientFunction',
+    entry: 'lib/lambda/src/functions/refreshTokenClient/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
 
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'RefreshTokenClientFunctionArnParameter', {
+    parameterName: ArnFunctions.REFRESH_TOKEN_CLIENT_FUNCTION_ARN,
+    stringValue: refreshTokenClientFunction.functionArn,
+  });
+
+  return refreshTokenClientFunction;
+};
 
 /**
  * 📋 Plantilla para Lambda listUserAdmins
@@ -2129,6 +2146,267 @@ export const getHomeDataTemplateLambda = (props: LambdaProps): NodejsFunction =>
   return getHomeDataFunction;
 };
 
+/**
+ * 🏆 Plantilla para Lambda getContentDataDetail
+ */
+export const getContentDataDetailTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getContentDataDetailFunction = new NodejsFunction(props.scope, 'GetContentDataDetailFunction', {
+    functionName: 'GetContentDataDetailFunction',
+    entry: 'lib/lambda/src/functions/getContentDataDetail/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
 
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetContentDataDetailFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_CONTENT_DATA_DETAIL_ARN,
+    stringValue: getContentDataDetailFunction.functionArn,
+  });
 
+  return getContentDataDetailFunction;
+};
 
+/**
+ * 🏆 Plantilla para Lambda getCollectionContent
+ */
+export const getCollectionContentTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getCollectionContentFunction = new NodejsFunction(props.scope, 'GetCollectionContentFunction', {
+    functionName: 'GetCollectionContentFunction',
+    entry: 'lib/lambda/src/functions/getCollectionContent/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetCollectionContentFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_COLLECTION_CONTENT_ARN,
+    stringValue: getCollectionContentFunction.functionArn,
+  });
+
+  return getCollectionContentFunction;
+};
+
+/**
+ * 🏆 Plantilla para Lambda getSearchContent
+ */
+export const getSearchContentTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getSearchContentFunction = new NodejsFunction(props.scope, 'GetSearchContentFunction', {
+    functionName: 'GetSearchContentFunction',
+    entry: 'lib/lambda/src/functions/getSearchContent/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetSearchContentFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_SEARCH_CONTENT_ARN,
+    stringValue: getSearchContentFunction.functionArn,
+  });
+
+  return getSearchContentFunction;
+};
+
+/**
+ * 🏆 Plantilla para Lambda logoutMobile
+ */
+export const logoutMobileTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const logoutMobileFunction = new NodejsFunction(props.scope, 'LogoutMobileFunction', {
+    functionName: 'LogoutMobileFunction',
+    entry: 'lib/lambda/src/functions/logoutMobile/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'LogoutMobileFunctionArnParameter', {
+    parameterName: ArnFunctions.LOGOUT_MOBILE_FUNCTION_ARN,
+    stringValue: logoutMobileFunction.functionArn,
+  });
+
+  return logoutMobileFunction;
+};
+
+/**
+ * 🏆 Plantilla para Lambda validateServiceExpiration
+ */
+export const validateServiceExpirationTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const validateServiceExpirationFunction = new NodejsFunction(props.scope, 'ValidateServiceExpirationFunction', {
+    functionName: 'ValidateServiceExpirationFunction',
+    entry: 'lib/lambda/src/functions/validateServiceExpiration/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ValidateServiceExpirationFunctionArnParameter', {
+    parameterName: ArnFunctions.VALIDATE_SERVICE_EXPIRATION_FUNCTION_ARN,
+    stringValue: validateServiceExpirationFunction.functionArn,
+  });
+
+  return validateServiceExpirationFunction;
+};
+
+/**
+ * 🏆 Plantilla para Lambda getEpisodesFromSeason
+ */
+export const getEpisodesFromSeasonTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getEpisodesFromSeasonFunction = new NodejsFunction(props.scope, 'GetEpisodesFromSeasonFunction', {
+    functionName: 'GetEpisodesFromSeasonFunction',
+    entry: 'lib/lambda/src/functions/getEpisodesFromSeason/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetEpisodesFromSeasonFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_EPISODES_FROM_SEASON_ARN,
+    stringValue: getEpisodesFromSeasonFunction.functionArn,
+  });
+
+  return getEpisodesFromSeasonFunction;
+};
+  // static readonly CREATE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/create-live-tv-function-arn";
+  // static readonly LIST_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/list-live-tv-function-arn";
+  // static readonly GET_LIVE_TV_BY_ID_FUNCTION_ARN = "/moviehome-scrolltv/get-live-tv-by-id-function-arn";
+  // static readonly DELETE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/delete-live-tv-function-arn";
+  // static readonly UPDATE_LIVE_TV_FUNCTION_ARN = "/moviehome-scrolltv/update-live-tv-function-arn";
+export const createLiveTvTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const createLiveTvFunction = new NodejsFunction(props.scope, 'CreateLiveTvFunction', {
+    functionName: 'CreateLiveTvFunction',
+    entry: 'lib/lambda/src/functions/createLiveTv/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'CreateLiveTvFunctionArnParameter', {
+    parameterName: ArnFunctions.CREATE_LIVE_TV_FUNCTION_ARN,
+    stringValue: createLiveTvFunction.functionArn,
+  });
+
+  return createLiveTvFunction;
+}
+export const listLiveTvTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const listLiveTvFunction = new NodejsFunction(props.scope, 'ListLiveTvFunction', {
+    functionName: 'ListLiveTvFunction',
+    entry: 'lib/lambda/src/functions/listLiveTv/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ListLiveTvFunctionArnParameter', {
+    parameterName: ArnFunctions.LIST_LIVE_TV_FUNCTION_ARN,
+    stringValue: listLiveTvFunction.functionArn,
+  });
+
+  return listLiveTvFunction;
+}
+export const getLiveTvByIdTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getLiveTvByIdFunction = new NodejsFunction(props.scope, 'GetLiveTvByIdFunction', {
+    functionName: 'GetLiveTvByIdFunction',
+    entry: 'lib/lambda/src/functions/getLiveTvById/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetLiveTvByIdFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_LIVE_TV_BY_ID_FUNCTION_ARN,
+    stringValue: getLiveTvByIdFunction.functionArn,
+  });
+
+  return getLiveTvByIdFunction;
+}
+export const deleteLiveTvTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const deleteLiveTvFunction = new NodejsFunction(props.scope, 'DeleteLiveTvFunction', {
+    functionName: 'DeleteLiveTvFunction',
+    entry: 'lib/lambda/src/functions/deleteLiveTv/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'DeleteLiveTvFunctionArnParameter', {
+    parameterName: ArnFunctions.DELETE_LIVE_TV_FUNCTION_ARN,
+    stringValue: deleteLiveTvFunction.functionArn,
+  });
+
+  return deleteLiveTvFunction;
+}
+export const updateLiveTvTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const updateLiveTvFunction = new NodejsFunction(props.scope, 'UpdateLiveTvFunction', {
+    functionName: 'UpdateLiveTvFunction',
+    entry: 'lib/lambda/src/functions/updateLiveTv/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'UpdateLiveTvFunctionArnParameter', {
+    parameterName: ArnFunctions.UPDATE_LIVE_TV_FUNCTION_ARN,
+    stringValue: updateLiveTvFunction.functionArn,
+  });
+
+  return updateLiveTvFunction;
+}
+
+export const getAllLiveTvTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const getAllLiveTvFunction = new NodejsFunction(props.scope, 'GetAllLiveTvFunction', {
+    functionName: 'GetAllLiveTvFunction',
+    entry: 'lib/lambda/src/functions/getAllLiveTv/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'GetAllLiveTvFunctionArnParameter', {
+    parameterName: ArnFunctions.GET_ALL_LIVE_TV_FUNCTION_ARN,
+    stringValue: getAllLiveTvFunction.functionArn,
+  });
+
+  return getAllLiveTvFunction;
+}
+
+export const changeLiveTvStatusTemplateLambda = (props: LambdaProps): NodejsFunction => {
+  const changeLiveTvStatusFunction = new NodejsFunction(props.scope, 'ChangeLiveTvStatusFunction', {
+    functionName: 'ChangeLiveTvStatusFunction',
+    entry: 'lib/lambda/src/functions/changeLiveTvStatus/handler.ts',
+    handler: 'handler',
+    role: props.lambdaRole,
+    layers: [props.layerStack.utilsLayer, props.layerStack.pgLayer],
+    ...baseLambdaConfig,
+  });
+
+  // Registrar ARN en SSM
+  new ssm.StringParameter(props.scope, 'ChangeLiveTvStatusFunctionArnParameter', {
+    parameterName: ArnFunctions.CHANGE_LIVE_TV_STATUS_FUNCTION_ARN,
+    stringValue: changeLiveTvStatusFunction.functionArn,
+  });
+
+  return changeLiveTvStatusFunction;
+}

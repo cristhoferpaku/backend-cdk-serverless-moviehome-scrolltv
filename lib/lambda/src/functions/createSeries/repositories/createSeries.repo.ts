@@ -3,7 +3,7 @@ import { CreateSerieDbResult, CreateSerieRequest } from '../dtos/createSeries.dt
 
 export class CreateSerieRepository {
   async createSerie(data: CreateSerieRequest): Promise<CreateSerieDbResult> {
-    const query = 'SELECT * FROM sp_create_serie($1, $2 ,$3 ,$4, $5, $6, $7, $8, $9)';
+    const query = 'SELECT * FROM sp_create_serie($1, $2 ,$3 ,$4, $5, $6, $7, $8, $9, $10)';
 
 
     const values = [
@@ -14,6 +14,7 @@ export class CreateSerieRepository {
       data.country_id,
       data.collection_id,
       data.cover_image,
+      data.banner_image,
       data.publish_platform_1,
       data.publish_platform_2
     ];

@@ -64,6 +64,8 @@ export const handler = async (
       'collection_id',
       'duration_mins',
       'cover_image',
+      'banner_image',
+
       'video_url',
       'cast_ids',
       'publish_platform_1',

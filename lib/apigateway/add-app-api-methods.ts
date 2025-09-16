@@ -12,6 +12,13 @@ interface AppApiMethodsProps {
   lambdaFunctions: {
     // Cast Member Functions
     getHomeDataFunction: NodejsFunction;
+    getContentDataDetailFunction: NodejsFunction;
+    getCollectionContentFunction: NodejsFunction;
+    getSearchContentFunction: NodejsFunction;
+    logoutMobileFunction: NodejsFunction;
+    validateServiceExpirationFunction: NodejsFunction;
+    getEpisodesFromSeasonFunction: NodejsFunction;
+    getAllLiveTvFunction: NodejsFunction;
   };
 }
 
@@ -47,6 +54,67 @@ export function addAppApiMethods(props: AppApiMethodsProps): void {
   castMembersResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getHomeDataFunction), {
     authorizationType: authorizer ? undefined : undefined,
   });
+  // === CONTENT ENDPOINTS ===
+  const contentResource = api.root.addResource('get-content-data-detail', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  const contentIdResource = contentResource.addResource('{id}', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  contentIdResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getContentDataDetailFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  // === COLLECTION ENDPOINTS ===
+  const collectionResource = api.root.addResource('get-collection-content', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  const collectionIdResource = collectionResource.addResource('{id}', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  collectionIdResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getCollectionContentFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
 
+  // === SEARCH ENDPOINTS ===
+  const searchResource = api.root.addResource('get-search-content', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  searchResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getSearchContentFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+  // === LOGOUT ENDPOINTS ===
+  const logoutResource = api.root.addResource('logout-mobile', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  logoutResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.logoutMobileFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+
+  // === VALIDATE SERVICE EXPIRATION ENDPOINTS ===
+  const validateServiceExpirationResource = api.root.addResource('validate-service-expiration', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  validateServiceExpirationResource.addMethod('POST', new LambdaIntegration(lambdaFunctions.validateServiceExpirationFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+
+  // === GET EPISODES FROM SEASON ENDPOINTS ===
+  const getEpisodesFromSeasonResource = api.root.addResource('get-episodes-from-season', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  const seasonIdResource = getEpisodesFromSeasonResource.addResource('{id}', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  seasonIdResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getEpisodesFromSeasonFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
+
+  // === GET ALL LIVE TV ENDPOINTS ===
+  const getAllLiveTvResource = api.root.addResource('get-all-live-tv', {
+    defaultCorsPreflightOptions: corsOptions
+  });
+  getAllLiveTvResource.addMethod('GET', new LambdaIntegration(lambdaFunctions.getAllLiveTvFunction), {
+    authorizationType: authorizer ? undefined : undefined,
+  });
 
 }

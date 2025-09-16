@@ -74,6 +74,13 @@ export interface ContentApiMethodsStackProps extends StackProps {
   createTop10Function: NodejsFunction;
   deleteTop10Function: NodejsFunction;
   listTop10Function: NodejsFunction;
+  // Livetv Functions
+  listLiveTvFunction: NodejsFunction;
+  createLiveTvFunction: NodejsFunction;
+  getLiveTvByIdFunction: NodejsFunction;
+  updateLiveTvFunction: NodejsFunction;
+  deleteLiveTvFunction: NodejsFunction;
+  changeLiveTvStatusFunction: NodejsFunction;
 }
 
 export class ContentApiMethodsStack extends Stack {
@@ -150,6 +157,13 @@ export class ContentApiMethodsStack extends Stack {
       createTop10Function,
       deleteTop10Function,
       listTop10Function,
+      // Livetv Functions
+      listLiveTvFunction,
+      createLiveTvFunction,
+      getLiveTvByIdFunction,
+      updateLiveTvFunction,
+      deleteLiveTvFunction, 
+      changeLiveTvStatusFunction,
     } = props;
 
     // Importar el REST API desde ApiGatewayStack
@@ -222,6 +236,13 @@ export class ContentApiMethodsStack extends Stack {
         createTop10Function,
         deleteTop10Function,
         listTop10Function,
+        // Livetv Functions
+        listLiveTvFunction,
+        createLiveTvFunction,
+        getLiveTvByIdFunction,
+        updateLiveTvFunction,
+        deleteLiveTvFunction, 
+        changeLiveTvStatusFunction,
       },
     });
   }
